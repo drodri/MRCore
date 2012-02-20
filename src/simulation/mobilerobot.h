@@ -65,6 +65,25 @@
 #include "lms100sim.h"
 namespace mr
 {
+class MobileRobot: public ComposedEntity
+{
+public:
+	MobileRobot(string name);
+	~MobileRobot();
+
+	void setLocation(const Transformation3D &p);
+
+	WheeledBaseSim* getBase(){return base;}
+	int numLasers(){return lasers.size();}
+	LaserSensorSim* getLaser(int i){return lasers[i];}
+	bool move(double speed, double rot);
+
+protected:
+	string name;
+//Basic configuration (simulated, drawable)
+	WheeledBaseSim* base;
+	vector<LaserSensorSim*> lasers;
+};
 class Neo: public ComposedEntity
 {
 public: 

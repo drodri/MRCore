@@ -1,13 +1,13 @@
 #SOURCES SELECTION
 
-AUX_SOURCE_DIRECTORY( base base_sources ) 
+AUX_SOURCE_DIRECTORY( base base_sources )  
 AUX_SOURCE_DIRECTORY( system system_sources ) 
 AUX_SOURCE_DIRECTORY( net net_sources )
 AUX_SOURCE_DIRECTORY( math math_sources )
 AUX_SOURCE_DIRECTORY( data data_sources )
 AUX_SOURCE_DIRECTORY( world world_sources )
 AUX_SOURCE_DIRECTORY( hw hw_sources )
-AUX_SOURCE_DIRECTORY( simulation sim_sources )
+AUX_SOURCE_DIRECTORY( simulation sim_sources)
 AUX_SOURCE_DIRECTORY( navigation2d navigation2d_sources )
 AUX_SOURCE_DIRECTORY( graphs graphs_sources )
 FILE(GLOB_RECURSE hw_sources hw/*.cpp)
