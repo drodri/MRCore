@@ -1,7 +1,7 @@
 #include "lms100sim.h"
 #include <iostream>
 #include "gl/gltools.h"
-#include "../../world/cylindricalpart.h"
+#include "../world/cylindricalpart.h"
 
 namespace mr
 {

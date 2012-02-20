@@ -33,8 +33,8 @@
 #define __PIONEER3ATSIM_H_
 
 
-#include "../wheeledbase/wheeledbasesim.h"
-#include "../pioneer3at.h"
+#include "wheeledbasesim.h"
+#include "hw/pioneer3at.h"
 
 namespace mr
 {

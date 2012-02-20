@@ -34,7 +34,7 @@
 #define __PUMA_560_SIM_H_
 
 
-#include "../../world/robotsim.h"
+#include "../world/robotsim.h"
 
 
 #define	INIT_PUMA			0x80	//	0x1000.0000

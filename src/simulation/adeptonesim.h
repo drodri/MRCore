@@ -36,7 +36,7 @@
 
 
 
-#include "../../world/robotsim.h"
+#include "../world/robotsim.h"
 
 #define ELBOW_LEFT 0x81 //0x1000-0001	-	-1
 #define ELBOW_RIGHT 0x80//0x1000-0000	-	1

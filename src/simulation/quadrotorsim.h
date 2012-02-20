@@ -35,8 +35,8 @@
 
 #include "hw/quadrotor.h"
 #include "base/globject.h"
-#include "../../world/composedentity.h"
-#include "../../math/transformation2d.h"
+#include "../world/composedentity.h"
+#include "../math/transformation2d.h"
 
 namespace mr
 {

@@ -1,7 +1,7 @@
 #include "nemolasersensor3dsim.h"
 #include <iostream>
 #include "gl/gltools.h"
-#include "../../world/tcp.h"
+#include "../world/tcp.h"
 
 
 namespace mr

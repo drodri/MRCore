@@ -3,8 +3,8 @@
 #include "gl/gltools.h"
 
 #include "base/logger.h"
-#include "../../world/world.h"
-#include "../../world/cylindricalpart.h"
+#include "../world/world.h"
+#include "../world/cylindricalpart.h"
 
 namespace mr
 {

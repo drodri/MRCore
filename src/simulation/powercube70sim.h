@@ -35,8 +35,8 @@
 
 #include "hw/powercube70.h"
 #include "base/globject.h"
-#include "../../world/composedentity.h"
-#include "../../world/simplejoint.h"
+#include "../world/composedentity.h"
+#include "../world/simplejoint.h"
 namespace mr
 {
 class PowerCube70Sim : public PowerCube70, public ComposedEntity

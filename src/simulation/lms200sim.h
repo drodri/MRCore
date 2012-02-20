@@ -33,8 +33,7 @@
 #define __LMS200SIM_H_
 
 
-#include "../lasersensor/lasersensorsim.h"
-#include "../lms200.h"
+#include "lasersensorsim.h"
 
 namespace mr
 {

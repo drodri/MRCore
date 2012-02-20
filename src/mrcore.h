@@ -81,5 +81,6 @@
 #include "graphs/graphtypes.h"
 #include "graphs/searcher.h"
 
+#include "simulation/simulation.h"
 
 #endif

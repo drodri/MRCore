@@ -33,15 +33,15 @@
 #include "../data/odometry.h"
 #include "../data/pointcloud.h"
 #include "../data/image.h"
-#include "../hw/patrolbot/patrolbotsim.h"
-#include "../hw/pioneer3at/pioneer3atsim.h"
-#include "../hw/lms200/lms200sim.h"
+#include "../simulation/patrolbotsim.h"
+#include "../simulation/pioneer3atsim.h"
+#include "../simulation/lms200sim.h"
 #include "../world/facesetpart.h"
-#include "../hw/lasersensor3d/lasersensor3dsim.h"
-#include "../hw/nemolasersensor3d/nemolasersensor3dsim.h"
-#include "../hw/powercube70/powercube70sim.h"
-#include "../hw/adeptone/adeptonesim.h"
-#include "../hw/lms100/lms100sim.h"
+#include "../simulation/lasersensor3dsim.h"
+#include "../simulation/nemolasersensor3dsim.h"
+#include "../simulation/powercube70sim.h"
+#include "../simulation/adeptonesim.h"
+#include "../simulation/lms100sim.h"
 namespace mr
 {
 void mrcoreInit()

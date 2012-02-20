@@ -32,45 +32,30 @@
 #ifndef __HARDWARE_H_
 #define __HARDWARE_H_
 
-#include "./mobilerobot.h"
-#include "./lasersensor/lasersensorsim.h"
 #include "./lasersensor/lasersensorclient.h"
 #include "./lasersensor/lasersensorserver.h"
 
 #include "./lasersensor3d.h"
-#include "./lasersensor3d/lasersensor3dsim.h"
 #include "./lasersensor3d/lasersensor3dclient.h"
 #include "./lasersensor3d/lasersensor3dserver.h"
 
-#include "./wheeledbase/wheeledbasesim.h"
 #include "./wheeledbase/wheeledbasefile.h"
 #include "./wheeledbase/wheeledbaseclient.h"
 #include "./wheeledbase/wheeledbaseserver.h"
 
-#include "./quadrotor/quadrotorsim.h"
 #include "./quadrotor/quadrotorclient.h"
 #include "./quadrotor/quadrotorserver.h"
 
-#include "./kinect/kinectsim.h"
 #include "./kinect/kinectclient.h"
 #include "./kinect/kinectserver.h"
 
 
 //MRGROUP SPECIFIC HW SIMULATION
-#include "./pioneer3at/pioneer3atsim.h"
-#include "./lms200/lms200sim.h"
-#include "./lms100/lms100sim.h"
-#include "./powercube70/powercube70sim.h"
-#include "./nemolasersensor3d/nemolasersensor3dsim.h"
 
-#include "./voicetts/voicettssim.h"
 #include "./voicetts/voicettsclient.h"
 #include "./voicetts/voicettsserver.h"
 
-//INDUSTRIAL ROBOTS
-#include "./adeptone/adeptonesim.h"
-#include "./aseairb2000/aseairb2000sim.h"
-#include "./puma560/puma560sim.h"
+
 
 
 #endif

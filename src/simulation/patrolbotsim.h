@@ -33,7 +33,7 @@
 #define __PATROL_BOT_SIM_H_
 
 
-#include "../wheeledbase/wheeledbasesim.h"
+#include "wheeledbasesim.h"
 
 namespace mr
 {

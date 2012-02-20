@@ -1,7 +1,8 @@
 /**********************************************************************
  *
- * This code is part of the MRcore projec
- * Author:  the MRCore group
+ * This code is part of the MRcore project
+ * Author:  Rodrigo Azofra Barrio & Miguel Hernando Gutierrez
+ * 
  *
  * MRcore is licenced under the Common Creative License,
  * Attribution-NonCommercial-ShareAlike 3.0
@@ -29,48 +30,74 @@
  * PURPOSE.  
  **********************************************************************/
 
-#ifndef __NEMOLASERSENSOR3DSIM_H_
-#define __NEMOLASERSENSOR3DSIM_H_
+#ifndef __MRCORE__KinectSIM__H
+#define __MRCORE__KinectSIM__H
+
+#include "hw/kinect.h"
+#include "../world/composedentity.h"
+#include <vector>
+#include "../data/pointcloud.h"
+//#include "../math/segment3d.h"
+#include "../world/world.h"
+#include "../system/mutex.h"
 
 
-#include "../lasersensor3d/lasersensor3dsim.h"
-#include "../lms200/lms200sim.h"
-#include "../powercube70/powercube70sim.h"
+using namespace std;
 
 namespace mr
 {
-class NemoLaserSensor3DSim :public LaserSensor3DSim
+/*!
+    \class KinectSim
+    KinectSim	->	A generic class for a positionable laser scanner sensor.
+	Its reference is as follows: X axis is the 0 rad laser beam, while PI/2 is the Y axis. Z is
+	oriented perpendicular tu the laser beam plane.
+*/
+
+class KinectSim : public Kinect, public ComposedEntity
 {
-	DECLARE_MR_OBJECT(NemoLaserSensor3DSim)
-	PowerCube70Sim *arm;
-	LMS200Sim *laser;
+	
+
+	/**Text output**/
+	friend ostream& operator<<(ostream& os, const KinectSim& p);
+protected:
+	//this transformation should be modified by the joint parameters
+	PointCloud data; 
+	//virtual methos executed each time the laser is moved
+	void locationUpdated();
+	
 	Mutex m;
+
 public:
-	NemoLaserSensor3DSim();
-	LMS200 *getLaserSensor(){return laser;}
-	PowerCube70	*getPowerCube70(){return arm;}
-	//Serializers
+//attributes
+	
+//constructors
+	//Basic constructor
+	KinectSim(void);
+
+	//Destructor
+	virtual ~KinectSim(void);
+
+//methods
+	//serialization
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
+	
+	void updateSensorData(World *w=0,float dt=0);
+	void drawGL();
 
-	virtual void drawGL();
-
-	//laserSensor Methods
-	virtual void updateSensorData();
-	virtual bool getData(LaserData3D& d){
+	//Kinect Methods
+	virtual bool getData(PointCloud& d){
 		m.Lock();
+		updateSensorData();
 		d=data;
 		m.Unlock();
 		return true;
 	}
-	//using laserSensorSim for displaying other laserSensor data
-	virtual void setData(const LaserData3D& d){
-		m.Lock();
+	//using KinectSim for displaying other Kinect data
+	virtual void setData(const PointCloud& d){
 		data=d;
-		m.Unlock();
 	}
 };
 
-}; //end namespace mr
-
-#endif //__NEMOLASERSENSOR3DSIM_H_
+};
+#endif  //__MRCORE__LASERSCANNERVIRTUAL__H

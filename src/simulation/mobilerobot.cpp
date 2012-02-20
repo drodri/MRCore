@@ -31,7 +31,7 @@
 
 #include "mobilerobot.h"
 
-
+/*
 #include "wheeledbase/wheeledbasesim.h"
 #include "wheeledbase/wheeledbaseserver.h"
 #include "wheeledbase/wheeledbaseclient.h"
@@ -118,19 +118,19 @@ bool MobileRobot::getOdometry(Odometry& odom)
 	}
 	return base->getOdometry(odom);
 }
-/*void MobileRobot::invalidateLaserData()
-{
-	LaserData laser;
-	for(int i=0;i<(int)lasers.size();i++)
-	{
-		lasers[i]->setData(laser);
-	}
-	if(laser3d)
-	{
-		LaserData3D laser3;
-		laser3d->setData(laser3);
-	}
-}*/
+//void MobileRobot::invalidateLaserData()
+//{
+//	LaserData laser;
+//	for(int i=0;i<(int)lasers.size();i++)
+//	{
+//		lasers[i]->setData(laser);
+//	}
+//	if(laser3d)
+//	{
+//		LaserData3D laser3;
+//		laser3d->setData(laser3);
+//	}
+//}
 bool MobileRobot::getLaserData(LaserData& laser,int index)
 {
 	if(index<0 ||index >= (int)lasers.size())return false;
@@ -178,17 +178,17 @@ bool MobileRobot::move(double speed, double rot)
 
 	return false;
 }
-/*void MobileRobot::updateSensorsData()
-{
+//void MobileRobot::updateSensorsData()
+//{
 //UPDATE EVERYTING
-	for(int i=0;i<(int)lasers.size();i++)
-		lasers[i]->updateSensorData();
+//	for(int i=0;i<(int)lasers.size();i++)
+//		lasers[i]->updateSensorData();
 
-	if(laser3d)
-	{
-		laser3d->updateSensorData();
-	}
-}*/
+//	if(laser3d)
+//	{
+//		laser3d->updateSensorData();
+//	}
+//}
 
 ///If this robot is to be served remotely 
 void MobileRobot::startServers(int port)
@@ -230,3 +230,6 @@ void MobileRobot::connectClients(string ip,int port)
 
 
 }; //end namespace mr
+
+
+*/

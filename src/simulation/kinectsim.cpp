@@ -1,7 +1,7 @@
 /**********************************************************************
  *
  * This code is part of the MRcore project
- * Author:  Rodrigo Azofra Barrio &Miguel Hernando Gutierrez
+ * Author:  Diego
  * 
  *
  * MRcore is licenced under the Common Creative License,
@@ -31,111 +31,93 @@
  **********************************************************************/
 
 
-#include "lasersensorsim.h"
+#include "kinectsim.h"
 #include "../gl/gltools.h"
-
+#include "../world/cylindricalpart.h"
 #include <math.h>
+#include <stdlib.h> 
 
 namespace mr{
 
-void LaserSensorSim::writeToStream(Stream& stream)
+void KinectSim::writeToStream(Stream& stream)
 {
 	SolidEntity::writeToStream(stream);
 	//data.writeToStream(stream);
-	stream<<startAngle<<stepAngle<<numSteps<<maxRange<<sigma;
+
 
 }
-void LaserSensorSim::readFromStream(Stream& stream)
+void KinectSim::readFromStream(Stream& stream)
 {
 	SolidEntity::readFromStream(stream);
 	//data.readFromStream(stream);
-	stream>>startAngle>>stepAngle>>numSteps>>maxRange>>sigma;
-	setLaserProperties(startAngle,stepAngle,numSteps,maxRange,sigma);
 }
 
-ostream& operator<<(ostream& os, const LaserSensorSim& p)
+ostream& operator<<(ostream& os, const KinectSim& p)
 {
 	//os<<p.x<<" "<<p.y<<" "<<p.z;
 	return os;
 }
 
 //constructors
-LaserSensorSim::LaserSensorSim(void)
+KinectSim::KinectSim(void)
 {
 setDrawReferenceSystem(); //by default the refence system is drawn
 setColor(1,1,0);
+
+PrismaticPart *bod=new PrismaticPart;
+
+//ojo el laserSensor tiene como referencia el centro del haz, luego al montarlo
+//mecánicamente hay que tener en cuenta la transformación
+
+double body[9][2]=
+{{0.063,0.122},{-0.093,0.122},{-0.093,-0.063},{0.063,-0.063},
+{0.063,-0.053},{0.0,-0.053},{-0.040,-0.030},{-0.040,0.053},{0.063,0.053}};
+vector<Vector2D> list;
+int i;
+for(i=0;i<9;i++)list.push_back(Vector2D(body[i][0],body[i][1]));
+bod->setPolygonalBase(list);
+bod->setHeight(0.155); //155mm
+bod->setRelativePosition(Vector3D(0,0.155/2,0));  
+bod->setRelativeOrientation(X_AXIS,PI/2);
+bod->setColor(1.0,0.1,1.0);
+//bod->setIntersectable(false);
+(*this)+=bod;
 }
 
 
 
-LaserSensorSim::~LaserSensorSim(void)
+KinectSim::~KinectSim(void)
 {
 
 }
-void LaserSensorSim::locationUpdated()
+void KinectSim::locationUpdated()
 {
 PositionableEntity::locationUpdated();
 //the laser beam is only updated under request
-beamNeedToBeUpdated=true;
 }
-	//set laser properties
-void LaserSensorSim::setLaserProperties(double _startangle, double _step, int _numsteps, 
-								double _maxrange, double _sigma)
-{
-startAngle=_startangle;
-stepAngle=_step;
-numSteps=_numsteps;
-maxRange=_maxrange;
-sigma=_sigma;
-data.setProperties(startAngle,stepAngle, numSteps,maxRange,sigma);
 
-//segments have to be recomputed.
-vector<Angle> angles(data.getAngles());
-//preparo los vectores directores de los rayos en coord relativas:
-vectorBeam.resize(numSteps);
-absoluteVectorBeam.resize(numSteps);
-for(int i=0;i<numSteps;i++){
-	vectorBeam[i].x=cos(angles[i]);//.getCosine();
-	vectorBeam[i].y=sin(angles[i]);//.getSine();
-	vectorBeam[i].z=0;
-	}
-beamNeedToBeUpdated=true;
-}
-void LaserSensorSim::updateBeam(){
-	if(!beamNeedToBeUpdated)return;
-	Transformation3D T=getAbsoluteT3D();
-	for(int i=0;i<numSteps;i++)absoluteVectorBeam[i]=(T.orientation)*(vectorBeam[i]);
-	beamNeedToBeUpdated=false;
-} 
 //ESTA VERSION ES AL MENOS UN 200% MAS RAPIDA QUE LA RAW
-void LaserSensorSim::updateSensorData(World *w,float dt)
+void KinectSim::updateSensorData(World *w,float dt)
 {
-
 	if(w==0)w=getWorld();
 	if(w==0)return;
-	if(beamNeedToBeUpdated)updateBeam();
-	Transformation3D T=getAbsoluteT3D();
-	//plane filter
-	vector<SolidEntity *> list;
-	w->getPrimitivesBoundingBoxesCutByPlane(T,list,maxRange);
-	//Ahora queda recorrer la lista y verificar
-	Vector3D pos=T.position;
-	double daux;
-	int num=(int)list.size();
-	for(int i=0;i<numSteps;i++){
-		daux=maxRange;
-		double dist;
-		for(int j=0;j<num;j++)
+
+	data.width=600;
+	data.height=400;
+	data.points.resize(data.width*data.height);
+	cout<<"Updating kienct data"<<endl;
+	for(int i=0;i<data.width;i++)
+		for(int j=0;j<data.height;j++)
 		{
-			if(list[j]->rayIntersection(pos,absoluteVectorBeam[i],dist))
-				if(dist<daux)daux=dist;
+			float range=1+0.1*(float)rand()/(float)RAND_MAX;
+		//	cout<<"Range "<<range<<endl;
+			data.points[i+j*data.width]=Vector3D(i/100.0,j/100.0,range);
 		}
-		data.setRange(i,daux);
-	}
+
 }
 //VERSION BASICA
 /*
-void LaserSensorSim::updateSensorData(World *w,float dt)
+void KinectSim::updateSensorData(World *w,float dt)
 {
 
 	if(w==0)w=getWorld();
@@ -150,10 +132,11 @@ void LaserSensorSim::updateSensorData(World *w,float dt)
 }
 */
 
-void LaserSensorSim::drawGL()
+void KinectSim::drawGL()
 {
 	//Draw axis
 	m.Lock();
+	ComposedEntity::drawGL();
 	PositionableEntity::drawGL();
 	//DrawData
 	glPushMatrix();

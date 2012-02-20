@@ -29,17 +29,48 @@
  * PURPOSE.  
  **********************************************************************/
 
-#ifndef __LMS100_H_
-#define __LMS100_H_
+#ifndef __NEMOLASERSENSOR3DSIM_H_
+#define __NEMOLASERSENSOR3DSIM_H_
 
 
-#include "lasersensor.h"
-
+#include "lasersensor3dsim.h"
+#include "lms200sim.h"
+#include "powercube70sim.h"
 
 namespace mr
 {
-typedef LaserSensor LMS100 ;
+class NemoLaserSensor3DSim :public LaserSensor3DSim
+{
+	DECLARE_MR_OBJECT(NemoLaserSensor3DSim)
+	PowerCube70Sim *arm;
+	LMS200Sim *laser;
+	Mutex m;
+public:
+	NemoLaserSensor3DSim();
+	LaserSensor *getLaserSensor(){return laser;}
+	PowerCube70	*getPowerCube70(){return arm;}
+	//Serializers
+	virtual void writeToStream(Stream& stream);
+	virtual void readFromStream(Stream& stream);
+
+	virtual void drawGL();
+
+	//laserSensor Methods
+	virtual void updateSensorData();
+	virtual bool getData(LaserData3D& d){
+		m.Lock();
+		d=data;
+		m.Unlock();
+		return true;
+	}
+	//using laserSensorSim for displaying other laserSensor data
+	virtual void setData(const LaserData3D& d){
+		m.Lock();
+		data=d;
+		m.Unlock();
+	}
+};
 
 }; //end namespace mr
 
-#endif
+#endif //__NEMOLASERSENSOR3DSIM_H_

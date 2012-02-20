@@ -30,17 +30,17 @@
  * PURPOSE.  
  **********************************************************************/
 
-#ifndef __MRCORE__LASERSENSORSIM__H
-#define __MRCORE__LASERSENSORSIM__H
+#ifndef __MRCORE__LASERSENSOR_3D_SIM__H
+#define __MRCORE__LASERSENSOR_3D_SIM__H
 
-#include "hw/lasersensor.h"
+#include "hw/lasersensor3d.h"
 #include "../world/composedentity.h"
 #include <vector>
-#include "../data/laserdata.h"
+#include "../data/laserdata3d.h"
 //#include "../math/segment3d.h"
 #include "../world/world.h"
 #include "../system/mutex.h"
-
+#include <stdlib.h>
 
 using namespace std;
 
@@ -53,30 +53,12 @@ namespace mr
 	oriented perpendicular tu the laser beam plane.
 */
 
-class LaserSensorSim : public LaserSensor, public ComposedEntity
+class LaserSensor3DSim : public LaserSensor3D, public ComposedEntity
 {
-	
-
-	/**Text output**/
-	friend ostream& operator<<(ostream& os, const LaserSensorSim& p);
+	DECLARE_MR_OBJECT(LaserSensor3DSim )
 protected:
 	//this transformation should be modified by the joint parameters
-	LaserData data; 
-	//beam of laser segments relative to the sensor base
-	vector<Vector3D> vectorBeam;
-	//beam of laser segments in absolute coordinates
-	vector<Vector3D> absoluteVectorBeam;
-	//bool flag that indicates that the absolute segments have to be updated if needed
-	bool beamNeedToBeUpdated;
-	//virtual methos executed each time the laser is moved
-	void locationUpdated();
-	//laser scanner properties
-	double startAngle; //minimum -PI/2
-	double stepAngle; //maximun PI/2
-	int numSteps; //number of laser measures 360
-	double maxRange; //max range in m : 10
-	double sigma;  //min range =0
-	void updateBeam();
+	LaserData3D data; 
 	Mutex m;
 
 public:
@@ -84,32 +66,50 @@ public:
 	
 //constructors
 	//Basic constructor
-	LaserSensorSim(void);
+	LaserSensor3DSim(void);
 
 	//Destructor
-	virtual ~LaserSensorSim(void);
+	virtual ~LaserSensor3DSim(void);
 
 //methods
 	//serialization
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
 	//set laser properties
-	void setLaserProperties(double _startangle, double _step, int _numsteps, 
-								double _maxrange, double _sigma);
-	void updateSensorData(World *w=0,float dt=0);
+
 	void drawGL();
 	void setDrawGLMode(int m){data.drawGLMode=m;}
 
 	//laserSensor Methods
-	virtual bool getData(LaserData& d){
+	virtual void updateSensorData()
+	{
+		vector<LaserData> auxL;
+		vector<Transformation3D> auxT;
+		for(double alfa=-M_PI/4; alfa<M_PI/4;alfa+=0.1)
+		{
+			LaserData las;
+			las.setProperties(-90*DEG2RAD,1*DEG2RAD,181);
+			vector<double> v(181,4.0);
+			for(unsigned int i=1;i<v.size();i++)
+				v[i]=2+0.5*rand()/(float)RAND_MAX;
+			las.setRanges(v);
+			Transformation3D t(0,0,0,0,alfa,0);
+			
+			auxL.push_back(las);
+			auxT.push_back(t);	
+		}
 		m.Lock();
-		updateSensorData();
+		data.set(auxL,auxT);
+		m.Unlock();
+	}
+	virtual bool getData(LaserData3D& d){
+		m.Lock();
 		d=data;
 		m.Unlock();
 		return true;
 	}
 	//using laserSensorSim for displaying other laserSensor data
-	virtual void setData(const LaserData& d){
+	virtual void setData(const LaserData3D& d){
 		data=d;
 	}
 };

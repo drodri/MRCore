@@ -32,7 +32,7 @@
 #ifndef __VOICE_TTS_SIM_H_
 #define __VOICE_TTS_SIM_H_
 
-#include "../voicetts.h"
+#include "hw/voicetts.h"
 
 namespace mr
 {

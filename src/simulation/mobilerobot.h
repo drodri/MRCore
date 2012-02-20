@@ -32,7 +32,7 @@
 #ifndef __MOBILE_ROBOT_INCLUDED_H_
 #define __MOBILE_ROBOT_INCLUDED_H_
 
-
+/*
 #include "wheeledbase/wheeledbasesim.h"
 #include "wheeledbase/wheeledbaseserver.h"
 #include "wheeledbase/wheeledbaseclient.h"
@@ -57,11 +57,38 @@
 #include "camera/cameraserver.h"
 #include "camera/cameraclient.h"
 
-#include "net/server.h"
+#include "net/server.h"*/
 
+#include "base/globject.h"
+#include "../world/composedentity.h"
+#include "pioneer3atsim.h"
+#include "lms100sim.h"
 namespace mr
 {
-
+class Neo: public ComposedEntity
+{
+public: 
+	Neo()
+	{
+		base=new Pioneer3ATSim;
+		laser=new LMS100Sim;
+		laser->LinkTo(base);
+		laser->setColor(150,150,0);
+		laser->setRelativePosition(Vector3D(0.1,0,0.4));
+		(*this)+=base;
+	}
+	~Neo()
+	{
+		
+	}
+	Pioneer3ATSim* getBase(){return base;}
+	LMS100Sim* getLaser(){return laser;}
+protected:
+	Pioneer3ATSim* base;
+	LMS100Sim* laser;
+};
+}
+/*
 //A mobile robot class represents a terrestial mobile base plus several sensors that
 ///can be attached to it, as lasers, laser3d, etc.
 
@@ -208,12 +235,12 @@ public:
 	Nemo():MobileRobot("Nemo")
 	{
 		base=new Pioneer3ATSim;
-		/*LaserSensorSim* las=new LMS200Sim;
-		las->LinkTo(base);
-		las->setColor(150,0,150);
-		las->setRelativePosition(Vector3D(0.1,0,0.5));
-		las->setRelativeOrientation(0,30*DEG2RAD,0);
-		lasers.push_back(las);*/
+		//LaserSensorSim* las=new LMS200Sim;
+		//las->LinkTo(base);
+		//las->setColor(150,0,150);
+		//las->setRelativePosition(Vector3D(0.1,0,0.5));
+		//las->setRelativeOrientation(0,30*DEG2RAD,0);
+		//lasers.push_back(las);
 		laser3d=new NemoLaserSensor3DSim;
 		laser3d->LinkTo(base);
 		laser3d->setRelativePosition(Vector3D(0.1,0,0.3));
@@ -224,24 +251,10 @@ public:
 	}
 };
 
-class Neo: public MobileRobot
-{
-public: 
-	Neo():MobileRobot("Neo")
-	{
-		base=new Pioneer3ATSim;
-		LaserSensorSim* las=new LMS100Sim;
-		las->LinkTo(base);
-		las->setColor(150,150,0);
-		las->setRelativePosition(Vector3D(0.1,0,0.4));
-		lasers.push_back(las);
-	}
-	~Neo()
-	{
-		
-	}
-};
+
+
 
 }; //end namespace mr
+*/
 
 #endif

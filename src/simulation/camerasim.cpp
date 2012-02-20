@@ -32,8 +32,8 @@
 
 
 #include "camerasim.h"
-#include "../../gl/gltools.h"
-#include "../../world/cylindricalpart.h"
+#include "../gl/gltools.h"
+#include "../world/cylindricalpart.h"
 #include <math.h>
 
 namespace mr{

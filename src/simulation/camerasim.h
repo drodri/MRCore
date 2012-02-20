@@ -33,13 +33,13 @@
 #ifndef __MRCORE__CameraSIM__H
 #define __MRCORE__CameraSIM__H
 
-#include "../camera.h"
-#include "../../world/composedentity.h"
+#include "hw/camera.h"
+#include "../world/composedentity.h"
 #include <vector>
-#include "../../data/laserdata.h"
+#include "../data/laserdata.h"
 //#include "../math/segment3d.h"
-#include "../../world/world.h"
-#include "../../system/mutex.h"
+#include "../world/world.h"
+#include "../system/mutex.h"
 
 
 using namespace std;

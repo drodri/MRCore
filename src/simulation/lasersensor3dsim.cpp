@@ -1,7 +1,8 @@
 /**********************************************************************
  *
- * This code is part of the MRcore projec
- * Author:  the MRCore group
+ * This code is part of the MRcore project
+ * Author:  Rodrigo Azofra Barrio &Miguel Hernando Gutierrez
+ * 
  *
  * MRcore is licenced under the Common Creative License,
  * Attribution-NonCommercial-ShareAlike 3.0
@@ -29,17 +30,54 @@
  * PURPOSE.  
  **********************************************************************/
 
-#ifndef __LMS200_H_
-#define __LMS200_H_
 
+#include "lasersensor3dsim.h"
+#include "../gl/gltools.h"
 
-#include "lasersensor.h"
+#include <math.h>
 
+namespace mr{
+	
+IMPLEMENT_MR_OBJECT(LaserSensor3DSim)
 
-namespace mr
+void LaserSensor3DSim::writeToStream(Stream& stream)
 {
-typedef LaserSensor LMS200 ;
+	SolidEntity::writeToStream(stream);
 
-}; //end namespace mr
 
-#endif
+}
+void LaserSensor3DSim::readFromStream(Stream& stream)
+{
+	SolidEntity::readFromStream(stream);
+
+}
+
+
+
+//constructors
+LaserSensor3DSim::LaserSensor3DSim(void)
+{
+setDrawReferenceSystem(); //by default the refence system is drawn
+setColor(1,1,0);
+}
+
+
+
+LaserSensor3DSim::~LaserSensor3DSim(void)
+{
+
+}
+void LaserSensor3DSim::drawGL()
+{
+	//Draw axis
+	
+	PositionableEntity::drawGL();
+	//DrawData
+	glPushMatrix();
+	location.getAbsoluteT3D().transformGL();
+	material.loadMaterial();
+	data.drawGL();
+	glPopMatrix();
+}
+
+}//mr

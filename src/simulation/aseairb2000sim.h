@@ -34,7 +34,7 @@
 #define __ASEA_IRB_2000_SIM_H_
 
 
-#include "../../world/robotsim.h"
+#include "../world/robotsim.h"
 
 
 const int INIT=0x80;
