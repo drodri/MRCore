@@ -23,7 +23,11 @@ string WheeledBaseServer::handleRequest(const string& msg)
 	}
 	else if(command==2)//move
 	{
-
+		if(rand()%100==0)
+		{
+			LOG_WARNING("Sleep");
+			Sleep(1000);
+		}
 		double va=0,vg=0;
 		stream>>va>>vg;
 		robot->move(va,vg);
