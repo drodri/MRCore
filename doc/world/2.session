@@ -1,0 +1,11 @@
+window_sizes 1366 746 233 1041 533 82
+diagrams
+  active  classdiagram_ref 128002 // world_class_diagram
+    1127 590 100 4 12 0
+end
+show_stereotypes
+selected class_ref 128258 // ReferenceSystem
+open
+  classview_ref 128002 // world_view
+end
+end

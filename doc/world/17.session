@@ -1,0 +1,13 @@
+window_sizes 1434 820 450 1350 800 82
+diagrams
+  active  classdiagram_ref 128002 // world_class_diagram
+    1071 715 100 4 0 0
+end
+show_stereotypes
+selected classdiagram_ref 128002 // world_class_diagram
+open
+  class_ref 128002 // world
+  class_ref 128130 // PositionableEntity
+  class_ref 128258 // ReferenceSystem
+end
+end
