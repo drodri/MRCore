@@ -18,3 +18,5 @@
 #include "adeptonesim.h"
 #include "aseairb2000sim.h"
 #include "puma560sim.h"
+
+#include "mobilerobot.h"

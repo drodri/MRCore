@@ -32,86 +32,45 @@
 #ifndef __MOBILE_ROBOT_INCLUDED_H_
 #define __MOBILE_ROBOT_INCLUDED_H_
 
-/*
-#include "wheeledbase/wheeledbasesim.h"
-#include "wheeledbase/wheeledbaseserver.h"
-#include "wheeledbase/wheeledbaseclient.h"
-#include "wheeledbase/wheeledbasefile.h"
-#include "lasersensor/lasersensorserver.h"
-#include "lasersensor/lasersensorclient.h"
-#include "lasersensor/lasersensorsim.h"
-#include "lasersensor/lasersensorfile.h"
-#include "lasersensor3d/lasersensor3dserver.h"
-#include "nemolasersensor3d/nemolasersensor3dsim.h"
-#include "lasersensor3d/lasersensor3dclient.h"
-#include "lasersensor3d/lasersensor3dsim.h"
-#include "lasersensor3d/lasersensor3dfile.h"
-#include "lms200/lms200sim.h"
-#include "lms100/lms100sim.h"
-#include "pioneer3at/pioneer3atsim.h"
-#include "patrolbot/patrolbotsim.h"
-#include "quadrotor/quadrotorserver.h"
-#include "quadrotor/quadrotorclient.h"
-#include "quadrotor/quadrotorsim.h"
-#include "camera/camerasim.h"
-#include "camera/cameraserver.h"
-#include "camera/cameraclient.h"
 
-#include "net/server.h"*/
+#include "wheeledbasesim.h"
+#include "hw/wheeledbase/wheeledbaseserver.h"
+#include "hw/wheeledbase/wheeledbaseclient.h"
+#include "hw/wheeledbase/wheeledbasefile.h"
+#include "hw/lasersensor/lasersensorserver.h"
+#include "hw/lasersensor/lasersensorclient.h"
+#include "lasersensorsim.h"
+#include "hw/lasersensor/lasersensorfile.h"
+#include "hw/lasersensor3d/lasersensor3dserver.h"
+#include "nemolasersensor3dsim.h"
+#include "hw/lasersensor3d/lasersensor3dclient.h"
+#include "lasersensor3dsim.h"
+#include "hw/lasersensor3d/lasersensor3dfile.h"
+#include "lms200sim.h"
+#include "lms100sim.h"
+#include "pioneer3atsim.h"
+#include "patrolbotsim.h"
+#include "hw/quadrotor/quadrotorserver.h"
+#include "hw/quadrotor/quadrotorclient.h"
+#include "quadrotorsim.h"
+#include "camerasim.h"
+#include "hw/camera/cameraserver.h"
+#include "hw/camera/cameraclient.h"
+
+#include "net/server.h"
 
 #include "base/globject.h"
 #include "../world/composedentity.h"
 #include "pioneer3atsim.h"
 #include "lms100sim.h"
+
 namespace mr
 {
-class MobileRobot: public ComposedEntity
-{
-public:
-	MobileRobot(string name);
-	~MobileRobot();
 
-	void setLocation(const Transformation3D &p);
-
-	WheeledBaseSim* getBase(){return base;}
-	int numLasers(){return lasers.size();}
-	LaserSensorSim* getLaser(int i){return lasers[i];}
-	bool move(double speed, double rot);
-
-protected:
-	string name;
-//Basic configuration (simulated, drawable)
-	WheeledBaseSim* base;
-	vector<LaserSensorSim*> lasers;
-};
-class Neo: public ComposedEntity
-{
-public: 
-	Neo()
-	{
-		base=new Pioneer3ATSim;
-		laser=new LMS100Sim;
-		laser->LinkTo(base);
-		laser->setColor(150,150,0);
-		laser->setRelativePosition(Vector3D(0.1,0,0.4));
-		(*this)+=base;
-	}
-	~Neo()
-	{
-		
-	}
-	Pioneer3ATSim* getBase(){return base;}
-	LMS100Sim* getLaser(){return laser;}
-protected:
-	Pioneer3ATSim* base;
-	LMS100Sim* laser;
-};
-}
-/*
 //A mobile robot class represents a terrestial mobile base plus several sensors that
 ///can be attached to it, as lasers, laser3d, etc.
 
-class MobileRobot
+class MobileRobot : public ComposedEntity
 {
 public:
 	MobileRobot(string name);
@@ -120,11 +79,9 @@ public:
 	bool startLogging(DataLogOut& datalog);
 	void setLocation(const Transformation3D &p);
 
-	///method useful for adding this robot to a world
-	WheeledBaseSim* getBase(){return base;}
 	//
 	bool getOdometry(Odometry& odom);
-	bool getLaserData(LaserData& laser,int index=0);
+	bool getLaserData(LaserData& laser);
 	bool getLaserData3D(LaserData3D& laser);
 //	void invalidateLaserData();
 
@@ -137,17 +94,17 @@ protected:
 	string name;
 //Basic configuration (simulated, drawable)
 	WheeledBaseSim* base;
-	vector<LaserSensorSim*> lasers;
+	LaserSensorSim* laser;
 	LaserSensor3DSim* laser3d;
 
 //Data origin of this robot
 	WheeledBase* baseClient;//can be client or datalog
-	vector<LaserSensor*> laserClients;//can be client or datalog
+	LaserSensor* laserClient;//can be client or datalog
 	LaserSensor3D* laser3DClient;
 	
 //Data logging of this robot
 	WheeledBaseFile* baseFile;//can be client or datalog
-	vector<LaserSensorFile*> laserFiles;//can be client or datalog
+	LaserSensorFile* laserFile;//can be client or datalog
 
 //if we want to remotely serve this robot, we use this servers
 	vector<Server*> servers;
@@ -235,12 +192,12 @@ public:
 	Doris():MobileRobot("Doris")
 	{
 		base=new PatrolbotSim;
-		LaserSensorSim* las=new LMS200Sim;
-		las->setDrawGLMode(0);
-		las->LinkTo(base);
-		las->setColor(100,0,150);
-		las->setRelativePosition(Vector3D(0.1,0,0.5));
-		lasers.push_back(las);
+		laser=new LMS200Sim;
+		laser->setDrawGLMode(0);
+		laser->LinkTo(base);
+		laser->setColor(100,0,150);
+		laser->setRelativePosition(Vector3D(0.1,0,0.5));
+
 	}
 	~Doris()
 	{
@@ -271,9 +228,29 @@ public:
 };
 
 
+class Neo: public MobileRobot
+{
+public: 
+	Neo():MobileRobot("Neo")
+	{
+		base=new Pioneer3ATSim;
+		laser=new LMS100Sim;
+		laser->LinkTo(base);
+		laser->setColor(150,150,0);
+		laser->setRelativePosition(Vector3D(0.1,0,0.4));
+		(*this)+=base;
+	}
+	~Neo()
+	{
+		
+	}
+protected:
+	
+};
+
 
 
 }; //end namespace mr
-*/
+
 
 #endif

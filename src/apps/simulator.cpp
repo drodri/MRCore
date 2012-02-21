@@ -19,7 +19,7 @@ public:
 	}
 	void Timer(float time)
 	{
-		
+		simulator.getWorld()->simulate(0.020);
 	}
 	void MouseMove(int x,int y)
 	{

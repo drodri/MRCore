@@ -51,22 +51,16 @@ void Simulator::load(string environment)
 {
 	if(environment=="simple")
 	{
-		int port=13000;
-
 		Face suelo(Transformation3D(0,0,0),-20,-20,20,20);
+		Face tablon_fino1(Transformation3D(8,3,2,X_AXIS,-1.53),0,0,5.2,3.95);
 		FaceSetPart *building=new FaceSetPart; 
 		building->addFace(suelo);
+		building->addFace(tablon_fino1);
 		world+=building;
 
 		Neo* neo=new Neo();
 		world+=neo;
-		WheeledBaseServer* server=new WheeledBaseServer(neo->getBase(),"PioneerServer");
-		server->init(port++);
-		servers.push_back(server);
-		LaserSensorServer* server2=new LaserSensorServer(neo->getLaser(),"LMS100Server");
-		server2->init(port++);
-		servers.push_back(server2);
-
+		neo->startServers(13000);
 		
 		return;
 	}

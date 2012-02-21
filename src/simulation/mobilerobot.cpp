@@ -30,24 +30,6 @@
  **********************************************************************/
 
 #include "mobilerobot.h"
-
-/*
-#include "wheeledbase/wheeledbasesim.h"
-#include "wheeledbase/wheeledbaseserver.h"
-#include "wheeledbase/wheeledbaseclient.h"
-#include "wheeledbase/wheeledbasefile.h"
-#include "lasersensor/lasersensorserver.h"
-#include "lasersensor/lasersensorclient.h"
-#include "lasersensor/lasersensorsim.h"
-#include "lasersensor/lasersensorfile.h"
-#include "lasersensor3d/lasersensor3dserver.h"
-#include "lasersensor3d/lasersensor3dclient.h"
-#include "lasersensor3d/lasersensor3dsim.h"
-#include "lasersensor3d/lasersensor3dfile.h"
-#include "lms200/lms200sim.h"
-#include "pioneer3at/pioneer3atsim.h"
-#include "patrolbot/patrolbotsim.h"
-#include "net/server.h"
 #include "base/datalog.h"
 
 namespace mr
@@ -69,15 +51,12 @@ MobileRobot::~MobileRobot()
 		servers[i]->close();
 		delete servers[i];
 	}
-	for(unsigned int i=0;i<laserClients.size();i++)
-	{
-		delete laserClients[i];
-	}
+
+	delete laserClient;
+
 	delete baseFile;
-	for(unsigned int i=0;i<laserFiles.size();i++)
-	{
-		delete laserFiles[i];
-	}
+	delete laserFile;
+
 //		delete base;
 //		for(int i=0;i<lasers.size();i++)
 //			delete lasers[i];	
@@ -90,14 +69,10 @@ bool MobileRobot::startLogging(DataLogOut& datalog)
 	baseFile=new WheeledBaseFile();
 	baseFile->saveDataTo(&datalog,"base");
 	
-	for(unsigned int i=0;i<lasers.size();i++)
-	{
-		LaserSensorFile* s=new LaserSensorFile;
-		stringstream str;str<<"laser"<<i;
-		string name=str.str();
-		s->saveDataTo(&datalog,name);
-		laserFiles.push_back(s);
-	}
+	laserFile=new LaserSensorFile;
+	stringstream str;str<<"laser";
+	string name=str.str();
+//FIXME	s->saveDataTo(&datalog,name);
 	
 	return true;
 }
@@ -131,21 +106,15 @@ bool MobileRobot::getOdometry(Odometry& odom)
 //		laser3d->setData(laser3);
 //	}
 //}
-bool MobileRobot::getLaserData(LaserData& laser,int index)
+bool MobileRobot::getLaserData(LaserData& laserD)
 {
-	if(index<0 ||index >= (int)lasers.size())return false;
-
-	if(laserClients.size()==lasers.size())//client connected
+	if(laserClient->getData(laserD))//try to get it
 	{
-		if(laserClients[index]->getData(laser))//try to get it
-		{
-			lasers[index]->setData(laser);
-			return true;
-		}
-		return false;
+		laser->setData(laserD);
+		return true;
 	}
+	return false;
 
-	return lasers[index]->getData(laser);
 }
 bool MobileRobot::getLaserData3D(LaserData3D& laser)
 {
@@ -196,9 +165,9 @@ void MobileRobot::startServers(int port)
 	Server* s=new WheeledBaseServer(base,name+"Base");
 	s->init(port++);
 	servers.push_back(s);
-	for(int i=0;i<(int)lasers.size();i++)
+	if(laser)
 	{
-		s=new LaserSensorServer(lasers[i],name+"Laser");
+		s=new LaserSensorServer(laser,name+"Laser");
 		s->init(port++);
 		servers.push_back(s);
 	}
@@ -214,11 +183,11 @@ void MobileRobot::connectClients(string ip,int port)
 	WheeledBaseClient* cl=new WheeledBaseClient;
 	cl->connect(ip.c_str(),port++);
 	baseClient=cl;
-	for(int i=0;i<(int)lasers.size();i++)
+	if(laser)
 	{
-		LaserSensorClient* laserClient=new LaserSensorClient;
-		laserClient->connect(ip.c_str(),port++);
-		laserClients.push_back(laserClient);
+		LaserSensorClient* las=new LaserSensorClient;
+		las->connect(ip.c_str(),port++);
+		laserClient=las;
 	}
 	if(laser3d)
 	{
@@ -232,4 +201,3 @@ void MobileRobot::connectClients(string ip,int port)
 }; //end namespace mr
 
 
-*/

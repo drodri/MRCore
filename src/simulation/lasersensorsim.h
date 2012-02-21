@@ -100,10 +100,15 @@ public:
 	void drawGL();
 	void setDrawGLMode(int m){data.drawGLMode=m;}
 
+	void simulate(double t)
+	{
+		m.Lock();
+		updateSensorData();
+		m.Unlock();
+	}
 	//laserSensor Methods
 	virtual bool getData(LaserData& d){
 		m.Lock();
-		updateSensorData();
 		d=data;
 		m.Unlock();
 		return true;

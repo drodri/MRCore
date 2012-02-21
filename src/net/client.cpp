@@ -110,7 +110,7 @@ string Client::WaitResponse(int timeout)
 		reconnect=true;
 		return "";
 	}
-	LOG_INFO("Waiting: "<<message.getContentSize());
+//	LOG_INFO("Waiting: "<<message.getContentSize());
 	const int contentSize=message.getContentSize();
 	char* buffer=new char[contentSize];
 	int timeout2=100+contentSize/10;
@@ -121,7 +121,7 @@ string Client::WaitResponse(int timeout)
 		delete buffer;
 		return "";
 	}
-	LOG_INFO("Received: "<<message.getContentSize());
+//	LOG_INFO("Received: "<<message.getContentSize());
 	message.addContents(buffer,contentSize);
 	delete buffer;
 
