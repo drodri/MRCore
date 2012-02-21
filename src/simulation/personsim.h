@@ -42,7 +42,7 @@ class PersonSim: public ComposedEntity
 	DECLARE_MR_OBJECT(PersonSim)
 
 public:
-	PersonSim();
+	PersonSim(float height=1.75f);
 	//Serializers
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);

@@ -173,9 +173,9 @@ bool Simulator::load(string environment)
 	for(int i=0;i<numPeople;i++)
 	{
 		string robotName;
-		float x,y,z;
-		file>>robotName>>x>>y>>z;
-		PersonSim* person=new PersonSim();
+		float x,y,z,h;
+		file>>robotName>>h>>x>>y>>z;
+		PersonSim* person=new PersonSim(h);
 		person->setAbsoluteT3D(Transformation3D(x,y,z));
 		world+=person;		
 	}

@@ -10,24 +10,37 @@ namespace mr
 {
 IMPLEMENT_MR_OBJECT(PersonSim)
 
-PersonSim::PersonSim()
+PersonSim::PersonSim(float h)
 {
+	height=h;
 	speed=rotSpeed=1.5;
-	radius=0.3;
-	height=1.8;
+	radius=height/9.0f;//0.20;
+	float lenBody=(height-2*radius)/2.0f;
+	float rLeg=radius/2.5;
 	//las ruedas no se pueden añadir hasta no tener un mecanismo de exclusión de detección
-	CylindricalPart *wheel1=new CylindricalPart(height*2.0/3.0, radius);
-	wheel1->setColor(1.0,0.1,0.1);
+	CylindricalPart *wheel1=new CylindricalPart(lenBody, radius);
+	wheel1->setColor(1.0,0.3,0.3);
 	wheel1->setRelativeOrientation(Z_AXIS,-PI/2);
+	wheel1->setRelativePosition(Vector3D(0,0,lenBody));
 
-	SpherePart *head=new SpherePart(height/3.0);
-	head->setRelativePosition(Vector3D(0,0,2));
-	head->setColor(1.0,0.1,0.1);
+	CylindricalPart *leg1=new CylindricalPart(lenBody, rLeg);
+	leg1->setColor(1.0,0.3,0.3);
+	leg1->setRelativeOrientation(Z_AXIS,-PI/2);
+	leg1->setRelativePosition(Vector3D(0,rLeg,0));
+
+	CylindricalPart *leg2=new CylindricalPart(lenBody, rLeg);
+	leg2->setColor(1.0,0.3,0.3);
+	leg2->setRelativeOrientation(Z_AXIS,-PI/2);
+	leg2->setRelativePosition(Vector3D(0,-rLeg,0));
+
+	SpherePart *head=new SpherePart(radius);
+	head->setRelativePosition(Vector3D(0,0,height-radius));
+	head->setColor(1.0,0.3,0.3);
 
 	(*this)+=wheel1;
 	(*this)+=head;
-
-
+	(*this)+=leg1;
+	(*this)+=leg2;
 }
 void PersonSim::writeToStream(Stream& stream)
 {

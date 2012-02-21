@@ -1,0 +1,9 @@
+world: flat.world
+robots: 3
+neo 13000 0 0 0
+neo 14000 2 0 0
+neo 15000 0 5 0
+persons: 3
+noname  1.8 4 4 0.1
+noname  1.2 5 1 0.1
+noname  1.6 9 9 0.1
