@@ -26,6 +26,10 @@ public:
 		scene.MouseMove(x,y);
 		glutPostRedisplay();
 	}
+	void Key(unsigned char key)
+	{
+		scene.KeyDown(key);
+	}
 	void MouseClick(int b,int state, int x,int y)
 	{
 		bool down=(state==GLUT_DOWN);
@@ -44,20 +48,34 @@ public:
 	}
 private:
 	GLScene scene;
-	Simulator simulator;
-	
+	Simulator simulator;	
 };
 
+void printUsage();
 int main(int argc,char* argv[])
 {
-	Simulator sim;
-	sim.load("simple");
+	mrcoreInit();
+	if(argc!=2)
+	{
+		printUsage();
+		return -1;
+	}
+	string configFile(argv[1]);
 
-	MyGlutApp myApp("testGlutApp",sim);
+	Simulator sim;
+	sim.load(configFile);
+
+	MyGlutApp myApp("MR Simulator",sim);
 	myApp.Run();
 	return 0;   
 }
-
+void printUsage()
+{
+	cout<<"-------- Usage -----------------"<<endl;
+	cout<<"> simulator config.txt    "<<endl;
+	cout<<"example:    "<<endl;
+	cout<<"> simulator configuration.conf    "<<endl;
+}
 /*
 class Simulator
 {

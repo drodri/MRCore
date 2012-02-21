@@ -36,7 +36,7 @@ namespace mr{
 
 ostream& operator<<(ostream& os, const Transformation3D& p)
 {
-	/*os<<p.x<<" "<<p.y<<" "<<p.z;*/
+	os<<p.position.x<<" "<<p.position.y<<" "<<p.position.z<<endl;
 	return os;
 }
 

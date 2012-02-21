@@ -35,6 +35,7 @@ GLdouble vaux[3];
 namespace mr{
 IMPLEMENT_MR_OBJECT(Face)
 
+bool Face::enableAlfa=true;
 ostream& operator<<(ostream& os, const Face& face)
 {
 	/*os<<"Origin: "<<face.origin<<endl;
@@ -44,6 +45,8 @@ ostream& operator<<(ostream& os, const Face& face)
 Face::Face()
 {
 convex=true;
+r=g=b=1.0f;
+alfa=1.0f;
 }
 
 Face::Face(const Transformation3D &inbase, const vector<Vector2D> &list_of_vertex )
@@ -55,6 +58,8 @@ for(unsigned int i=0;i<list_of_vertex.size();i++){
 absVertex=vertex;
 updateData();
 baseUpdated();
+r=g=b=1.0f;
+alfa=1.0f;
 }
 
 Face::Face(const Transformation3D &inbase, double x_min,double y_min, double x_max, double y_max)
@@ -67,6 +72,8 @@ vertex.push_back(Vector3D(x_min,y_max));
 absVertex=vertex;
 updateData();
 baseUpdated();
+r=g=b=1.0f;
+alfa=1.0f;
 }
 
 void Face::setBase(const Transformation3D &inbase)
@@ -76,7 +83,6 @@ baseUpdated();
 }
 Face::~Face()
 {
-
 }
 void Face::baseUpdated()
 {
@@ -92,6 +98,8 @@ void Face::writeToStream(Stream& stream)
 	for(int i=0;i<num;i++)stream<<vertex[i].x<<vertex[i].y;
 	/*stream<<normal.x<<normal.y<<normal.z;
 	stream<<origin.x<<origin.y<<origin.z;*/
+
+	stream<<r<<g<<b<<alfa;
 }
 void Face::readFromStream(Stream& stream)
 {
@@ -104,6 +112,7 @@ void Face::readFromStream(Stream& stream)
 		stream>>x>>y;
 		addVertex(x,y);
 	}
+	stream>>r>>g>>b>>alfa;
 //add vertex updates the remainer internal data
 }
 void Face::updateData()
@@ -186,7 +195,7 @@ void Face::drawPrimitive(bool dir)
 void Face::drawGL()
 {
 	//compute Transformation
-int i,num;
+	int i,num;
 	
 	glPushMatrix();
 	base.transformGL();
@@ -197,10 +206,14 @@ int i,num;
 		glPopMatrix();
 		return;
 		}
-	glEnable(GL_BLEND);			// Turn Blending On
-	glDepthMask(GL_FALSE);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);	// Set The Blending Function For Translucency
-	GLTools::Color(CYAN,0.55f);
+	if(enableAlfa)
+	{
+		glEnable(GL_BLEND);			// Turn Blending On
+		glDepthMask(GL_FALSE);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);	// Set The Blending Function For Translucency
+	}
+	glColor4f(r,g,b,alfa);
+//	GLTools::Color(RED,0.55f);
 	glEnable(GL_LIGHTING);
 	glNormal3d(0,0,1.0);
 		
@@ -208,7 +221,8 @@ int i,num;
 
 	glDisable(GL_BLEND);
 	glDepthMask(GL_TRUE);
-	GLTools::Color(CYAN,1.0f);
+	//GLTools::Color(CYAN,1.0f);
+	glColor4f(r,g,b,1);
 	glDisable(GL_LIGHTING);
 	glBegin(GL_LINE_STRIP);
 	for(i=0;i<num;i++)glVertex3f(vertex[i].x,vertex[i].y,0);

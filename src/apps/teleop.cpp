@@ -73,11 +73,31 @@ private:
 	
 };
 
+void printUsage();
+
 int main(int argc,char* argv[])
 {
+/*	if(argc!=2)
+	{
+		printUsage();
+		return -1;
+	}
+	string configFile(argv[1]);
+
+	int port=-1;
+	if(robotname=="nemo")
+		robot=new Nemo;*/
 	MobileRobot* robot=new Neo();
 	robot->connectClients("127.0.0.1",13000);
 	MyGlutApp myApp("teleop",robot);
 	myApp.Run();
 	return 0;   
+}
+
+void printUsage()
+{
+	cout<<"-------- Usage -----------------"<<endl;
+	cout<<"> teleop config.txt    "<<endl;
+	cout<<"example:    "<<endl;
+	cout<<"> teleop neo 127.0.0.1 13000    "<<endl;
 }

@@ -10,7 +10,7 @@ AUX_SOURCE_DIRECTORY( hw hw_sources )
 AUX_SOURCE_DIRECTORY( simulation sim_sources)
 AUX_SOURCE_DIRECTORY( navigation2d navigation2d_sources )
 AUX_SOURCE_DIRECTORY( graphs graphs_sources )
-FILE(GLOB_RECURSE hw_sources hw/*.cpp)
+FILE(GLOB_RECURSE hw_sources hw/*.cpp) 
 
 IF (OPENGL_FOUND) 
 	AUX_SOURCE_DIRECTORY( gl gl_sources )  

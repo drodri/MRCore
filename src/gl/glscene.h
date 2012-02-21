@@ -51,12 +51,13 @@ public:
 	void SetViewPoint(float distance, float rotation, float elevation){dist=distance;alfa=rotation; beta=elevation;}
 	void SetViewCenter(float x,float y,float z){center_x=x;center_y=y;center_z=z;}
 
-	
+	void BackgroundColor(float r, float  g, float  b);
 protected:
 	vector<GLObject*>  object;
 	vector<GLObject*>  loadedObjects;//objects owned by the scene
 
 //visualization	
+	float  back_r,back_g,back_b;//background color
 	double center_x,center_y,center_z;
 	double dist,beta,alfa;
 	double x_previo,y_previo;

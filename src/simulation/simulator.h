@@ -78,7 +78,7 @@ public:
 	virtual ~Simulator();
 	World* getWorld(){return &world;}//for painting
 
-	void load(string environment);
+	bool load(string environment);
 
 protected:
 	vector<Server*> servers;

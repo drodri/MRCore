@@ -50,10 +50,16 @@ GLScene::GLScene()
 	center_z=1;
 	beta=15;
 	alfa=30;
-	showGrid=true;
+	showGrid=false;
 	showFrame=true;
+	BackgroundColor(0.2,0.2,0.2);
 }
-
+void GLScene::BackgroundColor(float  r, float  g, float  b)
+{
+	back_r=r;
+	back_b=b;
+	back_g=g;
+}
 GLScene::~GLScene()
 {
 	for(unsigned int i=0;i<loadedObjects.size();i++)
@@ -75,6 +81,8 @@ void GLScene::KeyDown(unsigned char key)
 		showGrid=!showGrid;
 	if(key=='f')
 		showFrame=!showFrame;
+	if(key=='t')
+		Face::enableAlfa=!Face::enableAlfa;
 		
 }
 void GLScene::SpecialKeyDown(unsigned char key)
@@ -114,7 +122,7 @@ void GLScene::init()
 void GLScene::Draw()
 {
 	//Borrado de la pantalla	
-	//glClearColor(1,0.5,0.2,1);//fondo naranja
+	glClearColor(back_r,back_g,back_b,1);//fondo naranja
    	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Para definir el punto de vista

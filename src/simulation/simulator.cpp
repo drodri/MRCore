@@ -31,11 +31,16 @@
 
 #include "simulator.h"
 #include "mobilerobot.h"
+#include "personsim.h"
 #include "../world/facesetpart.h"
 #include "../world/prismaticpart.h"
 #include "../world/spherepart.h"
 #include "hw/wheeledbase/wheeledbaseserver.h"
 #include "hw/lasersensor/lasersensorserver.h"
+#include "base/streamfile.h"
+#include <fstream>
+
+using namespace std;
 
 namespace mr
 {
@@ -47,83 +52,133 @@ Simulator::~Simulator()
 
 	LOG_INFO("Closed servers");
 }
-void Simulator::load(string environment)
+/*
+void generateWorld()
 {
-	if(environment=="simple")
 	{
-		Face suelo(Transformation3D(0,0,0),-20,-20,20,20);
-		Face tablon_fino1(Transformation3D(8,3,2,X_AXIS,-1.53),0,0,5.2,3.95);
+		World world;
+		Face suelo(Transformation3D(0,0,0),-10,-10,10,10);
+		suelo.setColor(0.5, 0.7, 0.5, 1);
+		FaceSetPart *building=new FaceSetPart; 
+		building->addFace(suelo);
+		world+=building;
+		StreamFile worldFile("flat.world",false);
+		if(!worldFile.good())
+		{
+			LOG_ERROR("Bad world file ");
+			return ;
+		}
+		world.writeToStream(worldFile);
+		return;
+	}
+	{
+		World world;
+		Face suelo(Transformation3D(0,0,0),0,-10,10,10);
+		suelo.setColor(0.5, 0.5, 0.5, 1);
+		Face tablon_fino1(Transformation3D(8,3,2,X_AXIS,-0.53),0,0,0.2,3.95);
+		Face tablon_fino2(Transformation3D(8.5,3,2,X_AXIS,-0.53),0,0,0.2,3.95);
+		Face tablon_grueso(Transformation3D(2,3,2,X_AXIS,-0.53),0,0,1,3.95);
+		Face plataforma(Transformation3D(2,0,2),0,0,8,3);
+		plataforma.setColor(1,0,0,1);
+		Face paredfondo1(Transformation3D(0,0,0,Y_AXIS,PI/2),-4,-10,0,10);
+		paredfondo1.setColor(0,1,0,1);
+		Face paredfondo2;
+		paredfondo2.setColor(0,0,1,1);
+
+		paredfondo2.setBase(Transformation3D(0,0,0,X_AXIS,-PI/2));
+		paredfondo2.addVertex(0,-4);
+		paredfondo2.addVertex(10,-4);
+		paredfondo2.addVertex(10,0);
+		paredfondo2.addVertex(6,0);
+		paredfondo2.addVertex(6,-1.5);
+		paredfondo2.addVertex(4,-1.5);
+		paredfondo2.addVertex(4,0);
+		paredfondo2.addVertex(0,0);
+
 		FaceSetPart *building=new FaceSetPart; 
 		building->addFace(suelo);
 		building->addFace(tablon_fino1);
+		building->addFace(tablon_fino2);
+		building->addFace(tablon_grueso);
+		building->addFace(plataforma);
+		building->addFace(paredfondo1);
+		building->addFace(paredfondo2);
+		
 		world+=building;
 
-		Neo* neo=new Neo();
-		world+=neo;
-		neo->startServers(13000);
-		
+		FaceSetPart *paux2=new FaceSetPart(*building);
+		paux2->setRelativeOrientation(0,0,PI);
+		paux2->setRelativePosition(Vector3D(20,0,0));
+		world+=paux2;
+
+		StreamFile worldFile("rampas.world",false);
+		if(!worldFile.good())
+		{
+			LOG_ERROR("Bad world file ");
+			return ;
+		}
+		world.writeToStream(worldFile);
 		return;
 	}
-	
-	if(environment=="rampas")
+}*/
+bool Simulator::load(string environment)
+{
+//	generateWorld();
+	ifstream file(environment.c_str());
+	string command,worldName;
+	file>>command>>worldName;
+	if(command!="world:")
 	{
-	//Intializing test environment Faces included in a FacePart
-	Face suelo(Transformation3D(0,0,0),0,-10,10,10);
-	Face tablon_fino1(Transformation3D(8,3,2,X_AXIS,-0.53),0,0,0.2,3.95);
-	Face tablon_fino2(Transformation3D(8.5,3,2,X_AXIS,-0.53),0,0,0.2,3.95);
-	Face tablon_grueso(Transformation3D(2,3,2,X_AXIS,-0.53),0,0,1,3.95);
-	Face plataforma(Transformation3D(2,0,2),0,0,8,3);
-	Face paredfondo1(Transformation3D(0,0,0,Y_AXIS,PI/2),-4,-10,0,10);
-	Face paredfondo2;
-
-	paredfondo2.setBase(Transformation3D(0,0,0,X_AXIS,-PI/2));
-	paredfondo2.addVertex(0,-4);
-	paredfondo2.addVertex(10,-4);
-	paredfondo2.addVertex(10,0);
-	paredfondo2.addVertex(6,0);
-	paredfondo2.addVertex(6,-1.5);
-	paredfondo2.addVertex(4,-1.5);
-	paredfondo2.addVertex(4,0);
-	paredfondo2.addVertex(0,0);
-
-	FaceSetPart *building=new FaceSetPart; 
-	building->addFace(suelo);
-	building->addFace(tablon_fino1);
-	building->addFace(tablon_fino2);
-	building->addFace(tablon_grueso);
-	building->addFace(plataforma);
-	building->addFace(paredfondo1);
-	building->addFace(paredfondo2);
-	
-	world+=building;
-
-	FaceSetPart *paux2=new FaceSetPart(*building);
-	paux2->setRelativeOrientation(0,0,PI);
-	paux2->setRelativePosition(Vector3D(20,0,0));
-	world+=paux2;
-	
-//probando el prismaticpart
-	PrismaticPart *mypart=new PrismaticPart;
-	vector<Vector2D> list;
-	list.push_back(Vector2D(0,0));
-	list.push_back(Vector2D(0,1));
-	list.push_back(Vector2D(1,1));
-	list.push_back(Vector2D(1.5,0.5));
-	list.push_back(Vector2D(1,0));
-	mypart->setPolygonalBase(list);
-	mypart->setRelativePosition(Vector3D(7,7,3));
-	mypart->setRelativeOrientation(PI/2,0,0);
-	mypart->setHeight(4);
-
-	SpherePart *esfera=new SpherePart;
-	esfera->setRelativePosition(Vector3D(7,7,6));
-	world+=mypart;
-	world+=esfera;
-
-	return;
+		LOG_ERROR("Bad config file, expected \"world:\"");
+		return false;
 	}
-
-	LOG_ERROR("Environment not found: "<<environment);
+	StreamFile worldFile(worldName,true);
+	if(!worldFile.good())
+	{
+		LOG_ERROR("Bad world file "<<worldName);
+		return false;
+	}
+	world.readFromStream(worldFile);
+	
+	int numRobots;
+	file>>command>>numRobots;
+	if(command!="robots:" || numRobots<0 ||numRobots>100)
+	{
+		LOG_ERROR("Bad number of robots, expected \"robots: #\"");
+		return false;
+	}
+	for(int i=0;i<numRobots;i++)
+	{
+		string robotName;
+		int port;
+		float x,y,z;
+		file>>robotName>>port>>x>>y>>z;
+		if(robotName=="neo")
+		{
+			Neo* neo=new Neo();
+			world+=neo;
+			neo->setLocation(Transformation3D(x,y,z));
+			neo->startServers(port);
+			neo->move(rand()/(float)RAND_MAX,rand()/(float)RAND_MAX);
+		}
+	}
+	
+	int numPeople;
+	file>>command>>numPeople;
+	if(command!="persons:" || numPeople<0 ||numPeople>100)
+	{
+		LOG_ERROR("Bad number of persons, expected \"persons: #\"");
+		return false;
+	}
+	for(int i=0;i<numPeople;i++)
+	{
+		string robotName;
+		float x,y,z;
+		file>>robotName>>x>>y>>z;
+		PersonSim* person=new PersonSim();
+		person->setAbsoluteT3D(Transformation3D(x,y,z));
+		world+=person;		
+	}
 }
 
 };

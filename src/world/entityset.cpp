@@ -97,10 +97,10 @@ void EntitySet::readFromStream(Stream& stream)
 {
 int i,num;
  stream>>num;
- PositionableEntity *aux;
+ //PositionableEntity *aux;
  objects.clear();
  for(int i=0;i<num;i++){
-	 aux=dynamic_cast<PositionableEntity *>(stream.read());
+	 PositionableEntity * aux=dynamic_cast<PositionableEntity *>(stream.read());
 	 addObject(aux);
   }
 stream>>num;

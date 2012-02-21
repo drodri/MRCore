@@ -61,6 +61,9 @@ protected:
 	bool convex; //true if convex face
 	bool clockwise; //true if clockwise
 	Vector3D minV,maxV; //minimun and maximum coordinates computed. fastest tests
+private:
+	float r,g,b,alfa;
+
 public:
 	friend ostream& operator<<(ostream& os, const Face& p);
 //constructors
@@ -71,9 +74,10 @@ public:
 	virtual ~Face(void);
 //assignation
 	Face& operator = (const Face& f){base=f.base; vertex=f.vertex; absVertex=f.absVertex;
-			convex=f.convex;clockwise=f.clockwise; minV=f.minV; maxV=f.maxV;return *this;}
+					convex=f.convex;clockwise=f.clockwise; minV=f.minV; maxV=f.maxV;r=f.r;b=f.b;g=f.g;alfa=f.alfa;return *this;}
 //copy constructor
 	Face(const Face &f){(*this)=f;}
+	void setColor(float _r, float _g,float _b,float _alfa){r=_r;g=_g;b=_b;alfa=_alfa;}
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
 	virtual void drawGL();
@@ -97,6 +101,7 @@ public:
 	int getNumVertex(){return (int)(vertex.size());}
 	Vector3D getAbsoluteVertex(int i){return (absVertex[i]);}
 	
+	static bool enableAlfa;
 };
 
 }
