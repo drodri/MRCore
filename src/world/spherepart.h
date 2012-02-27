@@ -114,7 +114,7 @@ dealing with primitive classes.
 //specific operations that have to be implemented due to its solid entity condition
 	bool segmentIntersection(const Segment3D &s,vector<Vector3D> *ipoints);
 	bool rayIntersection(Vector3D &ori, Vector3D &dir, double &dist); 
-	bool rayLateralIntersection(int i,Vector3D &ori, Vector3D &dir, double &dist);
+	
 
 };
 

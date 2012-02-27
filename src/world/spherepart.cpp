@@ -293,7 +293,7 @@ sc:		center sphere
 	else if((dist1<radius) || (dist2<radius))
 	{
 		flag=rayIntersection(ori,dir,dist);
-		setDrawBox();
+		//setDrawBox(); //this was for debug purposes.
 		if(ipoints)ipoints->push_back(ori+dir*dist);
 		if((ipoints==0) && (flag))return true;
 	}
@@ -304,7 +304,7 @@ sc:		center sphere
 		if(rayIntersection(ori,dir,dist))//If TRUE, there are colision
 		{
 			flag=true;
-			setDrawBox();
+			//setDrawBox(); //this was for debug purposes.
 			double aux=dist*dist + radius*radius - sc_ori.module()*sc_ori.module();//it is dist because it is new distance that intersection laser beam
 			if(aux < 2*EPS)//Next to zero - Tangent - Case 5
 			{
@@ -325,15 +325,11 @@ sc:		center sphere
 		}
 		else//Case 4 - Not intersection
 		{
-			setDrawBox(false);//Delete bounding box
+			//setDrawBox(false);//Delete bounding box
 			return false;
 		}
 	}
 	return flag;
 }
-bool SpherePart::rayLateralIntersection(int i,Vector3D &ori, Vector3D &dir, double &dist)
-{
-	cout<<"rayLateralIntersection()"<<endl;
-	return false;
-}
+
 }//mr
