@@ -1,7 +1,6 @@
 #include "personsim.h"
 #include <iostream>
 #include "gl/gltools.h"
-//#include <GL/glut.h>
 #include "../world/cylindricalpart.h"
 #include "../world/spherepart.h"
 #include "world/world.h"

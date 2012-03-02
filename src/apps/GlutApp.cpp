@@ -3,7 +3,6 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "glutapp.h" 
-#include <gl/glut.h> 
 #include <iostream>
 
 using namespace std;

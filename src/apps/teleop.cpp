@@ -1,6 +1,6 @@
 #include "mrcore.h"
 
-#include <GL/glut.h>
+
 #include <iostream>
 #include "glutapp.h"
 

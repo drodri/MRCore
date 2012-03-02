@@ -34,9 +34,9 @@ IF(WIN32)
 	#IF(GLUT_FOUND)
 	#	MESSAGE(STATUS "Your are in Windows. And Glut was found with FindGlut.cmake")
 	#ELSE(GLUT_FOUND)
-		MESSAGE(STATUS "Your are in Windows. And Glut was NOT found with FindGlut.cmake. I will make it around")
-		SET(GLUT_FOUND 1)
-		SET(GLUT_LIBRARIES glut32)
+	#	MESSAGE(STATUS "Your are in Windows. And Glut was NOT found with FindGlut.cmake. I will make it around")
+	#	SET(GLUT_FOUND 1)
+	#	SET(GLUT_LIBRARIES glut32)
 	#ENDIF(GLUT_FOUND)
 
 	#OpenGL

@@ -1,7 +1,6 @@
 #include "patrolbotsim.h"
 #include <iostream>
 #include "gl/gltools.h"
-#include <GL/glut.h>
 #include "../world/cylindricalpart.h"
 
 namespace mr

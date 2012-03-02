@@ -12,6 +12,8 @@
 #include <string> 
 using namespace std;
 
+#include "GL/glut.h"
+
 //singleton, do not create more than one per application
 class GlutApp 
 {
