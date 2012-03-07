@@ -59,33 +59,10 @@ IF(WIN32)
 	MESSAGE(STATUS "Default install directory is: " ${CMAKE_INSTALL_PREFIX}) 
 ENDIF(WIN32)
 
-# If manual.cmake is older than its template, there is something wrong.
-#IF(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/manual.cmake")
-	#IF("${CMAKE_CURRENT_SOURCE_DIR}/manual.cmake.template" IS_NEWER_THAN "${CMAKE_CURRENT_BINARY_DIR}/manual.cmake")
-	#	MESSAGE(FATAL_ERROR "\n\nIt appears that manual.cmake.template is newer than your personal manual.cmake. \n"
-	#	"Now you have FOUR choices:\n"
-	#	"1) if you never made any changes in your personal manual.cmake, just cp manual.cmake.template manual.cmake;\n"
-	#	"2) do as above and then make again your personal changes in manual.cmake;\n"
-	#	"3) check the differences between manual.cmake.template and your personal manual.cmake and update the latter\n"
-	#	"4) touch your personal manual.cmake (do this at your own risk, if someone changed something in the template, you will not use it).\n\n")
-	#ENDIF("${CMAKE_CURRENT_SOURCE_DIR}/manual.cmake.template" IS_NEWER_THAN "${CMAKE_CURRENT_BINARY_DIR}/manual.cmake")
-#	MESSAGE(STATUS "Using manual.cmake")
-#ELSE(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/manual.cmake")
-#	MESSAGE(STATUS "Creating manual.cmake")
-#	CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/manual.cmake.template" "${CMAKE_CURRENT_BINARY_DIR}/manual.cmake" COPYONLY)
-#ENDIF(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/manual.cmake")
-#INCLUDE("${CMAKE_CURRENT_BINARY_DIR}/manual.cmake")
-
-
-
 # Creation of config.h
 CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/src/config.h.cmake" "${CMAKE_CURRENT_SOURCE_DIR}/src/config.h")
 
-
-
-  
 ADD_SUBDIRECTORY(src)
-
 
 ########### for uninstalling
 
