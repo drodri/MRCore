@@ -1,12 +1,12 @@
 #ifndef __GRAPH_TYPES_H
 #define __GRAPH_TYPES_H
 
-#include "mrcore.h"
 #include "graph.h"
 #include "searcher.h"
 #include "astarsearch.h"
 #include "uninformedsearch.h"
 #include "dijkstrasearch.h"
+#include "math/transformation2d.h"
 
 namespace mr{
 

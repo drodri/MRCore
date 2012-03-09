@@ -4,7 +4,6 @@
 #include <set>
 #include <iostream>
 #include <cmath>
-#include <mrcore.h>
 
 using namespace std;
 
