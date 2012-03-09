@@ -24,7 +24,6 @@ ENDFOREACH()
 
 # MR library
 IF (WIN32)	
-	ADD_SUBDIRECTORY(freeglut)
 	ADD_LIBRARY(mrcore STATIC ${SOURCES} ${HEADERS} )
 	SET_TARGET_PROPERTIES(mrcore PROPERTIES DEBUG_POSTFIX "_d")
 	TARGET_LINK_LIBRARIES(mrcore ${OPENGL_LIBRARIES})
@@ -34,11 +33,6 @@ ELSE(WIN32)
 ENDIF(WIN32)
 
 
-
-# Tests
-	ADD_SUBDIRECTORY(tests)
-	ADD_SUBDIRECTORY(apps)
-	
 ####################################################################################################
 #
 #			INSTALL
