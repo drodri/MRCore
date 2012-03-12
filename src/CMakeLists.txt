@@ -5,7 +5,7 @@ SET(curdir ${CMAKE_CURRENT_SOURCE_DIR})
 INCLUDE_DIRECTORIES(${curdir})
 
 # Creation of config.h
-CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake" "${CMAKE_CURRENT_SOURCE_DIR}/config.h")
+CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake" "${CMAKE_CURRENT_SOURCE_DIR}/config.h") 
 
 ####################################################################################################
 #
