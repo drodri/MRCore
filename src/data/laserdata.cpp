@@ -107,7 +107,7 @@ if(index>=numSteps)return maxRange;
 return range[index];
 }
 
-vector<Angle>	LaserData::getAngles()
+vector<Angle>	LaserData::getAngles() const
 {
 	vector<Angle> angles;
 	angles.resize(range.size());
@@ -116,7 +116,7 @@ vector<Angle>	LaserData::getAngles()
 	return angles;
 }
 
-vector<Vector2D> LaserData::getPoints()
+vector<Vector2D> LaserData::getPoints() const
 {
 	if(points.size()!=numSteps)
 	{

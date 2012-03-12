@@ -47,7 +47,7 @@ namespace mr
 Simulator::~Simulator()
 {
 	LOG_INFO("Closing servers");
-	for(int i=0;i<servers.size();i++)
+	for(unsigned int i=0;i<servers.size();i++)
 		servers[i]->close();
 
 	LOG_INFO("Closed servers");
@@ -159,7 +159,7 @@ bool Simulator::load(string environment)
 			world+=neo;
 			neo->setLocation(Transformation3D(x,y,z));
 			neo->startServers(port);
-			neo->move(rand()/(float)RAND_MAX,rand()/(float)RAND_MAX);
+			//neo->move(rand()/(float)RAND_MAX,rand()/(float)RAND_MAX);
 		}
 	}
 	
@@ -180,6 +180,7 @@ bool Simulator::load(string environment)
 
 		world+=person;		
 	}
+	return true;
 }
 
 };

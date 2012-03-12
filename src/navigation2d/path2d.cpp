@@ -67,9 +67,9 @@ void Path2D::readFromStream(Stream& is){
 
 void Path2D::drawGL(){
 	
-	glColor3i(rgb[0],rgb[1],rgb[2]);
+	glColor3ub(rgb[0],rgb[1],rgb[2]);
 	
-	glBegin(GL_LINES);
+	glBegin(GL_LINE_STRIP);
 	for (int i=0; i<points.size(); i++){
 		glVertex2f(points[i].x,points[i].y);
 	}

@@ -80,7 +80,7 @@ public:
 	bool setRange(int index, double range);
 	double getRange(int index);
 	/** gets vector of angles **/
-	vector<Angle>	getAngles();
+	vector<Angle>	getAngles() const;
 	/** gets vector of ranges **/
 	vector<double>	getRanges() const{return range;}
 	/** gets the start Angle of the readings **/
@@ -91,7 +91,7 @@ public:
 	int size()const {return (int)range.size();}
 	/** get a vector of 2D points references to the laser sensor
 	it only computes the points once and keep them internally to avoid excessive computation (sines and cosines)*/
-	vector<Vector2D> getPoints();
+	vector<Vector2D> getPoints() const;
 
 	/** Drawing mode. 0=points, 1=rays, 2=contour **/
 	int drawGLMode;
@@ -107,7 +107,7 @@ protected:
 	vector<double> range;
 
 	/** this vector is computed only the first time getPoints() is invoked**/
-	vector<Vector2D> points;//<to avoid recomputing them again and again (for drawing for example)
+	mutable vector<Vector2D> points;//<to avoid recomputing them again and again (for drawing for example)
 	//Configuration parameters, could be factorized to a LaserConf class
 	double maxRange;//<the maximum range of the
 	double sigma; //< standard deviation of the range measurement
