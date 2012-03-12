@@ -39,8 +39,8 @@ namespace mr
 class WheeledMobileRobot
 {
 public:
-	MobileRobot(string name);
-	~MobileRobot();
+	WheeledMobileRobot(string name);
+	~WheeledMobileRobot();
 
 	bool load(string configFile);
 	void setLocation(const Transformation3D &p);

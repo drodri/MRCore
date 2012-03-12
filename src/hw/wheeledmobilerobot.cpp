@@ -38,7 +38,7 @@
 namespace mr
 {
 
-class WheeledBase
+class WheeledMobileRobot
 {
 public:
 	virtual bool getOdometry(Odometry& odom)=0;
