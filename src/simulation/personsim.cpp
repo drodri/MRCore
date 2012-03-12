@@ -12,7 +12,7 @@ IMPLEMENT_MR_OBJECT(PersonSim)
 PersonSim::PersonSim(float h)
 {
 	height=h;
-	speed=rotSpeed=1.5;
+	speed=rotSpeed=2.5;
 	radius=height/9.0f;//0.20;
 	float lenBody=(height-2*radius)/2.0f;
 	float rLeg=radius/2.5f;
@@ -128,7 +128,7 @@ void PersonSim::simulate(double delta_t)
 	if(world){
 		if(world->checkCollisionWith(*this)){
 			setAbsoluteT3D(position); //no muevo el robot
-			rotSpeed=rand()/(float)RAND_MAX;
+			rotSpeed=-1+2*rand()/(float)RAND_MAX;
 			speed=-speed;
 			return ;
 		}
@@ -139,13 +139,13 @@ void PersonSim::simulate(double delta_t)
 	int r=rand()%75;
 	if(r==0)
 	{
-		rotSpeed=rand()/(float)RAND_MAX;
-		speed=rand()/(float)RAND_MAX;
+		rotSpeed=-0.5+rand()/(float)RAND_MAX;
+		speed=1+1*rand()/(float)RAND_MAX;
 	}
 	else if(r==1)
 		rotSpeed=0;
 	else if(r==2)
-		speed=0;
+		speed=rand()/(float)RAND_MAX;
 
 }
 

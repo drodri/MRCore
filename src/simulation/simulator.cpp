@@ -176,7 +176,8 @@ bool Simulator::load(string environment)
 		float x,y,z,h;
 		file>>robotName>>h>>x>>y>>z;
 		PersonSim* person=new PersonSim(h);
-		person->setAbsoluteT3D(Transformation3D(x,y,z));
+		person->setAbsoluteT3D(Transformation3D(x,y,z,0,0,-3+6*rand()/(float)RAND_MAX));
+
 		world+=person;		
 	}
 }
