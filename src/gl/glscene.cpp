@@ -8,7 +8,7 @@
 #include <iostream>
 namespace mr
 {
-bool GLScene::save(string filename)//without extension
+bool GLScene::save(string filename)//without extension 
 {
 	StreamFile str(filename+".glscene",false);
 	if(!str.good())return false;
@@ -52,7 +52,7 @@ GLScene::GLScene()
 	alfa=30;
 	showGrid=false;
 	showFrame=true;
-	BackgroundColor(0.2,0.2,0.2);
+	BackgroundColor(0.2f,0.2f,0.2f);
 }
 void GLScene::BackgroundColor(float  r, float  g, float  b)
 {

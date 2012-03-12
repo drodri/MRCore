@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 2.6)
 
-PROJECT(MRcore)
+PROJECT(MRCore)
 
 IF(WIN32)
 	#in windows, it is defined by the project configuration "Release, Debug, etc"
@@ -36,7 +36,7 @@ ENDIF(WIN32)
 
 ########### To define a default install directory in Windows
 IF (WIN32)
-	SET(CMAKE_INSTALL_PREFIX C:/mrcore)
+	SET(CMAKE_INSTALL_PREFIX "C:/mrcore" CACHE PATH "FOO install prefix" FORCE)
 ELSE(WIN32)
 	SET(CMAKE_INSTALL_PREFIX /usr/local/mrcore) 
 ENDIF(WIN32)

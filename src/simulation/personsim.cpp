@@ -15,7 +15,7 @@ PersonSim::PersonSim(float h)
 	speed=rotSpeed=1.5;
 	radius=height/9.0f;//0.20;
 	float lenBody=(height-2*radius)/2.0f;
-	float rLeg=radius/2.5;
+	float rLeg=radius/2.5f;
 	//las ruedas no se pueden añadir hasta no tener un mecanismo de exclusión de detección
 	CylindricalPart *wheel1=new CylindricalPart(lenBody, radius);
 	wheel1->setColor(1.0,0.3,0.3);
@@ -61,7 +61,6 @@ bool PersonSim::computeGroundedLocation(Transformation3D &p)
 //partiendo de p, la modifica para que sea una posición geométricamente válida, suponiendo una
 //gravedad, pero sin consideraciones dinámicas
 	cout<<"compute ground:  "<<p<<endl;
-	int i;
 	
 	//absolute center of the four wheels
 	Vector3D abswheels;

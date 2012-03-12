@@ -109,7 +109,7 @@ void KinectSim::updateSensorData(World *w,float dt)
 	for(int i=0;i<data.width;i++)
 		for(int j=0;j<data.height;j++)
 		{
-			float range=1+0.1*(float)rand()/(float)RAND_MAX;
+			float range=1.0f+0.1f*(float)rand()/(float)RAND_MAX;
 		//	cout<<"Range "<<range<<endl;
 			data.points[i+j*data.width]=Vector3D(i/100.0,j/100.0,range);
 		}
