@@ -13,7 +13,7 @@ CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake" "${CMAKE_CURRENT_SOU
 #
 ####################################################################################################
 FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
-SET(SOURCES "")
+SET(SOURCES "") 
 SET(HEADERS "")
 FOREACH(child ${children})
 IF(IS_DIRECTORY ${curdir}/${child})

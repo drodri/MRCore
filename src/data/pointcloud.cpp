@@ -51,7 +51,7 @@ void PointCloud::writeToStream(Stream& stream)
 	cout<<"Sending: "<<width<<" "<<height<<endl;
 	stream<<width;
 	stream<<height;
-	for(int i=0;i<points.size();i++)
+	for(unsigned int i=0;i<points.size();i++)
 		stream<<points[i].x<<points[i].y<<points[i].z;
 
 //	stream<<(int)color.size();

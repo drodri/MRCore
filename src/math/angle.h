@@ -77,6 +77,9 @@ public:
 	static double makePositive(Angle a){return makePositive(a.getValue());}
 	static int getQuadrant(double a);
 	static int getQuadrant(Angle a){return getQuadrant(a.getValue());}
+
+	//returns the smallest angle a such (a1+a=a2), including normalization. i.e. difference(170º,-170º)=>20º
+	static double difference(double a1,double a2);
 protected:
 //angles normlized in -PI, PI
    double value;

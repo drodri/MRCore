@@ -35,7 +35,7 @@
 
 #include <iostream>
 #include <vector>
-#include "math/point.h"
+#include "math/vector2d.h"
 #include "math/transformation2d.h"
 #include <cmath>
 #include <set>
@@ -140,7 +140,7 @@ public:
 		}
 	}
 
-	inline bool GridToWorld(int gridX, int gridY, Point2& point){
+	inline bool GridToWorld(int gridX, int gridY, Vector2D& point){
 		double x,y;
 		bool rt=GridToWorld(gridX,gridY,x,y);
 		point.x=x;
@@ -155,7 +155,7 @@ public:
 		else return false;
 	}
 
-	inline bool WorldToGrid(Point2 point, int& gridX, int& gridY){
+	inline bool WorldToGrid(Vector2D point, int& gridX, int& gridY){
 		gridX = (int)((point.x-mapX)/resolution);
 		gridY = (int)((point.y-mapY)/resolution);
 		if (gridX < width && gridY < height) return true;
@@ -184,12 +184,12 @@ public:
 	 */
 	bool isThereCellValueInRay(double x, double y, double angle, T value, double maxdistance, RayPoint& rayPoint);
 	
-	inline bool isThereCellValueInRay(Point2 point, double angle, T value, double maxdistance, RayPoint& rayPoint){
+	inline bool isThereCellValueInRay(Vector2D point, double angle, T value, double maxdistance, RayPoint& rayPoint){
 		return isThereCellValueInRay(point.x, point.y, angle, value, maxdistance, rayPoint);
 	}
 	
 	
-	inline bool isThereCellValueInRay(Point2o point, double angle, T value, double maxdistance, RayPoint& rayPoint){
+	inline bool isThereCellValueInRay(Pose point, double angle, T value, double maxdistance, RayPoint& rayPoint){
 		return isThereCellValueInRay(point.x, point.y, point.theta+angle, value, maxdistance, rayPoint);
 	}
 	
@@ -197,18 +197,18 @@ public:
 	/**
 	 * Returns true when there is a pixel with value "value" in the ray between two points.
 	 * @param point1 The starting point of the ray
-	 * @param point2 The ending point of the ray
+	 * @param Vector2D The ending point of the ray
 	 * @param value Value of the pixel we are comaring with.
 	 * @param rayPoint. If the pixel is found in rayPoint the information of the pixel is stored
 	 * @return true if a pixel of value value is found
 	 */
-	inline bool isThereCellValueBetweenPoints(Point2 point1, Point2 point2, T value, RayPoint& rayPoint){
-		Vector2D directionVector = point2 - point1;
-		return isThereCellValueInRay(point1.x, point1.y, directionVector.argument(), value, point1.distanceTo(point2), rayPoint);
+	inline bool isThereCellValueBetweenPoints(Vector2D point1, Vector2D Vector2D, T value, RayPoint& rayPoint){
+		Vector2D directionVector = Vector2D - point1;
+		return isThereCellValueInRay(point1.x, point1.y, directionVector.argument(), value, point1.distanceTo(Vector2D), rayPoint);
 	}
 	
 	inline bool isThereCellValueBetweenPoints(double x1, double y1, double x2, double y2, T value, RayPoint& rayPoint){
-		return isThereCellValueBetweenPoints(Point2(x1,y1), Point2(x2,y2), value, rayPoint);
+		return isThereCellValueBetweenPoints(Vector2D(x1,y1), Vector2D(x2,y2), value, rayPoint);
 	}
 	
 	/**
@@ -223,12 +223,12 @@ public:
 	 */
 	bool isThereValueSetInRay(double x, double y, double angle, set<T> valueSet, double maxdistance, RayPoint& rayPoint);
 
-	inline bool isThereCellValueSetInRay(Point2 point, double angle, set<T> valueSet, double maxdistance, RayPoint& rayPoint){
+	inline bool isThereCellValueSetInRay(Vector2D point, double angle, set<T> valueSet, double maxdistance, RayPoint& rayPoint){
 		return isThereCellValueInRay(point.x, point.y, angle, valueSet, maxdistance, rayPoint);
 	}
 	
 	
-	inline bool isThereCellValueSetInRay(Point2o point, double angle, set<T> valueSet, double maxdistance, RayPoint& rayPoint){
+	inline bool isThereCellValueSetInRay(Pose point, double angle, set<T> valueSet, double maxdistance, RayPoint& rayPoint){
 		return isThereCellValueInRay(point.x, point.y, point.theta+angle, valueSet, maxdistance, rayPoint);
 	}
 
@@ -243,16 +243,16 @@ public:
 	 */
 	Ray getRay(double x, double y, double angle, double distance);
 
-	inline Ray getRay(Point2 point, double angle, double distance){
+	inline Ray getRay(Vector2D point, double angle, double distance){
 		return getRay(point.x, point.y, angle, distance);
 	}
 
 
-	inline Ray getRay(Point2o point, double angle, double distance){
+	inline Ray getRay(Pose point, double angle, double distance){
 		return getRay(point.x, point.y, point.theta + angle, distance);
 	}
 
-	Ray getRay(Point2 pointi, Point2 pointf);
+	Ray getRay(Vector2D pointi, Vector2D pointf);
 
 inline void writeToStream(Stream& os){
 	int buffer_size=width*sizeof(T)*height*sizeof(T);

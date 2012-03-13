@@ -98,13 +98,13 @@ typename GridMap<T>::Ray GridMap<T>::getRay(double x, double y, double angle, do
 	double x_inc = resolution*cos(angle);
 	double y_inc =  resolution* sin(angle);
 
-	Point2 startingPoint(x,y);
+	Vector2D startingPoint(x,y);
 	
 	int startCellValueX, startCellValueY;
 	if (!WorldToGrid(startingPoint.x,startingPoint.y,startCellValueX,startCellValueY)) return ray;
 	ray.push_back(RayPoint(startCellValueX,startCellValueY,x,y,getCellValue(startCellValueX,startCellValueY)));
 	
-	Point2 currentPoint(x,y);
+	Vector2D currentPoint(x,y);
 	Vector2D inc_vector(x_inc, y_inc);
 	int number_steps = (int) (distance / inc_vector.module());
 
@@ -121,7 +121,7 @@ typename GridMap<T>::Ray GridMap<T>::getRay(double x, double y, double angle, do
 }
 
 template <class T>
-typename GridMap<T>::Ray GridMap<T>::getRay(Point2 pointi, Point2 pointf){
+typename GridMap<T>::Ray GridMap<T>::getRay(Vector2D pointi, Vector2D pointf){
 
 	double distance = pointi.distanceTo(pointf);
 	Vector2D vector = pointf - pointi;
@@ -140,10 +140,10 @@ bool GridMap<T>::isThereCellValueInRay(double x, double y, double angle, T value
 	if (!WorldToGrid(x,y,startCellValueX,startCellValueY)) return false;
 	
 
-	Point2 startingPoint(x,y);
-	Point2 currentPoint(x,y);
+	Vector2D startingPoint(x,y);
+	Vector2D currentPoint(x,y);
 
-	Point2 inc_vector(x_inc, y_inc);
+	Vector2D inc_vector(x_inc, y_inc);
 	int number_steps = (int) (maxdistance / inc_vector.module());
 
 	for (int i=0; i<number_steps; i++){
@@ -172,10 +172,10 @@ bool GridMap<T>::isThereValueSetInRay(double x, double y, double angle, set<T> v
 	if (!WorldToGrid(x,y,startCellValueX,startCellValueY)) return false;
 	
 
-	Point2 startingPoint(x,y);
-	Point2 currentPoint(x,y);
+	Vector2D startingPoint(x,y);
+	Vector2D currentPoint(x,y);
 
-	Point2 inc_vector(x_inc, y_inc);
+	Vector2D inc_vector(x_inc, y_inc);
 	int number_steps = (int) (maxdistance / inc_vector.module());
 
 	for (int i=0; i<number_steps; i++){

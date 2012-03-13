@@ -33,7 +33,7 @@
 
 #include <iostream>
 #include "base/globject.h"
-#include "math/point.h"
+#include "math/vector2d.h"
 
 using namespace std;
 
@@ -43,33 +43,27 @@ class Path2D : public GLObject {
 	
 	///Text stream serializers (files)
 	friend ostream& operator << (ostream& os,const Path2D& path);
-
 	DECLARE_MR_OBJECT(Path2D)
 	
 public:
 	
 	Path2D(){;}
-	Path2D(vector<Point2> path){points = path;}
+	Path2D(vector<Vector2D> path){points = path;}
 	~Path2D(){}
-
-	inline void setRGB(unsigned char r,unsigned char g,unsigned char b){rgb[0]=r;rgb[1]=g;rgb[2]=b;}
 	
 	void drawGL();
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
 
 	inline void clear(){points.clear(); speed_profile.clear();}
-	inline void push_back(Point2 p, double s=0){points.push_back(p); speed_profile.push_back(s);}
+	inline void push_back(Vector2D p, double s=0){points.push_back(p); speed_profile.push_back(s);}
 	inline unsigned int size(){return points.size();}
 	inline bool empty(){return points.empty();}
 	
-	vector<Point2> points;
+	vector<Vector2D> points;
 	vector<double> speed_profile;
-	Point2& operator[](int i){return points[i];}
+	Vector2D& operator[](int i){return points[i];}
 	double speed(int i){return speed_profile[i];}
-
-private:
-	int rgb[3];
 	
 };
 

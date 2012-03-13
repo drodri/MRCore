@@ -36,54 +36,39 @@
 #include <cmath>
 #include <vector>
 
-#include "point.h"
 #include "segment.h"
 #include "transformation2d.h"
 #include "segment3d.h"
+#include "vector2d.h"
+#include "segment2d.h"
 
 namespace mr {
 
 using namespace std;
 
 /** Line fitting: doesn't use error (=0) yet  */
-void regression(const std::vector<Point2>& points, double&theta, double&rho, double&error);	
+/*void regression(const std::vector<Vector2D>& points, double&theta, double&rho, double&error);	
 
-Point2 projectPointOntoLine(const Point2& p, const Segment2d& segm);
-Point2 projectPointOntoSegment(const Point2& p, const Segment2d& segm);
+Vector2D projectPointOntoLine(const Vector2D& p, const Segment2D& segm);
+Vector2D projectPointOntoSegment(const Vector2D& p, const Segment2D& segm);
 
-double pointDistanceToLine(const Point2& p, const Segment2d& segm);
-double pointDistanceToSegment(const Point2& p, const Segment2d& segm);
+double pointDistanceToLine(const Vector2D& p, const Segment2D& segm);
 
-bool segmentIntersection(const Segment2d& segm1, const Segment2d& segm2, Point2* intersection);
-bool lineIntersection(const Segment2d& line1, const Segment2d& line2, Point2* intersection);
+bool segmentIntersection(const Segment2D& segm1, const Segment2D& segm2, Vector2D* intersection);
+bool lineIntersection(const Segment2D& line1, const Segment2D& line2, Vector2D* intersection);
 
-vector<Segment2d> recursiveLineFitting(const vector<Point2>& points, double maxErrorAllowed);
+vector<Segment2D> recursiveLineFitting(const vector<Vector2D>& points, double maxErrorAllowed);
 
-inline double distance(const Point2& point1, const Point2& point2)
-{
-	return point1.distanceTo(point2);
-}
+*/
 
 
-
-inline Vector2D vectorFromTo(const Transformation2D& point1, const Transformation2D& point2){
-	Point2o aux = point2 - point1;
+/*
+inline Vector2D vectorFromTo(const Transformation2D& point1, const Transformation2D& Vector2D){
+	Vector2D aux = Vector2D - point1;
 	Vector2D vector(aux.x, aux.y);
 	return vector;
-}
+}*/
 
-inline double distance(const Point3 &p, const Segment3D &s)
-{
-	Vector3D aux1=s.p2-s.p1;
-	Vector3D aux2=p-s.p1;
-	double norma=aux1*aux1;
-	double esc=aux1*aux2;
-	if(esc<=0)return sqrt(aux2*aux2);
-	if(esc>norma)return (p-s.p2).module();
-	double module=sqrt(norma);
-	esc/=module;
-	return sqrt(aux2*aux2-esc*esc);
-}
 
 }// ns
 

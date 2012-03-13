@@ -32,8 +32,9 @@
 
 #include "segment.h"
 
-namespace mr {
 
+namespace mr {
+/*
 // Sedgewick's algorithm (segments intersection)
 int sedgewick_ccw(const Point2& p0, const Point2& p1, const Point2& p2)
 {
@@ -54,5 +55,5 @@ bool sedgewickIntersect(const Point2& s0p0, const Point2& s0p1, const Point2& s1
 	return ((sedgewick_ccw(s0p0, s0p1, s1p0) * sedgewick_ccw(s0p0, s0p1, s1p1)) <= 0)
 	    && ((sedgewick_ccw(s1p0, s1p1, s0p0) * sedgewick_ccw(s1p0, s1p1, s0p1)) <= 0);
 }
-
+*/
 } // namespaces

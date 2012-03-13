@@ -33,10 +33,12 @@
 
 #include <string>
 #include <set>
+#include <assert.h>
+
 using namespace std;
 
 namespace mr {
-void regression(const std::vector<Point2>& points, double&theta, double&rho, double&error)
+/*void regression(const std::vector<Vector2D>& points, double&theta, double&rho, double&error)
 {
 	int n = points.size(); assert(n);
 		double mu_x = 0;
@@ -62,7 +64,7 @@ void regression(const std::vector<Point2>& points, double&theta, double&rho, dou
 		}
 		error = 0;
 }
-Point2 projectPointOntoLineOrSegment(const Point2& p, const Segment2d& segm, bool itIsALine)
+Vector2D projectPointOntoLineOrSegment(const Vector2D& p, const Segment2D& segm, bool itIsALine)
 {
 	double vx = segm.p1.x - segm.p0.x, vy = segm.p1.y - segm.p0.y;
 	double wx = p.x - segm.p0.x, wy = p.y - segm.p0.y;
@@ -74,33 +76,27 @@ Point2 projectPointOntoLineOrSegment(const Point2& p, const Segment2d& segm, boo
 		double b = c1 / c2;
 		double bx = segm.p0.x + b*vx;
 		double by = segm.p0.y + b*vy;
-		return Point2(bx, by);
+		return Vector2D(bx, by);
 	}
 }
 
-Point2 projectPointOntoLine(const Point2& p, const Segment2d& segm)
+Vector2D projectPointOntoLine(const Vector2D& p, const Segment2d& segm)
 {
 	return projectPointOntoLineOrSegment(p, segm, true);
 }
 
-Point2 projectPointOntoSegment(const Point2& p, const Segment2d& segm)
+Vector2D projectPointOntoSegment(const Vector2D& p, const Segment2d& segm)
 {
 	return projectPointOntoLineOrSegment(p, segm, false);
 }
 
-double pointDistanceToLine(const Point2& p, const Segment2d& segm)
+double pointDistanceToLine(const Vector2D& p, const Segment2d& segm)
 {
-	Point2 projectedPoint = projectPointOntoLine(p, segm);
+	Vector2D projectedPoint = projectPointOntoLine(p, segm);
 	return p.distanceTo(projectedPoint);
 }
 
-double pointDistanceToSegment(const Point2& p, const Segment2d& segm)
-{
-	Point2 projectedPoint = projectPointOntoSegment(p, segm);
-	return p.distanceTo(projectedPoint);
-}
-
-vector<Segment2d> recursiveLineFitting(const vector<Point2>& points, double maxErrorAllowed)
+vector<Segment2d> recursiveLineFitting(const vector<Vector2D>& points, double maxErrorAllowed)
 {
 	set<int> endPoints;
 	endPoints.insert(0);
@@ -149,7 +145,7 @@ vector<Segment2d> recursiveLineFitting(const vector<Point2>& points, double maxE
 //  Returns YES if the intersection point was found, and stores that point in X,Y.
 //  Returns NO if there is no determinable intersection point, in which case X,Y will
 //  be unmodified.
-bool segmentIntersection(const Segment2d& segm1, const Segment2d& segm2, Point2* intersection)
+bool segmentIntersection(const Segment2d& segm1, const Segment2d& segm2, Vector2D* intersection)
 {
 	double Ax = segm1.p0.x;	double Ay = segm1.p0.y;
 	double Bx = segm1.p1.x;	double By = segm1.p1.y;
@@ -212,7 +208,7 @@ bool segmentIntersection(const Segment2d& segm1, const Segment2d& segm2, Point2*
 //  Returns false if there is no determinable intersection point, in which case X,Y will
 //  be unmodified.
 
-bool lineIntersection(const Segment2d& line1, const Segment2d& line2, Point2* intersection)
+bool lineIntersection(const Segment2d& line1, const Segment2d& line2, Vector2D* intersection)
 {
 	double Ax = line1.p0.x;	double Ay = line1.p0.y;
 	double Bx = line1.p1.x;	double By = line1.p1.y;
@@ -255,5 +251,5 @@ bool lineIntersection(const Segment2d& line1, const Segment2d& line2, Point2* in
   //  Success.
   return true; 
 }
-
+*/
 } // ns

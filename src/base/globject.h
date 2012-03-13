@@ -42,7 +42,12 @@ namespace mr
 class GLObject :public Object
 {
 public:
+	GLObject(){r=g=b=255;}//White color by default
 	virtual void drawGL()=0;
+
+	inline void setColor(unsigned char rp,unsigned char gp,unsigned char bp){r=rp;g=gp;b=bp;}
+protected:
+	unsigned char r,g,b;
 };
 
 };

@@ -30,6 +30,18 @@ public:
 	friend Segment3D operator*(Transformation3D &t, Segment3D& s){
 		return Segment3D(t*s.p1,t*s.p2);
 	}
+	inline double distance(const Vector3D &p)
+	{
+		Vector3D aux1=p2-p1;
+		Vector3D aux2=p-p1;
+		double norma=aux1*aux1;
+		double esc=aux1*aux2;
+		if(esc<=0)return sqrt(aux2*aux2);
+		if(esc>norma)return (p-p2).module();
+		double module=sqrt(norma);
+		esc/=module;
+		return sqrt(aux2*aux2-esc*esc);
+	}
 };
 
 }

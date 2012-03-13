@@ -84,6 +84,10 @@ double Angle::makePositive(double angle)
 	}
 	return angle;
 }
+double Angle::difference(double a1,double a2)
+{
+	return (Angle(a1)-Angle(a2)).getValue();
+}
 int Angle::getQuadrant(double a){
 	double angle=Angle::makePositive(a);
 	if (angle < PI/2) return 1;

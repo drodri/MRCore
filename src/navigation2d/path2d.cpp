@@ -39,7 +39,7 @@ IMPLEMENT_MR_OBJECT(Path2D)
 
 ostream& operator << (ostream& os,const Path2D& path){
 	os<<path.points.size()<<" ";
-	for (int i=0;i<path.points.size();i++){
+	for (unsigned int i=0;i<path.points.size();i++){
 		os<<" "<<path.points[i].x<<" "<<path.points[i].y;
 	}
 	os << endl;
@@ -49,7 +49,7 @@ ostream& operator << (ostream& os,const Path2D& path){
 void Path2D::writeToStream(Stream& stream){
 	int size=points.size();
 	stream<<size;
-	for (int i=0;i<points.size();i++){
+	for (unsigned int i=0;i<points.size();i++){
 		stream<<points[i].x<<points[i].y;
 	}
 }
@@ -59,22 +59,21 @@ void Path2D::readFromStream(Stream& is){
 	int size; is >> size;
 	points.resize(size);
 	for (int i=0;i<size;i++){
-		int x; is >> x;
-		int y; is >> y;
-		points[i]=Point2(x,y);
+		double x; is >> x;
+		double y; is >> y;
+		points[i]=Vector2D(x,y);
 	}
 }
 
 void Path2D::drawGL(){
 	
-	glColor3ub(rgb[0],rgb[1],rgb[2]);
+	glColor3ub(r,g,b);
 	
 	glBegin(GL_LINE_STRIP);
-	for (int i=0; i<points.size(); i++){
+	for (unsigned int i=0; i<points.size(); i++){
 		glVertex2f(points[i].x,points[i].y);
 	}
 	glEnd();
-	
 }
 
 

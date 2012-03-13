@@ -137,13 +137,15 @@ public:
 	/** Returns L2-norm of vector, squared. */
 	double module2() const { return x * x + y * y; }
 
-
 	/** Returns the squared distance between this point and p. */
-	double distanceTo2(const Vector2D& p) const { return ((*this) - p).module2(); }
+	double distance2(const Vector2D& p) const { return ((*this) - p).module2(); }
 
 	/** Returns the distance between this point and p. */
-	double distanceTo(const Vector2D& p) const { return ((*this) - p).module(); }
-
+	double distance(const Vector2D& p) const { return ((*this) - p).module(); }
+	static inline double distance(const Vector2D& point1, const Vector2D& Vector2D)
+	{
+		return point1.distance(Vector2D);
+	}
 	/** Returns a vector perpendicular to this, with the same module. */
 	Vector2D perpendicularVector() const { return Vector2D(y,-x); }
 
