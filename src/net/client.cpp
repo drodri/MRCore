@@ -20,7 +20,7 @@ int Client::cont_client=0;
 Client::Client()
 {
 	wantReconnect=true;
-	reconnect=false;
+//	reconnect=false;
 
 	cont_client++;
 	num_client=cont_client;	
@@ -41,7 +41,7 @@ int Client::connect(const char address[],int port,bool wantRec)
 	int ret=sock.connect(address,port);	
 
 	wantReconnect=wantRec;
-	reconnect=false;
+//	reconnect=false;
 	if(wantReconnect)
 		connectionThread.Start(&Client::ReconnectLoop,this,NULL);
 
@@ -52,7 +52,8 @@ void* Client::ReconnectLoop(void* d)
 	while(wantReconnect)
 	{
 		Sleep(100);
-		if(!sock.IsValid() && reconnect)
+	//	LOG_INFO("I want reconnect "<<sock.IsValid()<<" rec; "<<reconnect);
+		if(!sock.IsValid()) //&& reconnect)
 		{
 			LOG_INFO("Trying to reconnect");
 			Socket aux_sock;
@@ -99,7 +100,7 @@ string Client::WaitResponse(int timeout)
 	if(-1==ret || ret==0)
 	{
 		LOG_ERROR("Receive error");//sock.Receive outputs LOG
-		reconnect=true;
+//		reconnect=true;
 		return "";
 	}
 	
@@ -107,7 +108,7 @@ string Client::WaitResponse(int timeout)
 	if(!message.addHeader(header,ret))
 	{
 		LOG_ERROR("Incorrect header "<<ret<<" "<<string(header,ret));
-		reconnect=true;
+//		reconnect=true;
 		return "";
 	}
 //	LOG_INFO("Waiting: "<<message.getContentSize());
@@ -117,7 +118,7 @@ string Client::WaitResponse(int timeout)
 	if(!sock.ReceiveBytes(buffer,contentSize,timeout2))
 	{
 		LOG_ERROR("Unable to get full message");
-		reconnect=true;
+//		reconnect=true;
 		delete buffer;
 		return "";
 	}

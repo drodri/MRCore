@@ -47,7 +47,7 @@ protected:
 	string host_addr;
 	int host_port;
 	bool wantReconnect;///Default: false. If we connected and the connection is lost. Get and Post try to reconnect, which can delay e.g. 1second
-	bool reconnect;///A flag to indicate that we lost connection and we want to reconnect
+	//bool reconnect;///A flag to indicate that we lost connection and we want to reconnect
 	int num_client;
 	static int cont_client;
 	Thread<Client> connectionThread;
