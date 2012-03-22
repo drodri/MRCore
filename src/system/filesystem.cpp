@@ -31,9 +31,13 @@
  
 #include "filesystem.h"
 #include "base/logger.h"
-#ifdef _WIN32
-	#include <direct.h>
 
+#ifdef _WIN32
+	#define _WINSOCKAPI_ //prevent the inclusion of sockets
+	#include <windows.h>
+	#include <direct.h>
+#else
+	#include <unistd.h>
 #endif
 
 namespace mr
@@ -65,5 +69,20 @@ namespace mr
 		{
 			return false;
 		}
+	}
+
+	bool changeDirectory(string folder)
+	{	
+		return (0==_chdir(folder.c_str()));
+	}
+	string currentDirectory()
+	{
+		//FIXME: Only for windows now
+		char path[FILENAME_MAX];
+
+		if (!_getcwd(path, sizeof(path) / sizeof(TCHAR)))
+			return "";
+		
+		return string(path);
 	}
 }; //end namespace

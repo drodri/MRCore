@@ -31,12 +31,7 @@
 
 #pragma once
 
-#ifdef _WIN32
-	#define _WINSOCKAPI_ //prevent the inclusion of sockets
-	#include <windows.h>
-#else
 
-#endif
 
 #include <iostream>
 using namespace std;
@@ -45,6 +40,8 @@ namespace mr
 {
 	bool existDirectory(string folder);
 	bool createDirectory(string folder);
+	bool changeDirectory(string folder);
+	string currentDirectory();
 	/**
 	 * Check if a file has a file extension
 	 * @param fileName The full name of the file
@@ -52,5 +49,6 @@ namespace mr
 	 * @return True if the extension param conrrespondons to the extension of the fileName param
 	 */
 	bool isExtensionOfFile(string fileName, string extension);
+
 
 };

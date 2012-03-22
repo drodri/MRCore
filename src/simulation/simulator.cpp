@@ -38,6 +38,8 @@
 #include "hw/wheeledbase/wheeledbaseserver.h"
 #include "hw/lasersensor/lasersensorserver.h"
 #include "base/streamfile.h"
+#include "system/filesystem.h"
+
 #include <fstream>
 
 using namespace std;
@@ -124,18 +126,23 @@ void generateWorld()
 bool Simulator::load(string environment)
 {
 //	generateWorld();
+	string fold=environment.substr(0,environment.find_last_of('/'));
 	ifstream file(environment.c_str());
+	string current=currentDirectory();
+	changeDirectory(fold);
 	string command,worldName;
 	file>>command>>worldName;
 	if(command!="world:")
 	{
 		LOG_ERROR("Bad config file, expected \"world:\"");
+		changeDirectory(current);
 		return false;
 	}
 	StreamFile worldFile(worldName,true);
 	if(!worldFile.good())
 	{
 		LOG_ERROR("Bad world file "<<worldName);
+		changeDirectory(current);
 		return false;
 	}
 	world.readFromStream(worldFile);
@@ -145,6 +152,7 @@ bool Simulator::load(string environment)
 	if(command!="robots:" || numRobots<0 ||numRobots>100)
 	{
 		LOG_ERROR("Bad number of robots, expected \"robots: #\"");
+		changeDirectory(current);
 		return false;
 	}
 	for(int i=0;i<numRobots;i++)
@@ -168,6 +176,7 @@ bool Simulator::load(string environment)
 	if(command!="persons:" || numPeople<0 ||numPeople>100)
 	{
 		LOG_ERROR("Bad number of persons, expected \"persons: #\"");
+		changeDirectory(current);
 		return false;
 	}
 	for(int i=0;i<numPeople;i++)
@@ -180,6 +189,7 @@ bool Simulator::load(string environment)
 
 		world+=person;		
 	}
+	changeDirectory(current);
 	return true;
 }
 
