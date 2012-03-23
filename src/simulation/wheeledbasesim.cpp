@@ -79,7 +79,7 @@ void WheeledBaseSim::simulate(double delta_t)
 		}
 	}
 	//esta es la posicion teórica simple de los encoders en caso de que el robot pueda moverse
-	pose=pose*Pose(delta_x,delta_y,delta_th);
+	pose=pose*Pose2D(delta_x,delta_y,delta_th);
 	
 	//FIXME Miguel: Simulate odometry
 	odom.pose=Transformation3D(pose.x,pose.y,0,0,0,pose.theta.getValue());//getAbsoluteT3D();
@@ -142,7 +142,7 @@ bool WheeledBaseSim::move(double s, double rot)
 	return true;
 }
 
-bool WheeledBaseSim::computeGroundedLocation(Transformation3D &p)
+bool WheeledBaseSim::computeGroundedLocation(Transformation3D &p,World* w)
 {
 //partiendo de p, la modifica para que sea una posición geométricamente válida, suponiendo una
 //gravedad, pero sin consideraciones dinámicas
@@ -157,7 +157,10 @@ bool WheeledBaseSim::computeGroundedLocation(Transformation3D &p)
 	Transformation3D t=getAbsoluteT3D(); //current location
 	for(i=0;i<4;i++)abswheels[i]=p*wheels[i]; 
 	Vector3D uz=(p.getVectorW())*(-1.0);
-	World *world=getWorld();
+	
+	if(w==0)w=getWorld();
+	World* world=w;
+	
 
 	if(world){
 		//desactivo el calculo de intersecciones con mi modelo, para que no vea mis propias piezas

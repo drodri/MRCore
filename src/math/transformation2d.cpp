@@ -7,7 +7,7 @@ namespace mr{
 
 IMPLEMENT_MR_OBJECT(Transformation2D)
 
-ostream& operator << (ostream& os,const Pose& scan)
+ostream& operator << (ostream& os,const Pose2D& scan)
 {
 	os<<scan.x<<" "<<scan.y<<" "<<scan.theta<<" ";
 	return os;

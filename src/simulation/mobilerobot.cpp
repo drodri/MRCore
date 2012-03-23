@@ -42,6 +42,8 @@ MobileRobot::MobileRobot(string n)
 	baseClient=0;
 	baseFile=0;
 	laser3d=0;
+	laser=0;
+	laserClient=0;
 }
 MobileRobot::~MobileRobot()
 {
@@ -108,7 +110,7 @@ bool MobileRobot::getOdometry(Odometry& odom)
 //}
 bool MobileRobot::getLaserData(LaserData& laserD)
 {
-	if(laserClient->getData(laserD))//try to get it
+	if(laserClient!=0 && laserClient->getData(laserD))//try to get it
 	{
 		laser->setData(laserD);
 		return true;

@@ -42,7 +42,7 @@ ostream& operator << (ostream& os,const SimpleEdge& edge){
  ***********  POSES GRAPH FUNCS ************
  ********************************************/
 
-//! dist among two Pose nodes
+//! dist among two Pose2D nodes
 template<> double PoseNode::costTo(PoseNode* dest){
 	return distance(value,dest->value);
 }

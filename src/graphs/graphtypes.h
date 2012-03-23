@@ -21,13 +21,13 @@ typedef AstarSearcher<int, int> AstarSimpleGraphSearcher;
 
 
 //!< Poses Graphs Typedefs
-typedef Graph<Pose,double> PosesGraph;
-typedef Node<Pose,double> PoseNode;
-typedef Edge<Pose,double> CartesianEdge;
-typedef Searcher<Pose, double> PosesGraphSearcher;
-typedef UninformedSearcher<Pose,double> UninformedPosesSearcher;
-typedef DijkstraSearcher<Pose,double> DijkstraPosesSearcher;
-typedef AstarSearcher<Pose,double> AstarPosesSearcher;
+typedef Graph<Pose2D,double> PosesGraph;
+typedef Node<Pose2D,double> PoseNode;
+typedef Edge<Pose2D,double> CartesianEdge;
+typedef Searcher<Pose2D, double> PosesGraphSearcher;
+typedef UninformedSearcher<Pose2D,double> UninformedPosesSearcher;
+typedef DijkstraSearcher<Pose2D,double> DijkstraPosesSearcher;
+typedef AstarSearcher<Pose2D,double> AstarPosesSearcher;
 
 }//end namespace
 

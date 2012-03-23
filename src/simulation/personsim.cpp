@@ -134,7 +134,7 @@ void PersonSim::simulate(double delta_t)
 		}
 	}
 	//esta es la posicion teórica simple de los encoders en caso de que el robot pueda moverse
-//	pose=pose*Pose(delta_x,delta_y,delta_th);
+//	pose=pose*Pose2D(delta_x,delta_y,delta_th);
 
 	int r=rand()%75;
 	if(r==0)

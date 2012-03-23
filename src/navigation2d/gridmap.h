@@ -189,7 +189,7 @@ public:
 	}
 	
 	
-	inline bool isThereCellValueInRay(Pose point, double angle, T value, double maxdistance, RayPoint& rayPoint){
+	inline bool isThereCellValueInRay(Pose2D point, double angle, T value, double maxdistance, RayPoint& rayPoint){
 		return isThereCellValueInRay(point.x, point.y, point.theta+angle, value, maxdistance, rayPoint);
 	}
 	
@@ -228,7 +228,7 @@ public:
 	}
 	
 	
-	inline bool isThereCellValueSetInRay(Pose point, double angle, set<T> valueSet, double maxdistance, RayPoint& rayPoint){
+	inline bool isThereCellValueSetInRay(Pose2D point, double angle, set<T> valueSet, double maxdistance, RayPoint& rayPoint){
 		return isThereCellValueInRay(point.x, point.y, point.theta+angle, valueSet, maxdistance, rayPoint);
 	}
 
@@ -248,7 +248,7 @@ public:
 	}
 
 
-	inline Ray getRay(Pose point, double angle, double distance){
+	inline Ray getRay(Pose2D point, double angle, double distance){
 		return getRay(point.x, point.y, point.theta + angle, distance);
 	}
 

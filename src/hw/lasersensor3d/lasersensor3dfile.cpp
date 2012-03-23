@@ -6,7 +6,7 @@ namespace mr
 {
 
 //Requests: 1 = GetPose, 2 = Move
-//Response. Pose
+//Response. Pose2D
 bool LaserSensor3DFile::getData(LaserData3D& las)
 {
 	

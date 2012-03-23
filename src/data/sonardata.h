@@ -47,11 +47,11 @@ class SonarReading{
 
 public:
 		SonarReading(){};
-		SonarReading(double r, Pose p){ range=r; pose.x=p.x; pose.y=p.y; pose.theta=p.theta;}
+		SonarReading(double r, Pose2D p){ range=r; pose.x=p.x; pose.y=p.y; pose.theta=p.theta;}
 		virtual ~SonarReading(){}
 		
 		double range;
-		Pose pose;
+		Pose2D pose;
 };
 		
 /** The sonar data is referenced to the following coordinates:

@@ -108,6 +108,6 @@ public:
 	void writeToStream(Stream& stream);
 	void readFromStream(Stream& stream);
 };
-
+typedef Transformation3D Pose3D;
 }
 #endif  //__MRCORE__TRANSFORMATION3D_H

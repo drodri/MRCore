@@ -56,7 +56,7 @@ public:
 	bool getOdometry(Odometry& odom);
 	virtual bool move(double speed, double rot);
 
-	bool computeGroundedLocation(Transformation3D &p);
+	bool computeGroundedLocation(Transformation3D &p,World* w=0);
 	//si se quiere que repoduzca el movimiento hay que hacer la operación
 	//matemática que la traspasaría a location... de momento es como un reset de los encoders
 	virtual void setLocation(const Transformation3D &p){setRelativeT3D(p);}
@@ -73,7 +73,7 @@ public:
 	}
 	double getWheelRadius(){return wheel_radius;}
 protected:
-	Pose pose; //encoders... cambiar nombre
+	Pose2D pose; //encoders... cambiar nombre
 	Odometry odom;
 	double speed;
 	double rotSpeed;

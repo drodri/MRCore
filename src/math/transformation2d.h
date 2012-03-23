@@ -174,7 +174,7 @@ public:
 	void readFromStream(Stream& stream);	
 };
 
-typedef Transformation2D Pose;
+typedef Transformation2D Pose2D;
 typedef Transformation2D Point2o;
 inline double distance(const Point2o& point1, const Point2o& point2)
 {

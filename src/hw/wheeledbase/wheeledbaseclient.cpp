@@ -7,7 +7,7 @@ namespace mr
 {
 
 //Requests: 1 = GetPose, 2 = Move
-//Response. Pose
+//Response. Pose2D
 bool WheeledBaseClient::getOdometry(Odometry& pose)
 {
 	string request(1,1);

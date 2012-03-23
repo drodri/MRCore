@@ -7,7 +7,7 @@ namespace mr
 {
 
 //Requests: 1 = takeOff, 2 land, 3:move, 4:getData
-//Response. Pose
+//Response. Pose2D
 bool QuadrotorClient::takeOff()
 {
 	StreamString stream;
