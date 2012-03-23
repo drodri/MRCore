@@ -72,6 +72,10 @@ public:
 		_rotSpeed=rotSpeed;
 	}
 	double getWheelRadius(){return wheel_radius;}
+
+
+	//if the pose is valid, it is stored into t... coution the pose of the wb is modified
+    bool dropWheeledBase(Transformation3D &t, World *w=0);
 protected:
 	Pose2D pose; //encoders... cambiar nombre
 	Odometry odom;

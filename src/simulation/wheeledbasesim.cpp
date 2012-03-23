@@ -209,4 +209,68 @@ bool WheeledBaseSim::computeGroundedLocation(Transformation3D &p,World* w)
 	}
 return true;
 }
+
+	//Methods for validating possible wheeled base positions
+bool WheeledBaseSim::dropWheeledBase(Transformation3D &t, World *w)
+	{
+		
+		if(!w)w=this->getWorld();
+
+		Vector3D wheels[4];
+
+		double dw[4]={10000.0,10000.0,10000.0,10000.0};
+		bool bw[4];
+		//t.position.z+=robot->getWheelRadius();
+		setRelativeT3D(t);
+		getWheelsCenterPoints(wheels);
+		setIntersectable(false);
+		Vector3D uz(0,0,-1);
+		for(int j=0;j<4;j++)bw[j]=w->rayIntersection(wheels[j],uz,dw[j]);
+
+		//si son menos de 3 lo considero como posicion invalida
+		int nc=(bw[0]*1+bw[1]*1+bw[2]*1+bw[3]*1);
+		if(nc<3)return false;
+
+		//selecciono los dos menores: ordeno por indices
+		int ord[4]={0,1,2,3};
+		int i;
+		for(i=1;i<4;i++)if(dw[ord[i]]<dw[ord[0]]){int c=ord[0];ord[0]=ord[i];ord[i]=c;}
+		for(i=2;i<4;i++)if(dw[ord[i]]<dw[ord[1]]){int c=ord[1];ord[1]=ord[i];ord[i]=c;}
+		if(dw[ord[3]]<dw[ord[2]]){int c=ord[2];ord[2]=ord[3];ord[3]=c;}
+		//calculo los punto de contacto teóricos cayendo en z:
+		Vector3D contact[4];
+		for(i=0;i<4;i++)contact[i]=wheels[i]+uz*dw[i];
+		//obtengo el vector del balancín con los dos más altos
+		if(nc==4){
+			Vector3D axis=(contact[ord[0]]-contact[ord[1]]).getUnitaryVector();
+			Vector3D n=t.getVectorW();
+			Vector3D nn=n-axis*(axis*n);
+			//de los dos restantes proyecto sobre la nn y me quedo con el menor valor 
+			double d2=nn*(contact[ord[0]]-contact[ord[2]]);
+			double d3=nn*(contact[ord[0]]-contact[ord[3]]);
+			if(d3<d2)ord[2]=ord[3];
+		}
+		//ahora los tres puntos estan obtenidos: lo transformamos en un sdr coherente con la plataforma
+		bool flag[4]={false,false,false,false};
+		for(i=0;i<3;i++)flag[ord[i]]=true;
+		Vector3D vu,vv,vw,npos;
+		//nueva posición:
+		if(flag[0]&&flag[3])npos=(contact[0]+contact[3])*0.5;
+		if(flag[1]&&flag[2])npos=(contact[1]+contact[2])*0.5;
+		//nueva orientación:
+		if(flag[0]&&flag[2])vu=(contact[0]-contact[2]).getUnitaryVector();
+		if(flag[1]&&flag[3])vu=(contact[1]-contact[3]).getUnitaryVector();
+		if(flag[0]&&flag[1])vv=(contact[0]-contact[1]).getUnitaryVector();
+		if(flag[2]&&flag[3])vv=(contact[2]-contact[3]).getUnitaryVector();
+
+		Transformation3D drop;
+		drop.position=npos;
+		drop.orientation=OrientationMatrix(vu,vv);
+
+		if(Vector3D(0,0,1)*drop.getVectorW()<0.7)return false; //maximum admisible inclination (45º)
+		t=drop;
+		setRelativeT3D(t);
+		return true;
+	}
+
 }; //Namespace mr
