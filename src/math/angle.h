@@ -1,7 +1,7 @@
 /**********************************************************************
  *
  * This code is part of the MRcore project
- * Author:  Alberto Valero
+ * Author:  Diego Rodriguez-Losada, Alberto Valero
  * Parts taken from: OpenRDK: http://openrdk.sf.net
  *
  * MRcore is licenced under the Common Creative License,
@@ -35,6 +35,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <cmath>
+#include <vector>
 #include <iostream>
 #include "mrmath.h"
 
@@ -80,6 +81,8 @@ public:
 
 	//returns the smallest angle a such (a1+a=a2), including normalization. i.e. difference(170º,-170º)=>20º
 	static double difference(double a1,double a2);
+	//computes the average of a set of angles, considering that the average of (170º,-170º) is not 0º, but 180º
+	static double average(vector<double> angles);
 protected:
 //angles normlized in -PI, PI
    double value;

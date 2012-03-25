@@ -76,6 +76,10 @@ public:
 	{
 		return Vector3D(x+p2.x,y+p2.y,z+p2.z);
 	}
+	inline void operator += (const Vector3D& p2) 
+	{
+		x=x+p2.x;y=y+p2.y;z=z+p2.z;
+	}
 	///Escalar product
 	inline double operator *(const Vector3D& p2) const
 	{

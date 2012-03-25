@@ -80,7 +80,7 @@ bool MobileRobot::startLogging(DataLogOut& datalog)
 }
 void MobileRobot::setLocation(const Transformation3D &p)
 {
-	base->setRelativeT3D(p);
+	base->setLocation(p);
 }
 
 bool MobileRobot::getOdometry(Odometry& odom)
@@ -88,7 +88,7 @@ bool MobileRobot::getOdometry(Odometry& odom)
 	if(baseClient)//Connected to a server
 	{
 		if(baseClient->getOdometry(odom)){
-			base->setAbsoluteT3D(odom.pose);
+			base->setLocation(odom.pose);
 			return true;
 		}
 		return false;

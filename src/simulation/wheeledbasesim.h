@@ -59,7 +59,11 @@ public:
 	bool computeGroundedLocation(Transformation3D &p,World* w=0);
 	//si se quiere que repoduzca el movimiento hay que hacer la operación
 	//matemática que la traspasaría a location... de momento es como un reset de los encoders
-	virtual void setLocation(const Transformation3D &p){setRelativeT3D(p);}
+	virtual void setLocation(const Transformation3D &p)
+	{
+		setAbsoluteT3D(p);
+		odometry.pose=p;
+	}
 	virtual void simulate(double delta_t);//time inteval in seconds
 	virtual void drawGL();
 	void getWheelsCenterPoints(Vector3D *w) //4 component vector
@@ -77,8 +81,7 @@ public:
 	//if the pose is valid, it is stored into t... coution the pose of the wb is modified
     bool dropWheeledBase(Transformation3D &t, World *w=0);
 protected:
-	Pose2D pose; //encoders... cambiar nombre
-	Odometry odom;
+	Odometry odometry;
 	double speed;
 	double rotSpeed;
 	//generic data for wheels geometry

@@ -80,6 +80,13 @@ public:
 		aux.orientation*=t.orientation;
 		return (aux);
 	}
+	inline void operator *=(const Transformation3D &t)
+	{
+		Transformation3D aux(*this);
+		aux.position=orientation*(t.position)+position;
+		aux.orientation*=t.orientation;
+		*this=(aux);
+	}
 	
 	inline Vector3D operator * (const Vector3D &v)
 	{

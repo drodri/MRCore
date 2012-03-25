@@ -108,6 +108,7 @@ protected:
 
 //if we want to remotely serve this robot, we use this servers
 	vector<Server*> servers;
+	Pose3D pose;
 };
 class QuadrotorRobot
 {

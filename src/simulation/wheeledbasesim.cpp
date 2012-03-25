@@ -27,7 +27,7 @@ void WheeledBaseSim::writeToStream(Stream& stream)
 	SolidEntity::writeToStream(stream);
 	stream<<width<<large<<wheel_radius<<wheel_width;
 	stream<<speed<<rotSpeed;
-	pose.writeToStream(stream);
+	odometry.writeToStream(stream);
 	
 }
 void WheeledBaseSim::readFromStream(Stream& stream)
@@ -35,7 +35,7 @@ void WheeledBaseSim::readFromStream(Stream& stream)
 	SolidEntity::readFromStream(stream);
 	stream>>width>>large>>wheel_radius>>wheel_width;
 	stream>>speed>>rotSpeed;
-	pose.readFromStream(stream);
+	odometry.readFromStream(stream);
 	//specific initializations
 	wheels[0]=Vector3D(large/2,(width+wheel_width)/2,wheel_radius);
 	wheels[1]=Vector3D(large/2,-(width+wheel_width)/2,wheel_radius);
@@ -79,11 +79,8 @@ void WheeledBaseSim::simulate(double delta_t)
 		}
 	}
 	//esta es la posicion teórica simple de los encoders en caso de que el robot pueda moverse
-	pose=pose*Pose2D(delta_x,delta_y,delta_th);
-	
-	//FIXME Miguel: Simulate odometry
-	odom.pose=Transformation3D(pose.x,pose.y,0,0,0,pose.theta.getValue());//getAbsoluteT3D();
-	odom.timeStamp();
+	odometry.pose*=delta;
+	odometry.timeStamp();
 }
 void WheeledBaseSim::drawGL()
 {
@@ -132,7 +129,7 @@ glPopMatrix();
 }
 bool WheeledBaseSim::getOdometry(Odometry& p)
 {
-	p=odom;
+	p=odometry;
 	return true;
 }
 bool WheeledBaseSim::move(double s, double rot)
@@ -168,7 +165,9 @@ bool WheeledBaseSim::computeGroundedLocation(Transformation3D &p,World* w)
 		for(i=0;i<4;i++)bw[i]=world->rayIntersection(abswheels[i],uz,dw[i]);
 		setIntersectable();
 		//ya tengo calculados los puntos de contacto. descarto los que superan una rueda
-		for(i=0;i<4;i++)if(dw[i]>2*wheel_radius)bw[i]=false;
+		for(i=0;i<4;i++)
+			if(dw[i]>2*wheel_radius)
+				bw[i]=false;
 
 		//si son menos de 3... retorna como posicion invalida
 		int nc=(bw[0]*1+bw[1]*1+bw[2]*1+bw[3]*1);

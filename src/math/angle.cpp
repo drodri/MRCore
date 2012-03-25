@@ -1,7 +1,7 @@
 /**********************************************************************
  *
  * This code is part of the MRcore project
- * Author:  Alberto Valero
+ * Author:  Diego Rodriguez-Losada, Alberto Valero
  * Parts taken from: OpenRDK: http://openrdk.sf.net
  *
  * MRcore is licenced under the Common Creative License,
@@ -142,6 +142,16 @@ bool Angle::operator>=(const Angle& ang) const
 {
     return (value >= ang.value);
 
+}
+double Angle::average(vector<double> angles)
+{
+		double x=0.0,y=0.0;//ax=-PI,min=PI;
+		for(unsigned int i=0;i<angles.size();i++)
+		{
+			x+=cos(angles[i]);
+			y+=sin(angles[i]);
+		}
+		return atan2(y, x);
 }
 
 }

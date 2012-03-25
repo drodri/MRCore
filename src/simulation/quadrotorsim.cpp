@@ -30,7 +30,7 @@ void QuadrotorSim::simulate(double t)
 {
 	Transformation3D position=getAbsoluteT3D();
 	
-	quadrotorData.altitude=position.position.z;
+	quadrotorData.altitude=(float)position.position.z;
 	quadrotorData.battery-=0.001;
 
 	if(quadrotorData.battery<1)//less than 1%
