@@ -44,6 +44,7 @@ MobileRobot::MobileRobot(string n)
 	laser3d=0;
 	laser=0;
 	laserClient=0;
+	laserFile=0;
 }
 MobileRobot::~MobileRobot()
 {

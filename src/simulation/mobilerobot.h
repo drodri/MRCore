@@ -74,7 +74,7 @@ class MobileRobot : public ComposedEntity
 {
 public:
 	MobileRobot(string name);
-	~MobileRobot();
+	virtual ~MobileRobot();
 
 	bool startLogging(DataLogOut& datalog);
 	void setLocation(const Transformation3D &p);
@@ -200,7 +200,7 @@ public:
 		laser->setRelativePosition(Vector3D(0.1,0,0.5));
 
 	}
-	~Doris()
+	virtual ~Doris()
 	{
 		
 	}
@@ -222,7 +222,7 @@ public:
 		laser3d->LinkTo(base);
 		laser3d->setRelativePosition(Vector3D(0.1,0,0.3));
 	}
-	~Nemo()
+	virtual ~Nemo()
 	{
 		
 	}
@@ -241,7 +241,7 @@ public:
 		laser->setRelativePosition(Vector3D(0.1,0,0.4));
 		(*this)+=base;
 	}
-	~Neo()
+	virtual ~Neo()
 	{
 		
 	}
