@@ -136,6 +136,11 @@ bool WheeledBaseSim::move(double s, double rot)
 {
 	speed=s;
 	rotSpeed=rot;
+	if(speed>2.0)speed=2.0;
+	if(speed<-2.0)speed=-2.0;
+	if(rotSpeed>1.0)rotSpeed=1.0;
+	if(rotSpeed<-1.0)rotSpeed=-1.0;
+	
 	return true;
 }
 

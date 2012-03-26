@@ -21,7 +21,7 @@ IF(IS_DIRECTORY ${curdir}/${child})
     FILE(GLOB_RECURSE child_headers ${curdir}/${child}/*.h)
     SET(SOURCES ${SOURCES} ${child_sources})
     SET(HEADERS ${HEADERS} ${child_headers})
-    SOURCE_GROUP(${child} FILES ${child_sources} ${child_headers})
+    SOURCE_GROUP(${child} FILES ${child_sources} ${child_headers}) 
 ENDIF()
 ENDFOREACH()
 
