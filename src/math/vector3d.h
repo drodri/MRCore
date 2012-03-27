@@ -35,6 +35,7 @@
 #include <iostream>
 #include <cmath>
 #include <math.h>
+#include "base/stream.h"
 
 using namespace std;
 
@@ -123,6 +124,9 @@ public:
 	//Punto3D is a typedef of Vector3D
 	inline double distanceTo(const Vector3D& p) const { return ((*this) - p).module(); }
 	
+	//Serializers
+	void writeToStream(Stream& stream){stream<<x<<y<<z;}
+	void readFromStream(Stream& stream){stream>>x>>y>>z;}
 };
 
 }
