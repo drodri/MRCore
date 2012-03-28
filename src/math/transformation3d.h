@@ -114,6 +114,13 @@ public:
 
 	void writeToStream(Stream& stream);
 	void readFromStream(Stream& stream);
+	//Metric based module taking into account angles weighted by L2
+	double module()
+	{
+		double L2=2,r,p,y;
+		orientation.getRPY(r,p,y);
+		return sqrt(position.x*position.x+position.y*position.y+position.z*position.z+(r*r+p*p+y*y)*L2);
+	}
 };
 typedef Transformation3D Pose3D;
 }

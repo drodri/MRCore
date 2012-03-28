@@ -42,8 +42,8 @@ bool DataLog::sendData(DataSource* requester,Data* data)
 }
 Data* DataLog::requestData(DataSource* requester)
 {
-//	Object* obj=mapFiles[requester]->read();//TODO: COmplete
-//	Data* d=dynamic_cast<Data*>( obj);
-	return 0;
+	Object* obj=mapFiles[requester]->read();//TODO: COmplete
+	Data* d=dynamic_cast<Data*>( obj);
+	return d;
 }
 }; //Namespace mr

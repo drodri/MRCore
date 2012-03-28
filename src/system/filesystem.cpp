@@ -58,7 +58,8 @@ namespace mr
 	}
 	bool existDirectory(string folder)
 	{
-		return false;
+		//FIXME
+		return true;
 	}
 
 	bool isExtensionOfFile(string fileName, string extension){

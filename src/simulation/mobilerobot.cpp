@@ -45,6 +45,7 @@ MobileRobot::MobileRobot(string n)
 	laser=0;
 	laserClient=0;
 	laserFile=0;
+	datalog=0;
 }
 MobileRobot::~MobileRobot()
 {
@@ -59,25 +60,43 @@ MobileRobot::~MobileRobot()
 
 	delete baseFile;
 	delete laserFile;
+	delete datalog;
 
 //		delete base;
 //		for(int i=0;i<lasers.size();i++)
 //			delete lasers[i];	
 }
-bool MobileRobot::startLogging(DataLogOut& datalog)
+bool MobileRobot::startLogging(string folder)
 {
-	if(!datalog.isOpen())
+	datalog=new DataLogOut();
+	if(!datalog->open(folder))
+	{
+		LOG_ERROR("Unable to open folder with log data");
 		return false;
+	}
 
 	baseFile=new WheeledBaseFile();
-	baseFile->saveDataTo(&datalog,"base");
+	baseFile->saveDataTo((DataLogOut*)datalog,"base");
 	
 	laserFile=new LaserSensorFile;
-	stringstream str;str<<"laser";
-	string name=str.str();
+	laserFile->saveDataTo((DataLogOut*)datalog,"laser");
 //FIXME	s->saveDataTo(&datalog,name);
 	
 	return true;
+}
+bool MobileRobot::connectLog(string folder)
+{
+	datalog= new DataLogIn();;
+	if(!datalog->open(folder))
+	{
+		LOG_ERROR("Unable to open folder with log data");
+		return false;
+	}
+	baseFile=new WheeledBaseFile;
+	baseFile->loadDataFrom((DataLogIn*)datalog,"base");
+	
+	laserFile=new LaserSensorFile;
+	laserFile->loadDataFrom((DataLogIn*)datalog,"laser");
 }
 void MobileRobot::setLocation(const Transformation3D &p)
 {
@@ -90,11 +109,29 @@ bool MobileRobot::getOdometry(Odometry& odom)
 	{
 		if(baseClient->getOdometry(odom)){
 			base->setLocation(odom.pose);
+			if(baseFile)baseFile->setOdometry(odom);
 			return true;
 		}
 		return false;
 	}
-	return base->getOdometry(odom);
+	if(baseFile)
+	{
+		bool b=baseFile->getOdometry(odom);
+		base->setLocation(odom.pose);
+		return b;
+	}
+	return false;
+}
+bool MobileRobot::getPose3D(Pose3D& odom)
+{
+	if(baseClient)//Connected to a server
+	{
+		if(baseClient->getPose3D(odom)){
+			return true;
+		}
+		return false;
+	}
+	return base->getPose3D(odom);
 }
 //void MobileRobot::invalidateLaserData()
 //{
@@ -114,7 +151,14 @@ bool MobileRobot::getLaserData(LaserData& laserD)
 	if(laserClient!=0 && laserClient->getData(laserD))//try to get it
 	{
 		laser->setData(laserD);
+		if(laserFile)laserFile->setData(laserD);
 		return true;
+	}
+	if(laserFile)
+	{
+		bool b=laserFile->getData(laserD);
+		laser->setData(laserD);
+		return b;
 	}
 	return false;
 

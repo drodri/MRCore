@@ -44,9 +44,9 @@ public:
 	//Wheeled robot interface realization
 	bool getOdometry(Odometry& pose);
 	bool move(double speed, double rot);
+	bool getPose3D(Pose3D& pose);
 
-	//do not handling data
-	void handleData(const std::string &){}
+
 
 };
 

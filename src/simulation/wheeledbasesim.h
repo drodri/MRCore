@@ -55,6 +55,7 @@ public:
 	//Wheeled robot interface realization
 	bool getOdometry(Odometry& odom);
 	virtual bool move(double speed, double rot);
+	virtual bool getPose3D(Pose3D& pose){pose=getAbsoluteT3D();return true;}
 
 	bool computeGroundedLocation(Transformation3D &p,World* w=0);
 	//si se quiere que repoduzca el movimiento hay que hacer la operación

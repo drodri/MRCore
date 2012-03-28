@@ -45,7 +45,7 @@ public:
 	//read from datalog
 	bool getOdometry(Odometry& pose);
 	bool move(double speed, double rot);
-
+	bool getPose3D(Pose3D& pose){return true;}//FIXME: Complete!
 	//save to datalog
 	bool setOdometry(const Odometry& pose);
 

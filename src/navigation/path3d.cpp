@@ -64,7 +64,7 @@ void Path3D::readFromStream(Stream& is){
 }
 
 void Path3D::drawGL(){
-	
+	glDisable(GL_LIGHTING);
 	glColor3ub(r,g,b);
 	
 	glBegin(GL_LINE_STRIP);

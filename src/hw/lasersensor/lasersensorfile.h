@@ -42,7 +42,8 @@ class LaserSensorFile : public LaserSensor, public DataSource
 {
 public:
 	virtual bool getData(LaserData& d);
-
+		//save to datalog
+	virtual bool setData(const LaserData& d);
 
 };
 

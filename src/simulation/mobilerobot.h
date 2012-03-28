@@ -76,12 +76,13 @@ public:
 	MobileRobot(string name);
 	virtual ~MobileRobot();
 
-	bool startLogging(DataLogOut& datalog);
+	bool startLogging(string folder);
 	void setLocation(const Transformation3D &p);
 
 	//
 	bool getOdometry(Odometry& odom);
 	bool getLaserData(LaserData& laser);
+	bool getPose3D(Pose3D& pose);
 	bool getLaserData3D(LaserData3D& laser);
 //	void invalidateLaserData();
 
@@ -89,6 +90,7 @@ public:
 ///If this robot is to be served remotely 
 	void startServers(int port);
 	void connectClients(string ip,int port);
+	bool connectLog(string folder);
 
 protected:
 	string name;
@@ -109,6 +111,7 @@ protected:
 //if we want to remotely serve this robot, we use this servers
 	vector<Server*> servers;
 	Pose3D pose;
+	DataLog* datalog;
 };
 class QuadrotorRobot
 {

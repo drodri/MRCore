@@ -34,6 +34,7 @@ bool WheeledBaseClient::getOdometry(Odometry& pose)
 
 	return true;
 }
+
 bool WheeledBaseClient::move(double speed, double rot)
 {
 	StreamString stream;
@@ -56,6 +57,33 @@ bool WheeledBaseClient::move(double speed, double rot)
 
 	return true;
 }
+bool WheeledBaseClient::getPose3D(Pose3D& pose)
+{
+	string request(1,3);
+	string response;//protocol character=1 means Ping
+	int ret=sendRequest(request,response,50);
+	if(ret!=COMM_OK)
+	{
+		return false;
+	}
+	else 
+	{
+		StreamString str(response);
+		Object* ob=str.read();//FIXME stream class
+		Odometry* p=dynamic_cast<Odometry*> (ob);
+		if(p)
+		{
+			pose=p->pose;	
+		}
+		else
+		{
+			LOG_ERROR("Error message getPose3D received not pose");	
+			return false;
+		}
+		delete ob;
+	}
 
+	return true;
+}
 
 }; //Namespace mr

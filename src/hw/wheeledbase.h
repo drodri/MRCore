@@ -43,6 +43,8 @@ class WheeledBase
 public:
 	virtual bool getOdometry(Odometry& odom)=0;
 	virtual bool move(double speed, double rot)=0;
+	//this method can be used to query the real (simulated) pose of the robot
+	virtual bool getPose3D(Pose3D& pose)=0;
 
 
 };

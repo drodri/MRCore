@@ -33,6 +33,14 @@ string WheeledBaseServer::handleRequest(const string& msg)
 		robot->move(va,vg);
 		return string();
 	}
+	else if(command==3)//move
+	{
+		Odometry p;
+		robot->getPose3D(p.pose);
+		StreamString str;
+		str.write(&p);
+		return str.getString();//FIXME: Complete Stream class
+	}
 	return string("Error protocolo comand not recognized");
 }
 	
