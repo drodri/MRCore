@@ -74,15 +74,23 @@ namespace mr
 
 	bool changeDirectory(string folder)
 	{	
-		return (0==_chdir(folder.c_str()));
+		#ifdef _WIN32
+			return (0==_chdir(folder.c_str()));
+		#else
+			return (0==chdir(folder.c_str()));
+		#endif
 	}
 	string currentDirectory()
 	{
 		//FIXME: Only for windows now
 		char path[FILENAME_MAX];
-
-		if (!_getcwd(path, sizeof(path) / sizeof(TCHAR)))
-			return "";
+		#ifdef _WIN32
+			if (!_getcwd(path, sizeof(path) / sizeof(TCHAR)))
+				return "";
+		#else
+			if (!getcwd(path, sizeof(path) / sizeof(wchar_t)))
+				return "";
+		#endif
 		
 		return string(path);
 	}
