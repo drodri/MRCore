@@ -123,7 +123,7 @@ typename GridMap<T>::Ray GridMap<T>::getRay(double x, double y, double angle, do
 template <class T>
 typename GridMap<T>::Ray GridMap<T>::getRay(Vector2D pointi, Vector2D pointf){
 
-	double distance = pointi.distanceTo(pointf);
+	double distance = pointi.distance2(pointf);
 	Vector2D vector = pointf - pointi;
 	double angle = vector.argument();
 	
