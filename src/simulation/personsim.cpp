@@ -5,6 +5,8 @@
 #include "../world/spherepart.h"
 #include "world/world.h"
 
+#include <cstdlib>
+
 namespace mr
 {
 IMPLEMENT_MR_OBJECT(PersonSim)

@@ -202,9 +202,10 @@ public:
 	 * @param rayPoint. If the pixel is found in rayPoint the information of the pixel is stored
 	 * @return true if a pixel of value value is found
 	 */
-	inline bool isThereCellValueBetweenPoints(Vector2D point1, Vector2D Vector2D, T value, RayPoint& rayPoint){
-		Vector2D directionVector = Vector2D - point1;
-		return isThereCellValueInRay(point1.x, point1.y, directionVector.argument(), value, point1.distanceTo(Vector2D), rayPoint);
+	inline bool isThereCellValueBetweenPoints(Vector2D point1, Vector2D Vector2D, T value, RayPoint& rayPoint)
+	{
+		mr::Vector2D directionVector = Vector2D - point1;
+		return isThereCellValueInRay(point1.x, point1.y, directionVector.argument(), value, point1.distance2(Vector2D), rayPoint);
 	}
 	
 	inline bool isThereCellValueBetweenPoints(double x1, double y1, double x2, double y2, T value, RayPoint& rayPoint){
