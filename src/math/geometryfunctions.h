@@ -36,7 +36,6 @@
 #include <cmath>
 #include <vector>
 
-#include "segment.h"
 #include "transformation2d.h"
 #include "segment3d.h"
 #include "vector2d.h"
