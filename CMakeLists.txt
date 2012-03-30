@@ -34,7 +34,8 @@ IF(WIN32)
 	ENDIF(OPENGL_FOUND)
 ENDIF(WIN32)
 #################################################
-
+SET(GLUT_LIBRARIES glut)
+#SET(JPEG_LIBRARIES glut)
 
 ########### To define a default install directory in Windows
 IF (WIN32)
