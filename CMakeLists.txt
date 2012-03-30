@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.8)
 
 PROJECT(MRCore)
 
@@ -18,23 +18,6 @@ SET(MRCORE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Dependencias
 INCLUDE(${MRCORE_CMAKE_MODULE_PATH}/deps.cmake) 
-
-#################################################
-#### Windows work-arounds for the dependencies ##
-#FIXME
-
-IF(WIN32)
-	#OpenGL
-	IF (OPENGL_FOUND)
-		MESSAGE(STATUS "Your are in Windows. And OpenGL was found with FindOPENGL.cmake")
-	ELSE(OPENGL_FOUND)
-		MESSAGE(STATUS "Your are in Windows. And OpenGL was NOT found with FindOPENGL.cmake. I will make it around")
-		SET(OPENGL_FOUND 1)
-		SET(OPENGL_LIBRARIES opengl32 glu32 )
-	ENDIF(OPENGL_FOUND)
-ENDIF(WIN32)
-#################################################
-
 
 ########### To define a default install directory in Windows
 IF (WIN32)

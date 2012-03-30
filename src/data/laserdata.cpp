@@ -48,6 +48,7 @@ LaserData::LaserData()
 	drawGLMode=0;
 	//drawGLColor=YELLOW;
 	numSteps=0;
+	sigma=0.1;
 }
 void LaserData::writeToStream(Stream& stream)
 {

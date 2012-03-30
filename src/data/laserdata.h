@@ -79,7 +79,7 @@ public:
 	void setProperties(double _startangle, double _step, int _numSteps, double _maxrange=10.0, double sigma=0);
 	bool setRange(int index, double range);
 	double getRange(int index);
-	double getMaxRange(){return maxRange;}
+	double getMaxRange()const{return maxRange;}
 	/** gets vector of angles **/
 	vector<Angle>	getAngles() const;
 	/** gets vector of ranges **/
@@ -98,6 +98,7 @@ public:
 	int drawGLMode;
 	//int drawGLColor;
 	virtual void drawGL();//<OpenGL draw
+	double getSigma(){return sigma;}
 		
 protected:
 	//the data basic parametrization, compulsory. The angle evolves ccw (positive direction)
