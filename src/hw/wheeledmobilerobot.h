@@ -33,6 +33,8 @@
 #define __WHEELED_MOBILE_ROBOT_H_
 
 #include "data/odometry.h"
+#include "wheeledbase.h"
+#include "lasersensor.h"
 
 namespace mr
 {
