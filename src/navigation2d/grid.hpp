@@ -32,7 +32,7 @@
 #include "grid.h"
 
 template <class T>
-void Grid<typename T>::allocate(int w,int h)
+void Grid<T>::allocate(int w,int h)
 {
 	free();
 	data=new T[w*h];
@@ -44,7 +44,7 @@ void Grid<typename T>::allocate(int w,int h)
 	height=h;
 }
 template <class T>
-void Grid<typename T>::free()
+void Grid<T>::free()
 {
 	delete data;
 	delete m;
@@ -52,7 +52,7 @@ void Grid<typename T>::free()
 }
 	
 template <class T>
-void Grid<typename T>::init(int w,int h, double r, int ox,int oy)
+void Grid<T>::init(int w,int h, double r, int ox,int oy)
 {
 	allocate(w,h);
 	resolution=r;
@@ -60,7 +60,7 @@ void Grid<typename T>::init(int w,int h, double r, int ox,int oy)
 	offset_y=oy;
 }
 template <class T>
-void Grid<typename T>::set(T value)
+void Grid<T>::set(T value)
 {
 	for(int i=0;i<width*height;i++)
 		data[i]=value;
