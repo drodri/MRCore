@@ -1,4 +1,4 @@
-A First Level Header
+MRCore site!!!
 ====================
 
 A Second Level Header
@@ -20,4 +20,3 @@ dog's back.
 > ## This is an H2 in a blockquote
 
 
-<html><head><title>index.html</title></head><body>MRCore site!!!</body></html>
