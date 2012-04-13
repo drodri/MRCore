@@ -55,7 +55,7 @@ namespace mr
 			}
 			return true;
 		#else
-		   int ret=mkdir(folder.c_str(),0755);
+		   int ret=mkdir(folder.c_str(),0777);
 		   cout << "ret " << ret << endl;
 			if(ret!=0)
 			{
