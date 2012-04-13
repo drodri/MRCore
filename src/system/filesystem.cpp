@@ -38,6 +38,8 @@
 	#include <direct.h>
 #else
 	#include <unistd.h>
+	#include <sys/stat.h>
+   #include <sys/types.h>
 #endif
 
 namespace mr
@@ -53,7 +55,14 @@ namespace mr
 			}
 			return true;
 		#else
+		   int ret=mkdir(folder.c_str(),0755);
+		   cout << "ret " << ret << endl;
+			if(ret!=0)
+			{
+				LOG_ERROR("Could not create directory: "<<folder);
 				return false;
+			}
+			return true;
 		#endif
 	}
 	bool existDirectory(string folder)
