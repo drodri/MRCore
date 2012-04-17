@@ -197,10 +197,11 @@ public:
 	{
 		base=new PatrolbotSim;
 		laser=new LMS200Sim;
-		laser->setDrawGLMode(0);
+		//laser->setDrawGLMode(0);
 		laser->LinkTo(base);
 		laser->setColor(100,0,150);
 		laser->setRelativePosition(Vector3D(0.1,0,0.5));
+		(*this)+=base;
 
 	}
 	virtual ~Doris()
