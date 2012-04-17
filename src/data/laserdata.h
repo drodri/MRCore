@@ -79,11 +79,7 @@ public:
 	void setProperties(double _startangle, double _step, int _numSteps, double _maxrange=10.0, double sigma=0);
 	bool setRange(int index, double range);
 	double getRange(int index);
-<<<<<<< HEAD
-	double getMaxRange() const {return maxRange;}
-=======
 	double getMaxRange()const{return maxRange;}
->>>>>>> upstream/master
 	/** gets vector of angles **/
 	vector<Angle>	getAngles() const;
 	/** gets vector of ranges **/
