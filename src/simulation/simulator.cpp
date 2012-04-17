@@ -169,6 +169,14 @@ bool Simulator::load(string environment)
 			neo->startServers(port);
 			//neo->move(rand()/(float)RAND_MAX,rand()/(float)RAND_MAX);
 		}
+		if(robotName=="doris")
+		{
+			Doris* doris=new Doris();
+			world+=doris;
+			doris->setLocation(Transformation3D(x,y,z));
+			doris->startServers(port);
+		}
+		
 	}
 	
 	int numPeople;
