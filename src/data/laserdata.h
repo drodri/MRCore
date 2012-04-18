@@ -98,7 +98,7 @@ public:
 	int drawGLMode;
 	//int drawGLColor;
 	virtual void drawGL();//<OpenGL draw
-	double getSigma(){return sigma;}
+	double getSigma() const{return sigma;}
 		
 protected:
 	//the data basic parametrization, compulsory. The angle evolves ccw (positive direction)
