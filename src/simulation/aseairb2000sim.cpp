@@ -643,7 +643,7 @@ bool AseaIRB2000Sim::ASEAIRB2000inverseKinematics(Transformation3D t06, vector<d
 
 //Adjust the values of the first three joints depending on configuration
 
-	if( _conf & ELBOWDOWN )//Si _conf tiene solamente el bit de ELBOWDOWN
+	if( _conf & ASEAIRB_ELBOWDOWN )//Si _conf tiene solamente el bit de ELBOWDOWN
 	{
 		theta1=-PI-theta1;
 		theta2*=(-1);
@@ -653,11 +653,11 @@ bool AseaIRB2000Sim::ASEAIRB2000inverseKinematics(Transformation3D t06, vector<d
 		else
 			theta0=theta0+PI;
 	}
-	if(_conf & FACEBACK )//Si _conf tiene solamente el bit FACEBACK
+	if(_conf & ASEAIRB_FACEBACK )//Si _conf tiene solamente el bit FACEBACK
 	{
 		theta0*=(-1);
 	}
-	if( (_conf & FACEBACK) && (_conf & ELBOWDOWN ) )//Si _conf tiene el bit FACEBACK y el bit ELBOWDOWN
+	if( (_conf & ASEAIRB_FACEBACK) && (_conf & ASEAIRB_ELBOWDOWN ) )//Si _conf tiene el bit FACEBACK y el bit ELBOWDOWN
 	{
 		if(q_current[0]<-PI/2)
 			theta0=-PI-theta0;
@@ -690,7 +690,7 @@ bool AseaIRB2000Sim::ASEAIRB2000inverseKinematics(Transformation3D t06, vector<d
 	double theta5 = atan2(m36[2][1] , -m36[2][0]);
 
 //CONFIGURATIONS
-	if(_conf == (INIT))//Conf: 128
+	if(_conf == (ASEAIRB_INIT))//Conf: 128
 	{
 		if(PI/2 < q_current[3])
 		{
@@ -712,7 +712,7 @@ bool AseaIRB2000Sim::ASEAIRB2000inverseKinematics(Transformation3D t06, vector<d
 			else if(q_current[5] < -PI)theta5 = theta5-2*PI;
 		}
 	}
-	else if(_conf == (INIT|FACEBACK))//Conf: 129
+	else if(_conf == (ASEAIRB_INIT|ASEAIRB_FACEBACK))//Conf: 129
 	{
 		if(q_current[3] < -PI/2)
 		{
@@ -741,7 +741,7 @@ bool AseaIRB2000Sim::ASEAIRB2000inverseKinematics(Transformation3D t06, vector<d
 				theta5=theta5+PI;
 		}
 	}
-	else if(_conf == (INIT|ELBOWDOWN))//Conf: 130
+	else if(_conf == (ASEAIRB_INIT|ASEAIRB_ELBOWDOWN))//Conf: 130
 	{
 		if(q_current[3] < -PI/2)
 		{
@@ -769,7 +769,7 @@ bool AseaIRB2000Sim::ASEAIRB2000inverseKinematics(Transformation3D t06, vector<d
 				theta5=theta5+PI;
 		}
 	}
-	else if(_conf == (INIT|FACEBACK|ELBOWDOWN))//Conf: 131
+	else if(_conf == (ASEAIRB_INIT|ASEAIRB_FACEBACK|ASEAIRB_ELBOWDOWN))//Conf: 131
 	{
 		if(q_current[3] < -PI/2)
 		{
@@ -798,7 +798,7 @@ bool AseaIRB2000Sim::ASEAIRB2000inverseKinematics(Transformation3D t06, vector<d
 				theta5=theta5+PI;
 		}
 	}
-	else if(_conf == (INIT|WRISTDOWN))//Conf: 132
+	else if(_conf == (ASEAIRB_INIT|ASEAIRB_WRISTDOWN))//Conf: 132
 	{
 		if(q_current[3] < -PI)
 		{
@@ -849,7 +849,7 @@ bool AseaIRB2000Sim::ASEAIRB2000inverseKinematics(Transformation3D t06, vector<d
 				theta5=theta5+2*PI;
 		}
 	}
-	else if(_conf == (INIT|FACEBACK|WRISTDOWN))//Conf: 133
+	else if(_conf == (ASEAIRB_INIT|ASEAIRB_FACEBACK|ASEAIRB_WRISTDOWN))//Conf: 133
 	{
 		if(q_current[3] < -PI)
 		{
@@ -904,7 +904,7 @@ bool AseaIRB2000Sim::ASEAIRB2000inverseKinematics(Transformation3D t06, vector<d
 				theta5=theta5+2*PI;
 		}
 	}
-	else if(_conf == (INIT|ELBOWDOWN|WRISTDOWN))//Conf: 134
+	else if(_conf == (ASEAIRB_INIT|ASEAIRB_ELBOWDOWN|ASEAIRB_WRISTDOWN))//Conf: 134
 	{
 		if(q_current[3] < -PI)
 		{
@@ -955,7 +955,7 @@ bool AseaIRB2000Sim::ASEAIRB2000inverseKinematics(Transformation3D t06, vector<d
 				theta5=theta5+2*PI;
 		}
 	}
-	else if(_conf == (INIT|FACEBACK|ELBOWDOWN|WRISTDOWN))//Conf: 135
+	else if(_conf == (ASEAIRB_INIT|ASEAIRB_FACEBACK|ASEAIRB_ELBOWDOWN|ASEAIRB_WRISTDOWN))//Conf: 135
 	{
 		if(q_current[3] < -PI)
 		{
@@ -1086,19 +1086,19 @@ bool AseaIRB2000Sim::getConfigurationOf(const vector<double> &_q, unsigned char 
 bool AseaIRB2000Sim::configuration(unsigned char _conf, double& _f, double& _e, double& _w)
 {
 	_f=_e=_w=-1.0;
-	if(_conf == INIT)return true;
-	if(_conf & FACEBACK)_f=1.0;
-	if(_conf & ELBOWDOWN)_e=1.0;
-	if(_conf & WRISTDOWN)_w=1.0;
+	if(_conf == ASEAIRB_INIT)return true;
+	if(_conf & ASEAIRB_FACEBACK)_f=1.0;
+	if(_conf & ASEAIRB_ELBOWDOWN)_e=1.0;
+	if(_conf & ASEAIRB_WRISTDOWN)_w=1.0;
 	return true;
 }
 
 bool AseaIRB2000Sim::configuration(double _f, double _e, double _w, unsigned char &_conf)
 {
-	_conf = INIT;
-	if( _f == 1.0)_conf = (_conf|FACEBACK);
-	if( _e == 1.0)_conf = (_conf|ELBOWDOWN);
-	if( _w == 1.0)_conf = (_conf|WRISTDOWN);
+	_conf = ASEAIRB_INIT;
+	if( _f == 1.0)_conf = (_conf|ASEAIRB_FACEBACK);
+	if( _e == 1.0)_conf = (_conf|ASEAIRB_ELBOWDOWN);
+	if( _w == 1.0)_conf = (_conf|ASEAIRB_WRISTDOWN);
 	return true;
 }
 

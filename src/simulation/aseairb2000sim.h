@@ -37,14 +37,14 @@
 #include "../world/robotsim.h"
 
 
-const int INIT=0x80;
-const int FACEBACK=0x01;
-const int ELBOWDOWN=0x02;
-const int WRISTDOWN=0x04;
+
 
 namespace mr
 {
-
+const int ASEAIRB_INIT=0x80;
+const int ASEAIRB_FACEBACK=0x01;
+const int ASEAIRB_ELBOWDOWN=0x02;
+const int ASEAIRB_WRISTDOWN=0x04;
 class AseaIRB2000Sim : public RobotSim
 {
 	DECLARE_MR_OBJECT(AseaIRB2000Sim)
