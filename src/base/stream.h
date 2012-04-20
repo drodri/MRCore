@@ -55,6 +55,17 @@ class Stream
 public:
 	void write(Object* pObj);
 	Object* read();
+	template<class T> bool read(T* object)
+	{
+		string className;
+		(*this)>>className;
+		if(object->getClassName()!=className)
+			return false;
+
+		object->readFromStream(*this);
+		return true;
+	}
+
 	Stream& operator << (Object* pObj);///<alias to write
 	Stream& operator >> (Object*& pObj);///<alias to read
 

@@ -114,6 +114,8 @@ Object* Stream::read()
 		pObj->readFromStream(*this);
 	return pObj;
 }
+
+
 Stream& Stream::operator << ( Object* pObj)
 {
 	write(pObj);
