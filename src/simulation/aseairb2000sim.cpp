@@ -45,6 +45,11 @@ namespace mr
 {
 IMPLEMENT_MR_OBJECT(AseaIRB2000Sim)
 
+void AseaIRB2000Sim::writeToStream(Stream& stream)
+ {SolidEntity::writeToStream(stream);}
+void AseaIRB2000Sim::readFromStream(Stream& stream)
+ {SolidEntity::readFromStream(stream);}
+
 AseaIRB2000Sim::AseaIRB2000Sim()
 {
 	name="ASEA IRB 2000";

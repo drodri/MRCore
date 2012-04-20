@@ -51,8 +51,8 @@ class Puma560Sim : public RobotSim
 
 public:
 	//Serializers
-	virtual void writeToStream(Stream& stream){}
-	virtual void readFromStream(Stream& stream){}
+	virtual void writeToStream(Stream& stream);
+	virtual void readFromStream(Stream& stream);
 
 	//Constructor
 	Puma560Sim(void);

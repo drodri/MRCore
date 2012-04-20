@@ -19,12 +19,12 @@ QuadrotorSim::QuadrotorSim(double rad){
 //serializers
 void QuadrotorSim::writeToStream(Stream& stream)
 {
-	
+	SolidEntity::writeToStream(stream);
 	
 }
 void QuadrotorSim::readFromStream(Stream& stream)
 {
-	
+	SolidEntity::readFromStream(stream);
 }
 void QuadrotorSim::simulate(double t)
 {

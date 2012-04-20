@@ -42,13 +42,23 @@ IMPLEMENT_MR_OBJECT(SpherePart)
 
 void SpherePart::writeToStream(Stream& stream)
 {
-	/*stream<<normal.x<<normal.y<<normal.z;
-	stream<<origin.x<<origin.y<<origin.z;*/
+	PrimitiveSolidEntity::writeToStream(stream);
+	stream<<radius;
+	stream<<meridian;
+	stream<<parallel;
+
 }
 void SpherePart::readFromStream(Stream& stream)
 {
-	/*stream>>normal.x>>normal.y>>normal.z;
-	stream>>origin.x>>origin.y>>origin.z;*/
+	PrimitiveSolidEntity::readFromStream(stream);
+	double rad;
+	int mer,par;
+	stream>>rad;
+	stream>>mer;
+	stream>>par;
+	setNumVertex(mer,par);
+	setRadius(rad);
+
 }
 
 ostream& operator<<(ostream& os, const SpherePart& s)

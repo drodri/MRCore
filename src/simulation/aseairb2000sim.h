@@ -51,8 +51,8 @@ class AseaIRB2000Sim : public RobotSim
 
 public:
 	//Serializers
-	virtual void writeToStream(Stream& stream){}
-	virtual void readFromStream(Stream& stream){}
+	virtual void writeToStream(Stream& stream);
+	virtual void readFromStream(Stream& stream);
 
 	//Constructor
 	AseaIRB2000Sim(void);
