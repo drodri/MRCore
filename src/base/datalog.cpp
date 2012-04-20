@@ -10,6 +10,15 @@ DataLog::DataLog()
 {
 
 }
+DataLog::~DataLog()
+{
+	for(map<DataSource*, StreamFile*>::iterator it=mapFiles.begin();it!=mapFiles.end();it++)
+	{
+		delete it->first;
+		delete it->second;
+	}
+	mapFiles.clear();
+}
 bool DataLog::registerHW(DataSource*  hw,string name,bool read)
 {
 	string filename=folder+"/"+name;

@@ -48,6 +48,7 @@ class DataLog
 {
 	friend class DataSource;
 public:
+	virtual ~DataLog();
 	bool isOpen(){return folder!="";}
 	bool sendData(DataSource* requester,Data* data);
 	Data* requestData(DataSource* requester);

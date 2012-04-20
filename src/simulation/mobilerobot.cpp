@@ -57,7 +57,6 @@ MobileRobot::~MobileRobot()
 	}
 
 	delete laserClient;
-
 	delete baseFile;
 	delete laserFile;
 	delete datalog;
@@ -148,11 +147,16 @@ bool MobileRobot::getPose3D(Pose3D& odom)
 //}
 bool MobileRobot::getLaserData(LaserData& laserD)
 {
-	if(laserClient!=0 && laserClient->getData(laserD))//try to get it
+	if(laserClient!=0)//if connected to server
 	{
-		laser->setData(laserD);
-		if(laserFile)laserFile->setData(laserD);
-		return true;
+		if(laserClient->getData(laserD))//try to get it
+		{
+			laser->setData(laserD);
+			if(laserFile)
+				laserFile->setData(laserD);
+			return true;
+		}
+		return false;
 	}
 	if(laserFile)
 	{
