@@ -44,6 +44,10 @@
 namespace mr
 {
 IMPLEMENT_MR_OBJECT(Puma560Sim)
+void Puma560Sim::writeToStream(Stream& stream)
+ {SolidEntity::writeToStream(stream);}
+void Puma560Sim::readFromStream(Stream& stream)
+ {SolidEntity::readFromStream(stream);}
 
 Puma560Sim::Puma560Sim()
 {
