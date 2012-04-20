@@ -19,23 +19,16 @@ bool LaserSensorClient::getData(LaserData& las)
 	else 
 	{
 		StreamString str(response);
-		Object* ob=str.read();//FIXME stream class
-		LaserData* p=dynamic_cast<LaserData*> (ob);
-		if(p)
-		{
-			las=*p;
-			delete p;
+		if(str.read(&las))
 			return true;
-		}
 		else
 		{
 			LOG_ERROR("Error message getLaserData received something but not LaserData");	
-			delete ob;
 			return false;
 		}
 	}
 
-	return true;
+	return false;
 }
 
 

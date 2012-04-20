@@ -53,6 +53,7 @@ class Object;
 class Stream 
 {
 public:
+	bool good(){return stream!=0 && stream->good();}
 	void write(Object* pObj);
 	Object* read();
 	template<class T> bool read(T* object)
@@ -63,6 +64,8 @@ public:
 			return false;
 
 		object->readFromStream(*this);
+		if(!good())
+			return false;
 		return true;
 	}
 
@@ -81,7 +84,7 @@ public:
 
 protected:
 	//this class cannot be directly instantiated
-	Stream(){}
+	Stream(){stream=0;}
 	~Stream();
 	//non copyable
 	Stream(const Stream& str);

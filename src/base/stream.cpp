@@ -112,6 +112,11 @@ Object* Stream::read()
 	Object*	pObj=Object::create(className);
 	if(pObj)
 		pObj->readFromStream(*this);
+	if(!good())
+	{
+		delete pObj;
+		return 0;
+	}
 	return pObj;
 }
 
