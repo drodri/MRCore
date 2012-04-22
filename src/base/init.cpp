@@ -42,6 +42,10 @@
 #include "../simulation/powercube70sim.h"
 #include "../simulation/adeptonesim.h"
 #include "../simulation/lms100sim.h"
+#include "../world/spherepart.h"
+#include "../simulation/puma560sim.h"
+#include "../simulation/aseairb2000sim.h"
+#include "../simulation/quadrotorsim.h"
 namespace mr
 {
 void mrcoreInit()
@@ -60,6 +64,10 @@ void mrcoreInit()
 	NemoLaserSensor3DSim nemolaser3d;
 	AdeptOneSim adeptOne;
 	Image imag;
+	SpherePart sphere;
+	Puma560Sim puma;
+	QuadrotorSim quad;
+	AseaIRB2000Sim asea;
 
 
 } //mr
