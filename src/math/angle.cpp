@@ -151,6 +151,12 @@ double Angle::average(vector<double> angles)
 			x+=cos(angles[i]);
 			y+=sin(angles[i]);
 		}
+		
+		double ret = atan2(y, x);
+		
+		if (ret != ret)
+			cout << " x " << x << " y " << y << endl;
+		
 		return atan2(y, x);
 }
 
