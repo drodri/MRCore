@@ -46,6 +46,8 @@
 #include "../simulation/puma560sim.h"
 #include "../simulation/aseairb2000sim.h"
 #include "../simulation/quadrotorsim.h"
+#include "../world/world.h"
+
 namespace mr
 {
 void mrcoreInit()
@@ -68,6 +70,7 @@ void mrcoreInit()
 	Puma560Sim puma;
 	QuadrotorSim quad;
 	AseaIRB2000Sim asea;
+	World world;
 
 
 } //mr

@@ -54,75 +54,7 @@ Simulator::~Simulator()
 
 	LOG_INFO("Closed servers");
 }
-/*
-void generateWorld()
-{
-	{
-		World world;
-		Face suelo(Transformation3D(0,0,0),-10,-10,10,10);
-		suelo.setColor(0.5, 0.7, 0.5, 1);
-		FaceSetPart *building=new FaceSetPart; 
-		building->addFace(suelo);
-		world+=building;
-		StreamFile worldFile("flat.world",false);
-		if(!worldFile.good())
-		{
-			LOG_ERROR("Bad world file ");
-			return ;
-		}
-		world.writeToStream(worldFile);
-		return;
-	}
-	{
-		World world;
-		Face suelo(Transformation3D(0,0,0),0,-10,10,10);
-		suelo.setColor(0.5, 0.5, 0.5, 1);
-		Face tablon_fino1(Transformation3D(8,3,2,X_AXIS,-0.53),0,0,0.2,3.95);
-		Face tablon_fino2(Transformation3D(8.5,3,2,X_AXIS,-0.53),0,0,0.2,3.95);
-		Face tablon_grueso(Transformation3D(2,3,2,X_AXIS,-0.53),0,0,1,3.95);
-		Face plataforma(Transformation3D(2,0,2),0,0,8,3);
-		plataforma.setColor(1,0,0,1);
-		Face paredfondo1(Transformation3D(0,0,0,Y_AXIS,PI/2),-4,-10,0,10);
-		paredfondo1.setColor(0,1,0,1);
-		Face paredfondo2;
-		paredfondo2.setColor(0,0,1,1);
 
-		paredfondo2.setBase(Transformation3D(0,0,0,X_AXIS,-PI/2));
-		paredfondo2.addVertex(0,-4);
-		paredfondo2.addVertex(10,-4);
-		paredfondo2.addVertex(10,0);
-		paredfondo2.addVertex(6,0);
-		paredfondo2.addVertex(6,-1.5);
-		paredfondo2.addVertex(4,-1.5);
-		paredfondo2.addVertex(4,0);
-		paredfondo2.addVertex(0,0);
-
-		FaceSetPart *building=new FaceSetPart; 
-		building->addFace(suelo);
-		building->addFace(tablon_fino1);
-		building->addFace(tablon_fino2);
-		building->addFace(tablon_grueso);
-		building->addFace(plataforma);
-		building->addFace(paredfondo1);
-		building->addFace(paredfondo2);
-		
-		world+=building;
-
-		FaceSetPart *paux2=new FaceSetPart(*building);
-		paux2->setRelativeOrientation(0,0,PI);
-		paux2->setRelativePosition(Vector3D(20,0,0));
-		world+=paux2;
-
-		StreamFile worldFile("rampas.world",false);
-		if(!worldFile.good())
-		{
-			LOG_ERROR("Bad world file ");
-			return ;
-		}
-		world.writeToStream(worldFile);
-		return;
-	}
-}*/
 bool Simulator::load(string environment)
 {
 //	generateWorld();
@@ -145,7 +77,13 @@ bool Simulator::load(string environment)
 		changeDirectory(current);
 		return false;
 	}
-	world.readFromStream(worldFile);
+	if(!worldFile.read(&world))
+	{
+		LOG_ERROR("Error while loading world file "<<worldName);
+		changeDirectory(current);
+		return false;
+	}
+	//world.readFromStream(worldFile);
 	
 	int numRobots;
 	file>>command>>numRobots;
