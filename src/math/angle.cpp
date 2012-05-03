@@ -154,9 +154,6 @@ double Angle::average(vector<double> angles)
 		
 		double ret = atan2(y, x);
 		
-		if (ret != ret)
-			cout << " x " << x << " y " << y << endl;
-		
 		return atan2(y, x);
 }
 
