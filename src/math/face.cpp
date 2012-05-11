@@ -36,6 +36,11 @@ namespace mr{
 IMPLEMENT_MR_OBJECT(Face)
 
 bool Face::enableAlfa=true;
+float Face::defaultR=1.0f;
+float Face::defaultG=1.0f;
+float Face::defaultB=1.0f;
+float Face::defaultAlfa=1.0f;
+
 ostream& operator<<(ostream& os, const Face& face)
 {
 	/*os<<"Origin: "<<face.origin<<endl;
@@ -45,8 +50,10 @@ ostream& operator<<(ostream& os, const Face& face)
 Face::Face()
 {
 convex=true;
-r=g=b=1.0f;
-alfa=1.0f;
+r=defaultR;
+g=defaultG;
+b=defaultB;
+alfa=defaultAlfa;
 }
 
 Face::Face(const Transformation3D &inbase, const vector<Vector2D> &list_of_vertex )
@@ -58,8 +65,10 @@ for(unsigned int i=0;i<list_of_vertex.size();i++){
 absVertex=vertex;
 updateData();
 baseUpdated();
-r=g=b=1.0f;
-alfa=1.0f;
+r=defaultR;
+g=defaultG;
+b=defaultB;
+alfa=defaultAlfa;
 }
 
 Face::Face(const Transformation3D &inbase, double x_min,double y_min, double x_max, double y_max)
@@ -72,8 +81,10 @@ vertex.push_back(Vector3D(x_min,y_max));
 absVertex=vertex;
 updateData();
 baseUpdated();
-r=g=b=1.0f;
-alfa=1.0f;
+r=defaultR;
+g=defaultG;
+b=defaultB;
+alfa=defaultAlfa;
 }
 
 void Face::setBase(const Transformation3D &inbase)

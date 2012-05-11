@@ -102,6 +102,7 @@ bool Simulator::load(string environment)
 		if(robotName=="neo")
 		{
 			Neo* neo=new Neo();
+			robots.push_back(neo);
 			world+=neo;
 			neo->setLocation(Transformation3D(x,y,z));
 			neo->startServers(port);
@@ -110,6 +111,7 @@ bool Simulator::load(string environment)
 		if(robotName=="doris")
 		{
 			Doris* doris=new Doris();
+			robots.push_back(doris);
 			world+=doris;
 			doris->setLocation(Transformation3D(x,y,z));
 			doris->startServers(port);

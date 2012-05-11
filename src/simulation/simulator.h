@@ -62,7 +62,7 @@
 #include <vector>
 #include "net/server.h"
 #include "world/world.h"
-
+#include "mobilerobot.h"
 using namespace std;
 
 namespace mr
@@ -79,9 +79,10 @@ public:
 	World* getWorld(){return &world;}//for painting
 
 	bool load(string environment);
-
+	MobileRobot* getRobot(int index){return robots[index];}
 protected:
 	vector<Server*> servers;
+	vector<MobileRobot*> robots;
 	World world;
 };
 

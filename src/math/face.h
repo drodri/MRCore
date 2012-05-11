@@ -63,6 +63,7 @@ protected:
 	Vector3D minV,maxV; //minimun and maximum coordinates computed. fastest tests
 private:
 	float r,g,b,alfa;
+	static float defaultR,defaultG,defaultB,defaultAlfa;
 
 public:
 	friend ostream& operator<<(ostream& os, const Face& p);
@@ -102,6 +103,7 @@ public:
 	Vector3D getAbsoluteVertex(int i){return (absVertex[i]);}
 	
 	static bool enableAlfa;
+	static void setDefaultColor(float _r, float _g,float _b,float _alfa){defaultR=_r;defaultG=_g;defaultB=_b;defaultAlfa=_alfa;}
 };
 
 }
