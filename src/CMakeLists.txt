@@ -2,7 +2,7 @@
 
 SET(curdir ${CMAKE_CURRENT_SOURCE_DIR})
 #SET( ENV{MRCORE_PATH} ${curdir} ) 
-INCLUDE_DIRECTORIES(${curdir})
+INCLUDE_DIRECTORIES(${curdir}) 
 
 # Creation of config.h
 CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake" "${CMAKE_CURRENT_SOURCE_DIR}/config.h") 

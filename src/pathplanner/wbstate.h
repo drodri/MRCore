@@ -33,7 +33,7 @@
 #ifndef __MRCORE__WB_STATE__H
 #define __MRCORE__WB_STATE__H
 
-#include "plannerABC.h"
+#include "genericplanner.h"
 
 
 //////////////////////////WB_STATE

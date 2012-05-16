@@ -92,7 +92,8 @@ void UniformSampler::initializeL()
 	int n=getDimension(),i,j;
 
 	iteration=0;
-	if(n>8*sizeof(int)-1) throw exception("Uniform Sampler: dimension too high");
+	if(n>8*sizeof(int)-1)
+		return; //MIKE, this exception is not supported in g++4.4 throw exception("Uniform Sampler: dimension too high");
 	L_n=1<<n;
 	L=new double *[L_n];
 	for(int i=0;i<L_n;i++)L[i]=new double[n];

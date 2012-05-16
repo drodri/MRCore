@@ -33,7 +33,7 @@
 #ifndef __MRCORE__RDT_PLANNER__H
 #define __MRCORE__RDT_PLANNER__H
 
-#include "plannerABC.h"
+#include "genericplanner.h"
 
 using namespace std;
 

@@ -1,7 +1,7 @@
 
 
 
-#include "plannerABC.h"
+#include "genericplanner.h"
 
 bool PathPlanner::setStartAndGoalStates(RobotState *start_, RobotState *goal_)
 	{
