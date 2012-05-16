@@ -105,7 +105,8 @@ protected:
 	LaserSensor3D* laser3DClient;
 	
 //Data logging of this robot
-	WheeledBaseFile* baseFile;//can be client or datalog
+	WheeledBaseFile* baseFile;//can be client or datalog	
+	WheeledBaseFile* groundTruthBaseFile;//can be client or datalog	
 	LaserSensorFile* laserFile;//can be client or datalog
 
 //if we want to remotely serve this robot, we use this servers

@@ -33,6 +33,6 @@ bool WheeledBaseFile::setOdometry(const Odometry& pose)
 	Odometry aux=pose;
 	return dataLog->sendData(this,&aux);
 	
-}
+}	
 
 }; //Namespace mr

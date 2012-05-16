@@ -51,6 +51,7 @@ void Odometry::writeToStream(Stream& stream)
 {
 	Data::writeToStream(stream);
 	pose.writeToStream(stream);
+
 }
 void Odometry::readFromStream(Stream& stream)
 {

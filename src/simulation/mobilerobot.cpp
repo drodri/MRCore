@@ -46,6 +46,7 @@ MobileRobot::MobileRobot(string n)
 	laserClient=0;
 	laserFile=0;
 	datalog=0;
+	groundTruthBaseFile=0;
 }
 MobileRobot::~MobileRobot()
 {
@@ -60,6 +61,7 @@ MobileRobot::~MobileRobot()
 	delete baseFile;
 	delete laserFile;
 	delete datalog;
+	delete groundTruthBaseFile;
 
 //		delete base;
 //		for(int i=0;i<lasers.size();i++)
@@ -80,7 +82,8 @@ bool MobileRobot::startLogging(string folder)
 	laserFile=new LaserSensorFile;
 	laserFile->saveDataTo((DataLogOut*)datalog,"laser");
 //FIXME	s->saveDataTo(&datalog,name);
-	
+	groundTruthBaseFile=new WheeledBaseFile();
+	groundTruthBaseFile->saveDataTo((DataLogOut*)datalog,"ground");
 	return true;
 }
 bool MobileRobot::connectLog(string folder)
@@ -96,6 +99,11 @@ bool MobileRobot::connectLog(string folder)
 	
 	laserFile=new LaserSensorFile;
 	laserFile->loadDataFrom((DataLogIn*)datalog,"laser");
+
+	groundTruthBaseFile=new WheeledBaseFile();
+	groundTruthBaseFile->loadDataFrom((DataLogIn*)datalog,"ground");
+
+	return true;
 }
 void MobileRobot::setLocation(const Transformation3D &p)
 {
@@ -121,16 +129,27 @@ bool MobileRobot::getOdometry(Odometry& odom)
 	}
 	return false;
 }
-bool MobileRobot::getPose3D(Pose3D& odom)
+bool MobileRobot::getPose3D(Pose3D& pose)
 {
 	if(baseClient)//Connected to a server
 	{
-		if(baseClient->getPose3D(odom)){
+		if(baseClient->getPose3D(pose)){
+			if(groundTruthBaseFile){
+				Odometry odom;
+				odom.pose=pose;
+				groundTruthBaseFile->setOdometry(odom);
+			}
 			return true;
 		}
 		return false;
 	}
-	return base->getPose3D(odom);
+	if(groundTruthBaseFile){
+		Odometry odom;
+		bool b= groundTruthBaseFile->getOdometry(odom);
+		pose=odom.pose;
+		return b;
+	}
+	return base->getPose3D(pose);
 }
 //void MobileRobot::invalidateLaserData()
 //{
