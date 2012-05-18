@@ -127,6 +127,9 @@ EntitySet::EntitySet(void)
 
 EntitySet::~EntitySet(void)
 {
+	for(int i=0;i< objects.size();i++)
+		delete objects[i];
+	objects.clear();
 }
 
 bool EntitySet::addObject(PositionableEntity * p)

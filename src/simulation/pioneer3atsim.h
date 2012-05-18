@@ -44,6 +44,9 @@ class Pioneer3ATSim :public WheeledBaseSim
 
 public:
 	Pioneer3ATSim();
+	virtual ~Pioneer3ATSim()
+	{
+	}
 	//Serializers
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
