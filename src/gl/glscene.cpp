@@ -50,6 +50,11 @@ GLScene::GLScene()
 	center_z=1;
 	beta=15;
 	alfa=30;
+	//by default, the view size is 800*600
+	ox=0;
+	oy=0;
+	h=600;
+	w=800;
 	showGrid=false;
 	showFrame=true;
 	BackgroundColor(0.2f,0.2f,0.2f);
@@ -116,15 +121,21 @@ void GLScene::init()
 	glEnable(GL_COLOR_MATERIAL);
 	
 	glMatrixMode(GL_PROJECTION);
-	gluPerspective( 40.0, 800/600.0f, 1.1, 150);
+	gluPerspective( 40.0, ((GLdouble)w)/((GLdouble)h), 1.1, 150);
 
 }
-void GLScene::Draw()
+void GLScene::Draw() 
 {
+	glViewport((GLint)ox,(GLint)oy,(GLint)w,(GLint)h);
 	//Borrado de la pantalla	
 	glClearColor(back_r,back_g,back_b,1);//fondo naranja
    	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	//Defines the perspective
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective( 40.0, ((GLdouble)w)/((GLdouble)h), 1.1, 150);
+	
 	//Para definir el punto de vista
 	glMatrixMode(GL_MODELVIEW);	
 	glLoadIdentity();
@@ -234,7 +245,13 @@ void GLScene::removeObject(GLObject* obj)
 		}
 	}
 }
-
+void GLScene::setViewSize(int x, int y, int width, int height)
+{
+	ox=x;
+	oy=y;
+	if(width>0)w=width;
+	if(height>0)h=height;
+}
 /*
 void GLScene::Draw(Vector3D p)
 {

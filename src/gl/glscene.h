@@ -31,7 +31,7 @@ public:
 
 	void setShowGrid(bool yes=true){showGrid=yes;}
 	void setShowFrame(bool yes=true){showFrame=yes;}
-
+	void setViewSize(int x, int y, int width, int height);
 	
 //Object Managers
 	void setObjects(vector<GLObject*> v);
@@ -68,5 +68,6 @@ protected:
 	bool leftButton;
 	bool rightButton;
 	bool midButton;
+	int ox,oy,w,h; //for painting area
 };
 }; //namespace mr
