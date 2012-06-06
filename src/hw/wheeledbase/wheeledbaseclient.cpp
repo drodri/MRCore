@@ -12,7 +12,7 @@ bool WheeledBaseClient::getOdometry(Odometry& pose)
 {
 	string request(1,1);
 	string response;//protocol character=1 means Ping
-	int ret=sendRequest(request,response,500);
+	int ret=sendRequest(request,response,2500);
 	if(ret!=COMM_OK)
 	{
 		return false;
@@ -41,7 +41,7 @@ bool WheeledBaseClient::move(double speed, double rot)
 	stream<<(char)2<<speed<<rot;
 	string request=stream.getString();
 	string response;//protocol character=1 means Ping
-	int ret=sendRequest(request,response,500);
+	int ret=sendRequest(request,response,2500);
 	if(ret!=COMM_OK)
 	{
 		return false;
@@ -61,7 +61,7 @@ bool WheeledBaseClient::getPose3D(Pose3D& pose)
 {
 	string request(1,3);
 	string response;//protocol character=1 means Ping
-	int ret=sendRequest(request,response,500);
+	int ret=sendRequest(request,response,2500);
 	if(ret!=COMM_OK)
 	{
 		return false;

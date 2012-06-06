@@ -217,15 +217,22 @@ public:
 	Nemo():MobileRobot("Nemo")
 	{
 		base=new Pioneer3ATSim;
+		laser=new LMS200Sim;
+		//laser->setDrawGLMode(0);
+		laser->LinkTo(base);
+		laser->setColor(100,0,150);
+		laser->setRelativePosition(Vector3D(0.2,0,0.6));
+		(*this)+=base;
+		
 		//LaserSensorSim* las=new LMS200Sim;
 		//las->LinkTo(base);
 		//las->setColor(150,0,150);
 		//las->setRelativePosition(Vector3D(0.1,0,0.5));
 		//las->setRelativeOrientation(0,30*DEG2RAD,0);
 		//lasers.push_back(las);
-		laser3d=new NemoLaserSensor3DSim;
-		laser3d->LinkTo(base);
-		laser3d->setRelativePosition(Vector3D(0.1,0,0.3));
+		//laser3d=new NemoLaserSensor3DSim;
+		//laser3d->LinkTo(base);
+		//laser3d->setRelativePosition(Vector3D(0.1,0,0.3));
 	}
 	virtual ~Nemo()
 	{
