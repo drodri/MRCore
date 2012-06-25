@@ -141,7 +141,7 @@ void PersonSim::simulate(double delta_t)
 	int r=rand()%75;
 	if(r==0)
 	{
-		rotSpeed=-0.5+rand()/(float)RAND_MAX;
+		rotSpeed=-0.5f+rand()/(float)RAND_MAX;
 		speed=1+1*rand()/(float)RAND_MAX;
 	}
 	else if(r==1)

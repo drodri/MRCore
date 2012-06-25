@@ -60,6 +60,7 @@ public:
 	virtual void readFromStream(Stream& stream);
 	virtual void drawGL();//<OpenGL draw
 	
+	Transformation3D getIncrement(const Odometry& lastOdometry,float noise=0);
 //protected:
 	Transformation3D pose;//Just for test purposes
 };

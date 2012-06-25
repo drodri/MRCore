@@ -31,7 +31,7 @@ void QuadrotorSim::simulate(double t)
 	Transformation3D position=getAbsoluteT3D();
 	
 	quadrotorData.altitude=(float)position.position.z;
-	quadrotorData.battery-=0.001;
+	quadrotorData.battery-=0.001f;
 
 	if(quadrotorData.battery<1)//less than 1%
 		motorsOn=false;
@@ -41,7 +41,7 @@ void QuadrotorSim::simulate(double t)
 	{
 		//simulate falling to groudn	
 		position.position.z+=velFalling*t-4.9*t*t;
-		velFalling-=9.8*t;
+		velFalling-=9.8f*t;
 		if(position.position.z<=0)
 			position.position.z=0;
 		setAbsoluteT3D(position);

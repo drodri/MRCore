@@ -80,6 +80,7 @@ public:
 
 	bool load(string environment);
 	MobileRobot* getRobot(int index){return robots[index];}
+	int numRobots(){return robots.size();}
 protected:
 	vector<Server*> servers;
 	vector<MobileRobot*> robots;

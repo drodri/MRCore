@@ -80,10 +80,10 @@ public:
 	void getRPY(double& roll, double& pitch, double& yaw);
 
 	inline double getDeterminant(){return 1;} 
-	inline OrientationMatrix inverted(){
+	inline OrientationMatrix inverted()const{
 		return Matrix3x3::transposed();
 	}
-	inline OrientationMatrix transposed(){
+	inline OrientationMatrix transposed() const{
 		return Matrix3x3::transposed();
 	}	
 	inline Vector3D getVectorU(){

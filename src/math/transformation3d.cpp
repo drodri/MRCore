@@ -83,7 +83,7 @@ void Transformation3D::drawGL()
 	GLTools::DrawFrame();
 	glPopMatrix();
 }
-Transformation3D Transformation3D::inverted()
+Transformation3D Transformation3D::inverted() const
 {
 	Transformation3D ret;
 	ret.orientation=orientation.inverted();

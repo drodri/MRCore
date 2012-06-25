@@ -32,6 +32,7 @@
 #include "odometry.h"
 #include "gl/gltools.h"
 #include "math/mrmath.h"
+#include "math/gaussian.h"
 
 #include <math.h>
 #include <fstream>
@@ -64,7 +65,20 @@ void Odometry::drawGL()
 	
 	
 }
+Transformation3D Odometry::getIncrement(const Odometry& lastOdometry,float noise)
+{
+	Pose3D inc=lastOdometry.pose.inverted()*pose;
 
+	if(noise>0){
+		double r,p,y;
+		inc.orientation.getRPY(r,p,y);
+		double m=inc.module();
+		Pose3D noisePose(m*sampleGaussian(0,noise),m*sampleGaussian(0,noise),0,
+						 0,0,m*sampleGaussian(0,noise));
+		inc*=noisePose;
+	}	
+	return inc;
+}
 ostream& operator << (ostream& os,const  Odometry& odom)
 {
 	os<<"ODOM "<<odom.pose.position.x<<" "<<odom.pose.position.y<<" "<<odom.pose.position.z<<endl;

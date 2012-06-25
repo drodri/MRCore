@@ -108,7 +108,7 @@ public:
 	inline Vector3D getVectorU(){return orientation.getVectorU();}
 	inline Vector3D getVectorV(){return orientation.getVectorV();}
 	inline Vector3D getVectorW(){return orientation.getVectorW();}
-	Transformation3D inverted();
+	Transformation3D inverted() const;
 	void transformGL();
 	void drawGL();
 

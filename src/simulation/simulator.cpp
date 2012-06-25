@@ -97,26 +97,23 @@ bool Simulator::load(string environment)
 	{
 		string robotName;
 		int port;
-		float x,y,z;
-		file>>robotName>>port>>x>>y>>z;
+		float x,y,z,yaw;
+		file>>robotName>>port>>x>>y>>z>>yaw;
+		MobileRobot* robotAux=0;
 		if(robotName=="neo")
+			robotAux=new Neo();
+		else if(robotName=="nemo")
+			robotAux=new Nemo();
+		else if(robotName=="doris")
+			robotAux=new Doris();
+		if(robotAux)
 		{
-			Neo* neo=new Neo();
-			robots.push_back(neo);
-			world+=neo;
-			neo->setLocation(Transformation3D(x,y,z));
-			neo->startServers(port);
-			//neo->move(rand()/(float)RAND_MAX,rand()/(float)RAND_MAX);
+			Transformation3D giro(0,0,0,0,0,yaw);
+			robotAux->setLocation(Transformation3D(x,y,z)*giro);
+			robots.push_back(robotAux);
+			world+=robotAux;
+			robotAux->startServers(port);
 		}
-		if(robotName=="doris")
-		{
-			Doris* doris=new Doris();
-			robots.push_back(doris);
-			world+=doris;
-			doris->setLocation(Transformation3D(x,y,z));
-			doris->startServers(port);
-		}
-		
 	}
 	
 	int numPeople;
