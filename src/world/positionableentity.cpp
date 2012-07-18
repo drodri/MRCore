@@ -63,6 +63,7 @@ PositionableEntity::PositionableEntity(void):owner(0)
 {
 	//First relative position
 	drawRefSystem=false;
+	drawSelected=false;
 	LinkTo(0);
 	location.setOwner(this);
 }
@@ -71,6 +72,7 @@ PositionableEntity::PositionableEntity(string n, Vector3D pos_rel):owner(0)
 {
 	//Set first relative position
 	drawRefSystem=false;
+	drawSelected=false;
 	name=n;
 	location.setRelativePosition(pos_rel);
 	location.setOwner(this);
@@ -121,7 +123,8 @@ void PositionableEntity::drawGL()
 {
 	//Draw axis
 	if(drawRefSystem)location.Draw();
-
+	if(drawSelected)glDisable(GL_LIGHTING);
+	else glEnable(GL_LIGHTING);
 
 
 //only for test purposes actually

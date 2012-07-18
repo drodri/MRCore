@@ -61,6 +61,7 @@ class PositionableEntity: virtual public GLObject
 	/**Text output**/
 	friend ostream& operator<<(ostream& os, const PositionableEntity& p);
 	bool drawRefSystem;
+	bool drawSelected;
 protected:
 	EntitySet *owner;
 	virtual void setOwner(EntitySet *w);
@@ -71,6 +72,8 @@ protected:
 public:
 	void setDrawReferenceSystem(bool v=true){drawRefSystem=v;}
 	bool getDrawReferenceSystem(){return drawRefSystem;}
+	void setSelected(bool v=true){drawSelected=v;}
+	bool setSelected(){return drawSelected;}
 	void setName(string _name){name=_name;}
 	const string &getName(){return name;} 
 	EntitySet *getOwner(){return owner;}
