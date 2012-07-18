@@ -104,6 +104,7 @@ dealing with primitive classes.
 
 	void setNumVertex(int meridian, int parallel);
 	void setRadius(double _radius);
+	double getRadius(){return radius;}
 //specific operations due to its primitive condition
 	void createWiredModel();
 

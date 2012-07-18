@@ -110,6 +110,8 @@ public:
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
 	void drawGL();
+	double getHeight(){return height;}
+	Face getPolygonalBase();
 //specific operations due to its primitive condition
 	void createWiredModel();
 //specific operations that have to be implemented due to its solid entity condition

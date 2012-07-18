@@ -100,6 +100,7 @@ void  PrismaticPart::setHeight(double _height)
 	//wired model recomputed
 	createWiredModel();
 }
+Face PrismaticPart::getPolygonalBase(){return polygonalBase;}
 void PrismaticPart::setPolygonalBase(const Face &fin)
 {
 // base creation
