@@ -78,7 +78,7 @@ protected:
 	double sigma;  //min range =0
 	void updateBeam();
 	Mutex m;
-
+	bool sensorActivated; //true if when simulated... is updated
 public:
 //attributes
 	
@@ -99,7 +99,7 @@ public:
 	void updateSensorData(World *w=0,float dt=0);
 	void drawGL();
 	void setDrawGLMode(int m){data.drawGLMode=m;}
-
+	void setActive(bool val=true){sensorActivated=val;}
 	void simulate(double t)
 	{
 		m.Lock();

@@ -28,7 +28,8 @@ public:
 
 //Initizalization
 	void init();//enable lights
-	
+	void setViewSize(int width, int height);
+
 //Object Managers
 	void setObjects(vector<GLObject*> v);
 	void clearObjects();
@@ -60,6 +61,7 @@ protected:
 	bool leftButton;
 	bool rightButton;
 	bool midButton;
+
 };
 
 }; //namespace mr

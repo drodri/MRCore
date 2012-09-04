@@ -193,7 +193,12 @@ void GLScene2D::addObject(GLObject *o)
 {
 	object.push_back(o);
 }
+void GLScene2D::setViewSize(int width, int height)
+{
 
+	finalX=initX+width;
+	finalY=initY+height;
+}
 void GLScene2D::setMap(GLObject *o, double initX, double initY, double width, double height)
 {
 	this->initX=initX;
