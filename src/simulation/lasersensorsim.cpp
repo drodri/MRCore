@@ -64,6 +64,7 @@ LaserSensorSim::LaserSensorSim(void)
 {
 setDrawReferenceSystem(); //by default the refence system is drawn
 setColor(1,1,0);
+sensorActivated=true; //by default, when simulated... the values are computed
 }
 
 
@@ -113,6 +114,7 @@ void LaserSensorSim::updateSensorData(World *w,float dt)
 
 	if(w==0)w=getWorld();
 	if(w==0)return;
+	if(sensorActivated==false)return;
 	if(beamNeedToBeUpdated)updateBeam();
 	Transformation3D T=getAbsoluteT3D();
 	//plane filter
