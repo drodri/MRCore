@@ -83,6 +83,7 @@ beamNeedToBeUpdated=true;
 void LaserSensorSim::setLaserProperties(double _startangle, double _step, int _numsteps, 
 								double _maxrange, double _sigma)
 {
+	m.Lock();
 startAngle=_startangle;
 stepAngle=_step;
 numSteps=_numsteps;
@@ -101,6 +102,7 @@ for(int i=0;i<numSteps;i++){
 	vectorBeam[i].z=0;
 	}
 beamNeedToBeUpdated=true;
+m.Unlock();
 }
 void LaserSensorSim::updateBeam(){
 	if(!beamNeedToBeUpdated)return;

@@ -115,7 +115,9 @@ public:
 	}
 	//using laserSensorSim for displaying other laserSensor data
 	virtual void setData(const LaserData& d){
+		m.Lock();
 		data=d;
+		m.Unlock();
 	}
 };
 
