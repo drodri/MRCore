@@ -18,6 +18,7 @@ namespace mr
 Server::Server(string name)
 {
 	max_num_clients=0;
+	serverPort=0;
 	closeServer=false;
 	serverName=name;
 }
@@ -28,6 +29,7 @@ Server::~Server()
 
 int Server::init(int port,  int max_clients,bool threaded,const char address[])
 {
+	serverPort=port;
 	socket_server.initServer(port,address);
 	max_num_clients=max_clients;
 	closeServer=false;
@@ -100,7 +102,7 @@ void* Server::handleClient(void *d)
 		}
 		if(ret==0)
 		{
-			LOG_ERROR("SHould never be here");
+			LOG_ERROR("Should never be here");
 			continue;
 		}
 		Message message;//buffering
@@ -146,3 +148,4 @@ void* Server::handleClient(void *d)
 
 
 };
+
