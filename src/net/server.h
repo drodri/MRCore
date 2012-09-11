@@ -22,6 +22,8 @@ public:
 
 	int init(int port, int max_clients=5,bool threaded=true,const char address[]="");	
 	void close();
+	int getPort(){return serverPort;}
+	int getNumClientsConnected(){return sockClients.size();}
 
 
 protected:	
@@ -29,6 +31,8 @@ protected:
 	vector<Socket*> sockClients;
 	vector<Thread<Server> > clients;
 	string serverName;
+	
+
 	void* handleClient(void *d=0);
 	void* handleConnections(void *d=0);
 	virtual string handleRequest(const string& msg)=0;
@@ -42,5 +46,7 @@ private:
 	bool closeServer;
 	Socket socket_server;
 	int max_num_clients;
+	int serverPort;
+	
 };
 };
