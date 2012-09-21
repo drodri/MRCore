@@ -69,6 +69,7 @@ bool World::checkCollisionWith(SolidEntity &solid)
 	}
 	return false;
 }
+
 void World::simulate(double t)
 {
 for(int i=0;i<(int)(objects.size());i++)
