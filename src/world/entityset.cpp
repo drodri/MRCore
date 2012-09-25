@@ -163,9 +163,11 @@ void EntitySet::destroyContent()
 
 void EntitySet::erase(int index)
 {
-	if((index>=0)&&(index<(int)(objects.size())))//	delete(objects[index]);  No es necesario erase llama ya al destructor
+	if((index>=0)&&(index<(int)(objects.size())))	
+	{
 		objects.erase(objects.begin()+index);
-		
+		delete objects[index];
+	}
 }
 
 void EntitySet::remove(PositionableEntity *p)
