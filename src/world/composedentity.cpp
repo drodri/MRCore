@@ -120,6 +120,9 @@ Tcp *ComposedEntity::getTcp(int num)
 //Collision detection
 bool ComposedEntity::checkCollisionWith(SolidEntity &solid)
 {
+	//si no es intersectable return false
+	if(this->isIntersectable()==false)return false;
+
 	//chequeo los bounding boxes globales y si no voy elemento a elemento
 	if(checkBoundingBoxes(solid)==false)return false;
 	for(int i=0;i<(int)(objects.size());i++)
@@ -127,6 +130,7 @@ bool ComposedEntity::checkCollisionWith(SolidEntity &solid)
 		SolidEntity *aux=dynamic_cast<SolidEntity *>(objects[i]);
 		//en cuanto hay colision devuelvo true
 		if(aux){
+			if(aux->isIntersectable()) //solo compruebo los intersectables
 			if(aux->checkCollisionWith(solid))return true;
 		}
 	}

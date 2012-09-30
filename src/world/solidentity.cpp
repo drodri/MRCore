@@ -83,6 +83,9 @@ bool SolidEntity::checkBoundingBoxes(SolidEntity &solid)
 {
 //lo primero: si es el mismo objeto contra si mismo->false
 if(this==&solid)return false;
+//si no son intersectables tampoco
+if(this->isIntersectable()==false)return false;
+if(solid.isIntersectable()==false)return false;
 if(boxNeedToBeUpdated)getAbsoluteBoundingBox();
 return(absoluteBox.checkMinMax(solid.getAbsoluteBoundingBox()));
 }
