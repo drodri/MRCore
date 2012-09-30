@@ -108,7 +108,8 @@ public:
 		if((i<0)||(i>=getNumJoints()))return 0; 
 		return joints[i];
 	}
-
+//Specific Collision checking
+	bool checkRobotColision();
 
 
 protected:

@@ -31,11 +31,30 @@
  **********************************************************************/
 
 #include "robotsim.h"
+#include "../world/world.h"
 #include <iostream>
 
 namespace mr
 {
-
+bool RobotSim::checkRobotColision()
+{
+//checks the collision of robot and the rest of the objects
+	bool prev=isIntersectable();
+	this->setIntersectable(false);
+	World *w=getWorld();
+	for(int i=0;i<(int)(objects.size());i++)
+	{	
+		SolidEntity *aux=dynamic_cast<SolidEntity *>(objects[i]);
+		//en cuanto hay colision devuelvo true
+		if(aux){
+			if(aux!=this->links[0])
+			if(w->checkCollisionWith(*aux))return true;
+		}
+	}
+//checks the collision of robot links between them
+	setIntersectable(prev);
+return false;
+}
 bool RobotSim::checkJointValues(const vector<double> & _q) const
 {
 //check dimension
