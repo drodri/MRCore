@@ -66,6 +66,7 @@ public:
 	//Basic constructor
 	CylindricalPart(double _height=1, double _radius=1, int numVertex=12){
 		setHeightAndRadius(_height,_radius,numVertex);
+		radius=_radius;
 	}
 
 	//Destructor
@@ -86,11 +87,15 @@ public:
 	void setHeightAndRadius(double _height, double _radius, int numVertex=12){
 		setHeight(_height);
 		setRegularPolygonBase(_radius,numVertex);
+		radius=_radius;
 	}
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
+	double getRadius(){return radius;}
 	void drawGL();
 
+private:
+	double radius;
 
 };
 
