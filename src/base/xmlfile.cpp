@@ -28,69 +28,21 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
  * PURPOSE.  
  **********************************************************************/
-#include "stream.h"
+#include "xmlfile.h"
 #include "object.h"
 
 namespace mr
 {
 
-Stream::~Stream()
+
+Object *XMLfile::load(const char *file) //loads, parses the file and creates the object
 {
-	delete stream;
+
 }
-void Stream::read(char *Buffer, size_t Count)
+bool XMLfile::save(Object* pObj,const char *file); //saves the XML file created with the object
 {
-	stream->read(Buffer,(streamsize)Count);
+
 }
-void Stream::write(const char *Buffer, size_t Count)
-{
-	stream->write(Buffer,(streamsize)Count);
-}
-
-#define IMPLEMENT_STREAM_RW_SIMPLE_TYPE( T ) \
-	Stream& Stream::operator<<( const T &a) \
-	{ \
-		write( (char*)&a, sizeof(a) ); \
-		return *this; \
-	} \
-	Stream& Stream::operator>>(T &a) \
-	{ \
-		read( (char*)&a, sizeof(a) ); \
-		return *this; \
-	}
-
-IMPLEMENT_STREAM_RW_SIMPLE_TYPE( bool )
-IMPLEMENT_STREAM_RW_SIMPLE_TYPE( char)
-IMPLEMENT_STREAM_RW_SIMPLE_TYPE( unsigned char)
-
-IMPLEMENT_STREAM_RW_SIMPLE_TYPE( int )
-IMPLEMENT_STREAM_RW_SIMPLE_TYPE( float )
-IMPLEMENT_STREAM_RW_SIMPLE_TYPE( double )
-
-
-Stream& Stream::operator << ( const std::string &str)
-{
-	int n = (int) str.size();
-	*this << n;
-	if (n)
-		write( str.c_str(), n );
-	return *this;
-}
-Stream& Stream::operator >> (std::string &str)
-{
-	int n=0;
-	*this>>n;
-	char* buffer=new char[n];
-	if(n)
-		read(buffer,n);
-
-	str=string(buffer,n);
-	delete buffer;
-
-	return *this;
-}
-	
-
 void Stream::write(Object* pObj)
 {
 	//id
@@ -123,14 +75,5 @@ Object* Stream::read()
 
 
 
-Stream& Stream::operator << ( Object* pObj)
-{
-	write(pObj);
-	return *this;
-}
-Stream& Stream::operator >> (Object*& pObj)
-{
-	pObj=read();
-	return *this;
-}
+
 } ;//mr
