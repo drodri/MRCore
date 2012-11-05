@@ -34,7 +34,7 @@
 #include "xml.h"
 
 
-using namespace std;
+//using namespace std;
 
 
 

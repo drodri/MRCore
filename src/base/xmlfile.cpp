@@ -37,10 +37,11 @@ namespace mr
 
 Object *XMLfile::load(const char *file) //loads, parses the file and creates the object
 {
-
+return 0;
 }
-bool XMLfile::save(Object* pObj,const char *file); //saves the XML file created with the object
+bool XMLfile::save(Object* pObj,const char *file) //saves the XML file created with the object
 {
+	return false;
 
 }
 void Stream::write(Object* pObj)
