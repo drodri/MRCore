@@ -43,7 +43,7 @@ bool XMLfile::save(Object* pObj,const char *file) //saves the XML file created w
 {
 	return false;
 
-}
+}/*
 void Stream::write(Object* pObj)
 {
 	//id
@@ -74,7 +74,7 @@ Object* Stream::read()
 	return pObj;
 }
 
-
+*/
 
 
 } ;//mr
