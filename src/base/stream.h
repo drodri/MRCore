@@ -35,6 +35,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+
 using namespace std;
 
 
@@ -56,6 +57,7 @@ public:
 	bool good(){return stream!=0 && stream->good();}
 	void write(Object* pObj);
 	Object* read();
+
 	template<class T> bool read(T* object)
 	{
 		string className;

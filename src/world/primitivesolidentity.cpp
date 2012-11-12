@@ -71,6 +71,10 @@ const vector<Segment3D> &PrimitiveSolidEntity::getWiredModel()
 
 bool PrimitiveSolidEntity::checkCollisionWith(SolidEntity &solid)
 {
+	//elements with direct links are not checked between them
+	if(this->getLinkedTo()==&solid) return false;
+	if(solid.getLinkedTo()==this) return false;
+
 	if(checkBoundingBoxes(solid)==false)return false;
 	PrimitiveSolidEntity *aux=dynamic_cast<PrimitiveSolidEntity *>(&solid);
 	if(aux){

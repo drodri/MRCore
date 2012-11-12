@@ -32,6 +32,7 @@
 
 #include "robotsim.h"
 #include "../world/world.h"
+#include "../world/referencesystem.h"
 #include <iostream>
 
 namespace mr
@@ -42,7 +43,8 @@ bool RobotSim::checkRobotColision()
 	bool prev=isIntersectable();
 	this->setIntersectable(false);
 	World *w=getWorld();
-	for(int i=0;i<(int)(objects.size());i++)
+	int i;
+	for(i=0;i<(int)(objects.size());i++)
 	{	
 		SolidEntity *aux=dynamic_cast<SolidEntity *>(objects[i]);
 		//en cuanto hay colision devuelvo true
@@ -51,6 +53,22 @@ bool RobotSim::checkRobotColision()
 			if(w->checkCollisionWith(*aux))return true;
 		}
 	}
+//checks the collision of grasped objects with the world
+	if(tcp!=0){
+		ReferenceSystem *tcpr=tcp->getReferenciableLocation();
+		int n=tcpr->getNumberOfDependents();
+
+		for(int j=0;j<n;j++)
+		{
+			ReferenceSystem* raux=tcpr->getDependent(j);
+			SolidEntity *aux=dynamic_cast<SolidEntity *>(raux->getOwner());
+			if(aux){
+				if(w->checkCollisionWith(*aux))return true;
+			}
+		}
+
+	}
+
 //checks the collision of robot links between them
 	setIntersectable(prev);
 return false;
