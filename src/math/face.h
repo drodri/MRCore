@@ -89,6 +89,30 @@ public:
 									absVertex.push_back(base*Vector3D(x,y));
 									updateData();
 	}
+	
+
+	void changeVertex (int ind, double x, double y)
+	{								if (ind<0)return;
+									if (ind>=(int)vertex.size())return;
+									vertex[ind]=Vector3D(x,y);
+									absVertex[ind]=base*Vector3D(x,y);
+									updateData();
+	}
+
+	
+	void deleteVertex (int ind)
+	{								if (ind<0)return;
+									if (ind>=(int)vertex.size())return;
+									if (vertex.empty() || absVertex.empty())return;
+									vertex.erase(vertex.begin()+ind);
+									absVertex.erase(absVertex.begin()+ind);
+									updateData();
+																		
+	}
+
+
+
+
 	bool isInteriorPoint(Vector2D p);
 	bool isClockwise(){return clockwise;}
 	void setOrigin(Vector3D& ori){base.position=ori;baseUpdated();}
