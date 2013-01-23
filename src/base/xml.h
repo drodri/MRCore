@@ -41,7 +41,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <assert.h>
-
+#include <cstdarg>
 #ifdef LINUX
 #include <wchar.h>
 #endif
@@ -790,9 +790,9 @@ class XML
 		static XMLElement* Paste(char* txt = 0);
 
 		XML_PARSE_STATUS ParseStatus(int* = 0);
-#ifndef LINUX
+//#ifndef LINUX
 		void SetUnicode(bool x);
-#endif
+//#endif
 		void SaveOnClose(bool);
 		int Load(const char* data,XML_LOAD_MODE LoadMode = XML_LOAD_MODE_LOCAL_FILE,class XMLTransform* eclass = 0,class XMLTransformData* edata = 0);
 		size_t LoadText(const char*);

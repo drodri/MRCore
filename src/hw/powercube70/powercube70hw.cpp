@@ -1,5 +1,6 @@
 #include "powercube70hw.h"
 #include <iostream>
+#include <unistd.h>
 
 // Metodos de la clase PowerCube70
 namespace mr
