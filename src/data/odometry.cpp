@@ -60,6 +60,18 @@ void Odometry::readFromStream(Stream& stream)
 	pose.readFromStream(stream);
 }
 
+void Odometry::writeToXML(XMLElement* parent)
+{
+	Data::writeToXML(parent);
+	pose.writeToXML(parent);
+}
+
+void Odometry::readFromXML(XMLElement* parent)
+{
+	Data::readFromXML(parent);
+	pose.readFromXML(parent);
+}
+
 void Odometry::drawGL()
 {
 	

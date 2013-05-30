@@ -126,6 +126,99 @@ void Face::readFromStream(Stream& stream)
 	stream>>r>>g>>b>>alfa;
 //add vertex updates the remainer internal data
 }
+void Face::writeToXML(XMLElement* parent)//,int numface)
+{
+		int num=(int)(vertex.size());
+		//XMLAux aux;
+
+		XMLElement* fac=new XMLElement(parent,"face");
+		XMLElement* vert=new XMLElement(parent,"vertex");
+		XMLContent* c;
+
+		for(int i=0;i<num;i++)
+		{
+			c=new XMLContent(vert,-1,Vector3D :: vector3DToString(vertex[i]).c_str());
+			vert->AddContent(c,0);
+
+		}
+
+		parent->AddElement(fac);
+		fac->AddElement(vert);
+		base.writeToXML(fac);
+
+
+		//XMLElement* atrib=new XMLElement(fac,"Attributes");
+		//XMLVariable* re= new XMLVariable("r",aux.string_Convert<float>(r).c_str());
+		//XMLVariable* gr= new XMLVariable("g",aux.string_Convert<float>(g).c_str());
+		//XMLVariable* bl= new XMLVariable("b",aux.string_Convert<float>(b).c_str());
+		//XMLVariable* al= new XMLVariable("alfa",aux.string_Convert<float>(alfa).c_str());
+		//fac->AddElement(atrib);
+		//atrib->AddVariable(re);
+		//atrib->AddVariable(gr);
+		//atrib->AddVariable(bl);
+		//atrib->AddVariable(al);
+
+
+}
+
+void Face::readFromXML(XMLElement* parent)
+{
+
+		XMLElement* fac;
+		char check_parent[50]={0};
+		parent->GetParent()->GetElementName(check_parent);
+
+		if(parent->FindElementZ("face"))
+			fac=parent->FindElementZ("face");
+
+		else if(string(check_parent)=="FaceSetPart")
+			fac=parent;
+
+			if (fac->FindElementZ("vertex"))
+			{
+
+
+				int num=fac->FindElementZ("vertex")->GetContentsNum();
+
+				if(num)
+				{
+
+					XMLContent** c=fac->FindElementZ("vertex")->GetContents();
+					string cad;//,type="vertex";
+					for (int i=0;i<num;i++)
+					{
+						cad=string();
+						cad.resize(c[i]->GetSize());
+						c[i]->GetValue((char*)cad.c_str());
+						vector<Vector3D> aux_vec=Vector3D::stringToVectorVector3D(cad);
+						for (int j=0;j<aux_vec.size();j++)
+						{
+							addVertex(aux_vec[j].x,aux_vec[j].y);
+						}
+
+					}
+				 }
+
+
+
+		}
+
+			//if(fac->FindElementZ("Attributes"))
+			//{
+			//	XMLElement* atrib=fac->FindElementZ("Attributes");
+			//	if(atrib->FindVariableZ("r"))
+			//		r=atrib->FindVariableZ("r")->GetValueFloat();
+			//	if(atrib->FindVariableZ("g"))
+			//		g=atrib->FindVariableZ("g")->GetValueFloat();
+			//	if(atrib->FindVariableZ("b"))
+			//		b=atrib->FindVariableZ("b")->GetValueFloat();
+			//	if(atrib->FindVariableZ("alfa"))
+			//		alfa=atrib->FindVariableZ("alfa")->GetValueFloat();
+			//}
+
+		base.readFromXML(fac);
+}
+
 void Face::updateData()
 {
 int sign,signini,i;

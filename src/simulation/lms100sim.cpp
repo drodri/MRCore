@@ -61,5 +61,13 @@ void LMS100Sim::readFromStream(Stream& stream)
 {
 	SolidEntity::readFromStream(stream);
 }
+void LMS100Sim::writeToXML(XMLElement* parent)
+{
+	SolidEntity::writeToXML(parent);
+}
 
+void LMS100Sim::readFromXML(XMLElement* parent)
+{
+	SolidEntity::readFromXML(parent);
+}
 }; //Namespace mr

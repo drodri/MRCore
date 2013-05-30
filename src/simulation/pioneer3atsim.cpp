@@ -70,8 +70,19 @@ wheel4->setRelativePosition(Vector3D(-large/2,-width/2,wheel_radius+0.001));
 }
 void Pioneer3ATSim::writeToStream(Stream& stream)
 {WheeledBaseSim::writeToStream(stream);}
+
 void Pioneer3ATSim::readFromStream(Stream& stream)
 {WheeledBaseSim::readFromStream(stream);}
+
+void Pioneer3ATSim::writeToXML(XMLElement* parent)
+{
+	WheeledBaseSim::writeToXML(parent);
+}
+
+void Pioneer3ATSim::readFromXML(XMLElement* parent)
+{
+	WheeledBaseSim::readFromXML(parent);
+}
 void Pioneer3ATSim::drawGL()
 {
 	//it si possible to make the drawing independent of the geometric model

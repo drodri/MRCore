@@ -50,6 +50,11 @@ void AseaIRB2000Sim::writeToStream(Stream& stream)
 void AseaIRB2000Sim::readFromStream(Stream& stream)
  {SolidEntity::readFromStream(stream);}
 
+void AseaIRB2000Sim::writeToXML(XMLElement* parent)
+ {SolidEntity::writeToXML(parent);}
+void AseaIRB2000Sim::readFromXML(XMLElement* parent)
+ {SolidEntity::readFromXML(parent);}
+
 AseaIRB2000Sim::AseaIRB2000Sim()
 {
 	name="ASEA IRB 2000";

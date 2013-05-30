@@ -78,6 +78,9 @@ public:
 	//serialization
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
+	virtual void writeToXML(XMLElement* parent);
+	virtual void readFromXML(XMLElement* parent);
+
 	//number of objects included
 	int getNumObjects(){return (int)objects.size();}
 	//method for adding an object to the EntitySet

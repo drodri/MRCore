@@ -442,6 +442,7 @@ class XMLElement
 		XMLContent& AddContent(const XMLContent&);
 #else
 		XMLContent** GetContents();
+		//unsigned int GetContents(XMLContent**);
 		int AddContent(XMLContent* v,int InsertBeforeElement);
 		int AddContent(const char*,int);
 #endif
@@ -603,6 +604,13 @@ class XMLVariable
 		void SetValueUInt64(unsigned long long);
 		void SetValueFloat(float);
 		void SetFormattedValue(const char* fmt,...);
+
+		///****************** PROYECTO FRAN *****************/////////////
+		//double GetValueDouble();
+		void SetValueDouble(double V);
+		//int GetValueCadena (char* cad);
+
+		///************************************************//////////////////
 		template <typename T> T GetFormattedValue(const char* fmt)
 			{
 			size_t p = GetValue(0);
@@ -612,6 +620,10 @@ class XMLVariable
 			sscanf(d,fmt,&x);
 			return x;
 			}
+
+
+		//char* GetValueCharCad ();
+
 		template <typename T> void SetValueX(T t,const char* fmt);
 		template <typename T> T GetValueX(const char* fmt);
 		XMLVariable* Duplicate();
@@ -689,6 +701,11 @@ class XMLContent
 		operator const char*();
 		size_t GetValue(char*,int NoDecode = 0) const; 
 		void SetValue(const char*,int NoDecode = 0);
+///////////////////////////////////////////////// PROYECTO FRAN ///////////////////////
+		//int GetValueCad (char* cad);
+		size_t GetSize ();
+
+/////////////////////////////////////////////////////////////////////////////////////
 		size_t MemoryUsage();
 		void CompressMemory();
 		bool IntegrityTest();

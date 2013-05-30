@@ -52,6 +52,60 @@ void LaserSensorSim::readFromStream(Stream& stream)
 	stream>>startAngle>>stepAngle>>numSteps>>maxRange>>sigma;
 	setLaserProperties(startAngle,stepAngle,numSteps,maxRange,sigma);
 }
+void LaserSensorSim::writeToXML(XMLElement* parent)
+{
+
+//	XMLAux aux;
+//	XMLElement* lasersensor=new XMLElement(parent,"laserSensorSim");
+	XMLVariable* startAn= new XMLVariable ("startAngle",XMLAux::string_Convert<double>(startAngle).c_str());
+	XMLVariable* stepAn= new XMLVariable ("stepAngle",XMLAux::string_Convert<double>(stepAngle).c_str());
+	XMLVariable* _numStep= new XMLVariable ("numSteps",XMLAux::string_Convert<int>(numSteps).c_str());
+	XMLVariable* _maxRange= new XMLVariable ("maxRange",XMLAux::string_Convert<double>(maxRange).c_str());
+	XMLVariable* _sigma= new XMLVariable ("sigma",XMLAux::string_Convert<double>(sigma).c_str());
+
+	parent->AddVariable(startAn);
+	parent->AddVariable(stepAn);
+	parent->AddVariable(_numStep);
+	parent->AddVariable(_maxRange);
+	parent->AddVariable(_sigma);
+	//parent->AddElement(lasersensor);
+
+	SolidEntity::writeToXML(parent);
+
+}
+
+void LaserSensorSim::readFromXML(XMLElement* parent)
+{
+	double startAn=startAngle, stepAn=stepAngle, maxR=maxRange, _sigma=sigma;
+	int _numSteps=numSteps;
+
+	if (parent->FindVariableZ("startAngle"))
+	{
+		startAn=XMLAux::GetValueDouble(parent->FindVariableZ("startAngle"));
+	}
+	if (parent->FindVariableZ("stepAngle"))
+	{
+		stepAn=XMLAux::GetValueDouble(parent->FindVariableZ("stepAngle"));
+	}
+	if (parent->FindVariableZ("numSteps"))
+	{
+		_numSteps=parent->FindVariableZ("numSteps")->GetValueInt();
+	}
+
+	if (parent->FindVariableZ("maxRange"))
+	{
+		maxR=XMLAux::GetValueDouble(parent->FindVariableZ("maxRange"));
+	}
+	if (parent->FindVariableZ("sigma"))
+	{
+		_sigma=XMLAux::GetValueDouble(parent->FindVariableZ("sigma"));
+	}
+
+	setLaserProperties(startAn,stepAn,_numSteps,maxR,_sigma);
+
+	SolidEntity::readFromXML(parent);
+
+}
 
 ostream& operator<<(ostream& os, const LaserSensorSim& p)
 {

@@ -53,6 +53,36 @@ void PrismaticPart::readFromStream(Stream& stream)
 	f.readFromStream(stream);
 	setPolygonalBase(f); //this function implyies the updating of all aux models
 }
+
+void PrismaticPart::writeToXML(XMLElement* parent)
+{
+	if (height!=1.0) //it is its default value
+	{
+		//XMLAux aux;
+		XMLVariable* alt= new XMLVariable("height",XMLAux::string_Convert<double>(height).c_str());
+		parent->AddVariable(alt);
+	}
+
+		PrimitiveSolidEntity::writeToXML(parent);
+		polygonalBase.writeToXML(parent);
+
+}
+
+void PrismaticPart::readFromXML(XMLElement* parent)
+{
+	double h=height;
+
+	if(parent->FindVariableZ("height"))
+			h=XMLAux::GetValueDouble(parent->FindVariableZ("height"));
+
+	setHeight(h);
+	Face f;
+	f.readFromXML(parent);
+	setPolygonalBase(f);
+	PrimitiveSolidEntity::readFromXML(parent);
+
+}
+
 ostream& operator<<(ostream& os, const PrismaticPart& p)
 {
 	//os<<p.x<<" "<<p.y<<" "<<p.z;
@@ -63,6 +93,7 @@ ostream& operator<<(ostream& os, const PrismaticPart& p)
 PrismaticPart::PrismaticPart(void)
 {
 height=1.0;
+setRegularPolygonBase(height,4);
 setPolygonNeedToBeUpdated();
 }
 

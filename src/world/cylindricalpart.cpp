@@ -45,6 +45,40 @@ void CylindricalPart::readFromStream(Stream& stream)
 {
 	PrismaticPart::readFromStream(stream);
 }
+
+void CylindricalPart::writeToXML(XMLElement* parent)
+{
+	//PrismaticPart::writeToXML(parent);
+
+	if (height!=1.00)
+	{
+		XMLVariable* h=new XMLVariable("height",XMLAux::string_Convert<double>(height).c_str());
+		parent->AddVariable(h);
+	}
+	if (radius!=1.00)
+	{
+		XMLVariable* r=new XMLVariable("radius",XMLAux::string_Convert<double>(radius).c_str());
+		parent->AddVariable(r);
+	}
+	PrimitiveSolidEntity::writeToXML(parent);
+}
+void CylindricalPart::readFromXML(XMLElement* parent)
+{
+	double h=height,rad=radius;
+
+	if (parent->FindVariableZ("height"))
+	{
+		h=XMLAux::GetValueDouble(parent->FindVariableZ("height"));
+	}
+	if (parent->FindVariableZ("radius"))
+	{
+		rad=XMLAux::GetValueDouble(parent->FindVariableZ("radius"));
+	}
+
+	setHeightAndRadius(h,rad);
+	PrimitiveSolidEntity::readFromXML(parent);
+}
+
 ostream& operator<<(ostream& os, const CylindricalPart& p)
 {
 	//os<<p.x<<" "<<p.y<<" "<<p.z;

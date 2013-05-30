@@ -48,6 +48,8 @@ public:
 	//Serializers
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
+	virtual void writeToXML(XMLElement* parent);
+	virtual void readFromXML(XMLElement* parent);
 
 	//Constructor
 	QuadrotorSim(double radius=0.25);

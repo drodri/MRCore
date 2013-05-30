@@ -79,8 +79,12 @@ public:
 //copy constructor
 	Face(const Face &f){(*this)=f;}
 	void setColor(float _r, float _g,float _b,float _alfa){r=_r;g=_g;b=_b;alfa=_alfa;}
+//serialization
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
+	virtual void writeToXML(XMLElement* parent);//,int numface=0);
+	virtual void readFromXML(XMLElement* parent);
+
 	virtual void drawGL();
 	void drawPrimitive(bool dir=true);
 	void setBase(const Transformation3D &inbase);

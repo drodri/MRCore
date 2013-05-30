@@ -48,6 +48,14 @@ void Puma560Sim::writeToStream(Stream& stream)
  {SolidEntity::writeToStream(stream);}
 void Puma560Sim::readFromStream(Stream& stream)
  {SolidEntity::readFromStream(stream);}
+void Puma560Sim::writeToXML(XMLElement* parent)
+{
+	SolidEntity::writeToXML(parent);
+}
+void Puma560Sim::readFromXML(XMLElement* parent)
+{
+	SolidEntity::readFromXML(parent);
+}
 
 Puma560Sim::Puma560Sim()
 {

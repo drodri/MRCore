@@ -68,8 +68,11 @@ public:
 
 //methods
 	//serialization
-	virtual void writeToStream(Stream& stream){PositionableEntity::writeToStream(stream);};
-	virtual void readFromStream(Stream& stream){PositionableEntity::readFromStream(stream);};
+	virtual void writeToStream(Stream& stream){PositionableEntity::writeToStream(stream);}
+	virtual void readFromStream(Stream& stream){PositionableEntity::readFromStream(stream);}
+	virtual void writeToXML(XMLElement* parent){PositionableEntity::writeToXML(parent);}
+	virtual void readFromXML(XMLElement* parent){PositionableEntity::readFromXML(parent);}
+
 	//returns the location that would be used for objects referred to this positionable object
 	//this method have to be overwritten by joints and tcp´s
 	virtual ReferenceSystem *getReferenciableLocation(){return &outputLocation;}

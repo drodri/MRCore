@@ -77,7 +77,7 @@ public:
 	inline Matrix3x3 & operator*= (double v);
 	inline Matrix3x3 & operator/= (double v);
 	inline Vector3D operator * (const Vector3D &v) const;
-
+	inline bool operator== (const Matrix3x3 &m );//////////////////////////////PROYECTO FRAN
 //methods
 	inline double getDeterminant() const; 
 	inline Matrix3x3 inverted() const;
@@ -91,7 +91,19 @@ public:
 	
 //friend methods
 };
+/////////////////PROYECTO FRAN////////////////
+bool  Matrix3x3::operator== (const Matrix3x3 &m )
+{
+	if (mat[0][0]==m.mat[0][0] && mat[0][1]==m.mat[0][1] && mat[0][2]==m.mat[0][2] &&
+	mat[1][0]==m.mat[1][0] && mat[1][1]==m.mat[1][1] && mat[1][2]==m.mat[1][2] &&
+	mat[2][0]==m.mat[2][0] && mat[2][1]==m.mat[2][1] && mat[2][2]==m.mat[2][2])
+		return true;
+	else
+		return false;
 
+}
+
+////////////////////////////////////////////////
 //Implementation of inline methods/////////////////////////////////////
 Matrix3x3::Matrix3x3(double diag) 
 {
@@ -218,6 +230,5 @@ Vector3D Matrix3x3::operator * (const Vector3D &v) const
 {
 	return Vector3D( v*(mat[0]),v*(mat[1]),v*(mat[2]));
 }
-
 }
 #endif  //__MRCORE__MATRIX3x3_H

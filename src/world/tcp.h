@@ -80,8 +80,10 @@ public:
 	}
 //methods
 	//serialization
-	virtual void writeToStream(Stream& stream){PositionableEntity::writeToStream(stream);};
-	virtual void readFromStream(Stream& stream){PositionableEntity::readFromStream(stream);};
+	virtual void writeToStream(Stream& stream){PositionableEntity::writeToStream(stream);}
+	virtual void readFromStream(Stream& stream){PositionableEntity::readFromStream(stream);}
+	virtual void writeToXML(XMLElement* parent){PositionableEntity::writeToXML(parent);}
+	virtual void readFromXML(XMLElement* parent){PositionableEntity::readFromXML(parent);}
 
 
 };

@@ -49,4 +49,6 @@ namespace mr
 			return (*ptrCreateObject)();
 		return 0;
 	}
+	void Object::writeToXML(XMLElement* parent){}
+	void Object::readFromXML(XMLElement* parent){}
 } //mr

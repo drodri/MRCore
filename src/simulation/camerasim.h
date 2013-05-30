@@ -77,6 +77,8 @@ public:
 	//serialization
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
+	virtual void writeToXML(XMLElement* parent);
+	virtual void readFromXML(XMLElement* parent);
 	//set laser properties
 
 	void drawGL();

@@ -35,6 +35,7 @@
 #include "world.h"
 #include "composedentity.h"
 #include "gl/gltools.h"
+
 #include <math.h>
 
 namespace mr{
@@ -51,6 +52,37 @@ void PositionableEntity::readFromStream(Stream& stream)
 	aux.readFromStream(stream);
 	setRelativeT3D(aux);
 }
+
+void PositionableEntity::writeToXML(XMLElement* parent)
+{
+
+	XMLVariable* nam= new XMLVariable("name",name.c_str());
+	parent->AddVariable(nam);
+
+	getRelativeT3D().writeToXML(parent);
+
+
+}
+
+void PositionableEntity::readFromXML(XMLElement* parent)
+{
+	//XMLElement* posi;
+	//if(parent->FindElementZ("positionableEntity"))
+	//	posi=parent->FindElementZ("positionableEntity");
+	//else
+	//	posi=parent;
+
+	char cad[50]={0};
+	if(parent->FindVariableZ("name"))
+	{
+		name=XMLAux::GetValueCadena(parent->FindVariableZ("name"));
+	}
+
+	Transformation3D aux;
+	aux.readFromXML(parent);
+	setRelativeT3D(aux);
+}
+
 
 ostream& operator<<(ostream& os, const PositionableEntity& p)
 {

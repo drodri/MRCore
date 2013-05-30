@@ -92,6 +92,9 @@ public:
 	//serialization
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
+	virtual void writeToXML(XMLElement* parent);
+	virtual void readFromXML(XMLElement* parent);
+
 	void setProperties(double _max, double _min, bool CW, double _offset, Axis ax, bool _prismatic);
 	void getProperties(double *_max, double *_min, bool *CW=0, double *_offset=0, Axis *ax=0, bool *prism=0)
 	{

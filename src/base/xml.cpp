@@ -5625,10 +5625,32 @@ void XMLElement :: RemoveAllContents()
 	contentsnum = 0;
 	}
 
+//unsigned int XMLElement :: GetContents(XMLContent** x)
+//	{
+//	//return contents;
+//		int C = 0;
+//#ifdef XML_USE_STL
+//	for(unsigned int i = 0 ; i < children.size() && deep != 0 ; i++)
+//		{
+//		XMLContent* ch = &contents[i];
+//#else
+//	for(unsigned int i = 0 ; i < contentsnum; i++)
+//		{
+//		if (!contents[i])
+//			continue;
+//		XMLContent* ch = contents[i];
+//#endif
+//		C += ch->GetContents(x + C);
+//		x[C++] = ch;
+//		}
+//
+//	return C;
+//	}
+
 XMLContent** XMLElement :: GetContents()
-	{
-	return contents;
-	}
+{
+return contents;
+}
 
 unsigned int XMLElement :: GetContentsNum()
 	{
@@ -5942,8 +5964,20 @@ size_t XMLContent :: GetValue(char* x,int NoDecode) const
 #endif
 	return strlen(x);
 	}
+/////////////////////////////////////// PROYECTO FRAN ////////////////////////////////////
+//int XMLContent::GetValueCad (char* cad)
+//	{
+//		char t[50] = {0};
+//		GetValue(t);
+//		strcpy(cad,t);
+//		return strlen(cad);
+//	}
+size_t XMLContent ::GetSize ()
+{
+	return strlen(c);
+}
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////
 void XMLContent :: SetValue(const char* VV,int NoDecode)
 	{
 #ifdef XML_USE_STL
@@ -6581,6 +6615,43 @@ float XMLVariable :: GetValueFloat()
 	return (float)atof(d);
 	}
 
+///******************* PROYECTO FRAN *****************////
+void XMLVariable :: SetValueDouble(double V)
+	{
+		char t[50] = {0};
+		sprintf(t,"%lf",V);
+		SetValue(t);
+	}
+
+
+//double XMLVariable :: GetValueDouble()
+//	{
+//		size_t p = GetValue(0);
+//		Z<char> d(p + 10);
+//		GetValue(d);
+//		return atof(d);
+//	}
+
+//char* XMLVariable :: GetValueCharCad ()
+//{
+//	size_t p = GetValue(0);
+//	Z<char> d(p + 10);
+//	GetValue(d);
+//	char cad[sizeof(d)];
+//	sscanf(d,"%s",cad);
+////	string str=cad;
+//	return cad;
+//}
+
+//int XMLVariable ::GetValueCadena (char* cad)
+//	{
+//		char t[50] = {0};
+//		GetValue(t);
+//		strcpy(cad,t);
+//		return strlen(cad);
+//	}
+///****************************************************////////////////////
+
 void XMLVariable :: SetFormattedValue(const char* fmt,...)
 	{
 	va_list args;
@@ -6927,6 +6998,8 @@ int XMLElement :: XMLQuery(const char* expression2,XMLElement** rv,unsigned int 
 		}
 	return N;
 	}
+
+
 
 
 
@@ -7422,6 +7495,7 @@ int XMLGetStringW(const char* section,const char* Tattr,const wchar_t* defv,wcha
 
 #endif
 #endif
+
 
 
 };

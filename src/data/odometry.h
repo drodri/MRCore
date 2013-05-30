@@ -58,6 +58,9 @@ public:
 	//Serializers
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
+	virtual void writeToXML(XMLElement* parent);
+	virtual void readFromXML(XMLElement* parent);
+
 	virtual void drawGL();//<OpenGL draw
 	
 	Transformation3D getIncrement(const Odometry& lastOdometry,float noise=0);

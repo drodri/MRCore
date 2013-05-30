@@ -42,6 +42,64 @@ void WheeledBaseSim::readFromStream(Stream& stream)
 	wheels[2]=Vector3D(-large/2,(width+wheel_width)/2,wheel_radius);
 	wheels[3]=Vector3D(-large/2,-(width+wheel_width)/2,wheel_radius);
 }
+
+
+void WheeledBaseSim::writeToXML(XMLElement* parent)
+{
+	//SolidEntity::writeToStream(stream);
+	//stream<<width<<large<<wheel_radius<<wheel_width;
+	//stream<<speed<<rotSpeed;
+	//
+
+	SolidEntity::writeToXML(parent);
+	//XMLAux aux;
+	//XMLElement* wheeledBase=new XMLElement(parent,"wheeledBaseSim");
+
+	//XMLVariable* wid= new XMLVariable ("width",aux.string_Convert<double>(width).c_str());
+	//XMLVariable* larg= new XMLVariable ("large",aux.string_Convert<double>(large).c_str());
+	//XMLVariable* wheel_rad= new XMLVariable ("wheel_radius",aux.string_Convert<double>(wheel_radius).c_str());
+	//XMLVariable* wheel_wid= new XMLVariable ("wheel_width",aux.string_Convert<double>(wheel_width).c_str());
+	if (speed)
+	{
+		XMLVariable* _speed= new XMLVariable ("speed",XMLAux::string_Convert<double>(speed).c_str());
+		parent->AddVariable(_speed);
+	}
+	if (rotSpeed)
+	{
+		XMLVariable* _rotSpeed= new XMLVariable ("rotSpeed",XMLAux::string_Convert<double>(rotSpeed).c_str());
+		parent->AddVariable(_rotSpeed);
+	}
+
+
+	//wheeledBase->AddVariable(wid);
+	//wheeledBase->AddVariable(larg);
+	//wheeledBase->AddVariable(wheel_rad);
+	//wheeledBase->AddVariable(wheel_wid);
+
+
+	//parent->AddElement(wheeledBase);
+
+	odometry.writeToXML(parent);
+
+}
+
+void WheeledBaseSim::readFromXML(XMLElement* parent)
+{
+	SolidEntity::readFromXML(parent);
+	odometry.readFromXML(parent);
+
+	if (parent->FindVariableZ("speed"))
+	{
+		speed=XMLAux::GetValueDouble(parent->FindVariableZ("speed"));
+
+	}
+	if (parent->FindVariableZ("rotSpeed"))
+	{
+		rotSpeed=XMLAux::GetValueDouble(parent->FindVariableZ("rotSpeed"));
+
+	}
+
+}
 void WheeledBaseSim::simulate(double delta_t)
 {
 	

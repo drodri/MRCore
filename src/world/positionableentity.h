@@ -37,6 +37,8 @@
 #include <string.h>
 #include "../base/globject.h"
 #include "referencesystem.h"
+#include "../base/xmlaux.h"
+#include "../base/xml.h"
 
 
 
@@ -103,6 +105,8 @@ public:
 	//serialization
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
+	virtual void writeToXML(XMLElement* parent);
+	virtual void readFromXML(XMLElement* parent);
 
 	//Draw positional entity
 	 void drawGL();

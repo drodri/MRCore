@@ -59,6 +59,51 @@ SolidEntity::~SolidEntity(void)
 
 }
 
+//serialization
+void SolidEntity::writeToXML(XMLElement* parent)
+{
+
+	if (!intersectable) //default value is true
+	{
+		XMLVariable* inter;
+		inter= new XMLVariable("intersectable", XMLAux::string_ConvertBool(intersectable).c_str());
+		parent->AddVariable(inter);
+	}
+
+	PositionableEntity::writeToXML(parent);
+//	box.writeToXML(parent);
+	material.writeToXML(parent);
+
+
+}
+
+void SolidEntity::readFromXML(XMLElement* parent)
+{
+		//XMLElement* solid;
+		//if(parent->FindElementZ("solidentity"))
+		//	solid=parent->FindElementZ("solidentity");
+		//else
+		//	solid=parent;
+
+		if(parent->FindVariableZ("intersectable"))
+		{
+			string cad;
+			cad=XMLAux::GetValueCadena(parent->FindVariableZ("intersectable"));
+
+			if (cad=="true" || cad!="0")
+				setIntersectable(true);
+			else
+				setIntersectable(false);
+		}
+
+		PositionableEntity::readFromXML(parent);
+		box.readFromXML(parent);
+		material.readFromXML(parent);
+		setBoxNeedToBeUpdated();
+
+}
+
+
 void SolidEntity::locationUpdated()
 {
 PositionableEntity::locationUpdated();

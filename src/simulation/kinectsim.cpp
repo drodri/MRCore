@@ -51,6 +51,11 @@ void KinectSim::readFromStream(Stream& stream)
 	SolidEntity::readFromStream(stream);
 	//data.readFromStream(stream);
 }
+void KinectSim::writeToXML(XMLElement* parent)
+ {SolidEntity::writeToXML(parent);}
+
+void KinectSim::readFromXML(XMLElement* parent)
+ {SolidEntity::readFromXML(parent);}
 
 ostream& operator<<(ostream& os, const KinectSim& p)
 {

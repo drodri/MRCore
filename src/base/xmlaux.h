@@ -28,59 +28,66 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
  * PURPOSE.
  **********************************************************************/
-#ifndef __MRCORE__XMLFILE__H
-#define __MRCORE__XMLFILE__H
+#ifndef __MRCORE__XMLAUX__H
+#define __MRCORE__XMLAUX__H
 
-#include "xmlaux.h"
+
+#include <string>
+#include <sstream>
+#include <iostream>
+#include "xml.h"
 #include <vector>
+//#include "object.h"
 
 using namespace std;
-
-//using namespace std;
-
 
 
 namespace mr
 {
-class Object;
-class XMLElement;
-/*!
-    \class XMLfile
-    \brief open, read, and writes a XMLfile for one object. 
-	is useful for worlds and world objects. 
-*/
-class XMLfile 
+
+
+ //XML &operator<<(XML &xml, const Object &obj);
+
+
+class XMLAux
 {
 public:
-	//constructor and destructor
-		//this class cannot be directly instantiated
-	XMLfile(const char *file="xml_file.xml");
-	XMLfile (XMLElement *parent);
-	~XMLfile();
 
-	Object * load(const char *file="xml_file.xml"); //loads and parses the file
-	bool save(Object* pObj,const char *file="xml_file.xml"); //saves the XML file created with the object
-	bool save();
+XMLAux(void){};
 
-	void write (Object* pObj);
-	Object* read (XMLElement* obj);
-	bool importFromXML ();
+template <class T> static string string_Convert (T x)
+{
+	stringstream str;
+	string cad;
+	str<<x;
+	cad=str.str();
+	//str.str(string()); clean str
+	return cad;
+}
 
-	XMLfile& operator<<(Object *obj);
-	XMLfile& operator<<(int _id);
+static	string string_ConvertBool (bool b);
+static double GetValueDouble(XMLVariable* v);
+static string GetValueCadena (XMLVariable* v);
+static string GetNameElement (XMLElement *elem);
+static string setLinkTo (string name_link,int id_link);
+static string GetNameLinkTo (XMLVariable* v);
 
-
-	vector<XMLElement*> getXMLElementsObjects () {return pElem;}
-
-private:
-	bool checkOverwrite;
-	vector<XMLElement*> pElem;
-	XML* xml;
-	XMLElement* root;
-	XMLElement* imported;
+//static XMLElement* getXMLObject (XMLElement* parent, Object *obj,int index_obj);
 
 
-}; //End of class XMLFile
+
+//help functions to Tcp links
+static void GetValueOwnerAndTcp(XMLVariable* v, int* ownerAndTcp);
+static vector<string> GetNameOwnerAndTcp(XMLVariable* v);
+static string getTypeConectionLink (XMLVariable* v, bool linktotcp=true);
+static int getIndTcp (string cad);
+static string setLinkToTcpDefault (string name_owner,int index_tcp,int id_owner);
+static string setLinkToTcp (string name_owner,string name_tcp,int index_tcp,int id_owner);
+static string getOnlyNameTcp(string name);
 
 };
-#endif  //__MRCORE__XMLfile_H
+
+
+
+};
+#endif  //__MRCORE__XMLAUX__H

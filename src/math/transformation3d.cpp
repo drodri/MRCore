@@ -39,7 +39,7 @@ ostream& operator<<(ostream& os, const Transformation3D& p)
 	os<<p.position.x<<" "<<p.position.y<<" "<<p.position.z<<endl;
 	return os;
 }
-
+//serialization
 void Transformation3D::writeToStream(Stream& stream)
 {
 	stream<<orientation[0][0]<<orientation[0][1]<<orientation[0][2];
@@ -55,6 +55,137 @@ void Transformation3D::readFromStream(Stream& stream)
 	stream>>m[2][0]>>m[2][1]>>m[2][2];
 	stream>>position[0]>>position[1]>>position[2];
 }
+void Transformation3D::writeToXML(XMLElement* parent)
+{
+	Matrix3x3 defaultM(1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0);
+	Vector3D defaultPos(0.0,0.0,0.0);
+	bool dfPos=false,dfOrient=false;
+
+	if (position==defaultPos)//default value
+		dfPos=true;
+	if (defaultM==orientation)//orientation[0]==defaultM[0] && orientation[1]==defaultM[1] && orientation[2]==defaultM[2])
+		dfOrient=true;
+
+	if (!dfOrient)
+	{
+		XMLElement* orient=new XMLElement(parent,"orientation");
+		XMLContent* mat;
+
+
+		for(int i=0;i<3;i++)
+		{
+			mat=new XMLContent(orient,-1,Vector3D :: vector3DToString(orientation[i]).c_str());
+			orient->AddContent(mat,0);
+		}
+
+		parent->AddElement(orient);
+	}
+
+	if (!dfPos)
+		{
+			XMLContent* vec_posi;
+			XMLElement* posi= new XMLElement(parent,"position");
+			vec_posi=new XMLContent(parent,-1,Vector3D :: vector3DToString(position).c_str());
+
+			posi->AddContent(vec_posi,0);
+			parent->AddElement(posi);
+		}
+}
+
+void Transformation3D::readFromXML(XMLElement* parent)
+{
+	string type,cad;
+	Matrix3x3 &m=orientation;
+	XMLElement* orient;
+
+	if(parent->FindElementZ("orientation"))
+	{
+		orient=parent->FindElementZ("orientation");
+
+		int num=orient->GetContentsNum();
+		if(num)
+		{
+			XMLContent** c=orient->GetContents();
+
+			if (orient->FindVariableZ("type"))
+			{
+
+
+				type=XMLAux::GetValueCadena(orient->FindVariableZ("type"));
+
+				if (type=="euler")
+				{
+
+					Vector3D p;
+					for (int i=0;i<num;i++)
+					{
+						cad=string();
+						cad.resize(c[i]->GetSize());
+						c[i]->GetValue((char*)cad.c_str());
+						p=Vector3D::stringToVector3D(cad);
+						orientation=OrientationMatrix(p.x,p.y,p.z);
+					}
+				}
+				else //default is MATRIX
+				{
+					for (int i=0;i<num;i++)
+					{
+						cad=string();
+						cad.resize(c[i]->GetSize());
+						c[i]->GetValue((char*)cad.c_str());
+						vector<Vector3D> aux_vec=Vector3D::stringToVectorVector3D(cad);
+						m[0][0]=aux_vec[0].x;m[0][1]=aux_vec[0].y;m[0][2]=aux_vec[0].z;
+						m[1][0]=aux_vec[1].x;m[1][1]=aux_vec[1].y;m[1][2]=aux_vec[1].z;
+						m[2][0]=aux_vec[2].x;m[2][1]=aux_vec[2].y;m[2][2]=aux_vec[2].z;
+
+					}
+
+				}
+			}
+			else
+			{
+				for (int i=0;i<num;i++)
+				{
+					cad=string();
+					cad.resize(c[i]->GetSize());
+					c[i]->GetValue((char*)cad.c_str());
+					vector<Vector3D> aux_vec=Vector3D::stringToVectorVector3D(cad);
+					m[0][0]=aux_vec[0].x;m[0][1]=aux_vec[0].y;m[0][2]=aux_vec[0].z;
+					m[1][0]=aux_vec[1].x;m[1][1]=aux_vec[1].y;m[1][2]=aux_vec[1].z;
+					m[2][0]=aux_vec[2].x;m[2][1]=aux_vec[2].y;m[2][2]=aux_vec[2].z;
+
+				}
+
+
+			}
+
+
+		}
+	}
+
+
+		XMLElement* posi;
+		if(parent->FindElementZ("position"))
+		{
+
+			posi=parent->FindElementZ("position");
+			int num=posi->GetContentsNum();
+
+			if(num)
+			{
+				cad=string();
+				XMLContent** c=posi->GetContents();
+				cad.resize(c[0]->GetSize());
+				c[0]->GetValue((char*)cad.c_str());
+				position=Vector3D::stringToVector3D(cad);
+			}
+
+		}
+
+
+}
+
+
 
 void Transformation3D::transformGL()
 {

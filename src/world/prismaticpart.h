@@ -107,8 +107,12 @@ public:
 	void setPolygonalBase(const vector<Vector2D> &list_of_vertex);
 	void setRegularPolygonBase(double radius,int numVertex);
 	void setHeight(double _height);
+//serialization
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
+	virtual void writeToXML(XMLElement* parent);
+	virtual void readFromXML(XMLElement* parent);
+
 	void drawGL();
 	double getHeight(){return height;}
 	Face getPolygonalBase();

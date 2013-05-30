@@ -41,6 +41,12 @@ void AdeptOneSim::writeToStream(Stream& stream)
  {SolidEntity::writeToStream(stream);}
 void AdeptOneSim::readFromStream(Stream& stream)
  {SolidEntity::readFromStream(stream);}
+
+void AdeptOneSim::writeToXML(XMLElement* parent)
+ {SolidEntity::writeToXML(parent);}
+void AdeptOneSim::readFromXML(XMLElement* parent)
+ {SolidEntity::readFromXML(parent);}
+
 AdeptOneSim::AdeptOneSim()
 {
 	name="SCARA Adept One Sim";

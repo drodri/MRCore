@@ -50,6 +50,19 @@ void ComposedEntity::readFromStream(Stream& stream)
 
 }
 
+void ComposedEntity::writeToXML(XMLElement* parent)
+{
+	//XMLElement* compos=new XMLElement(parent,"composedentity");
+	//parent->AddElement(compos);
+	SolidEntity::writeToXML(parent);
+	EntitySet::writeToXML(parent);
+}
+void ComposedEntity::readFromXML(XMLElement* parent)
+{
+	SolidEntity::readFromXML(parent);
+	EntitySet::readFromXML(parent);
+}
+
 
 ComposedEntity::ComposedEntity(void)
 {

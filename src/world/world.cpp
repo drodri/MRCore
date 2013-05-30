@@ -44,8 +44,18 @@ void World::writeToStream(Stream& stream)
 }
 void World::readFromStream(Stream& stream)
 {
+
 	EntitySet::readFromStream(stream);
 
+}
+void World::writeToXML(XMLElement* parent)
+{
+	EntitySet::writeToXML(parent);
+}
+
+void World::readFromXML(XMLElement* parent)
+{
+	EntitySet::readFromXML(parent);
 }
 
 

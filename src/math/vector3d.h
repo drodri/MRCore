@@ -33,10 +33,11 @@
 #define __MRCORE__VECTOR3D_H
 
 #include <iostream>
+#include <sstream>
 #include <cmath>
 #include <math.h>
 #include "base/stream.h"
-
+#include <vector>
 using namespace std;
 
 namespace mr
@@ -120,6 +121,11 @@ public:
 	Vector3D getUnitaryVector() const;
 
 	
+///////////////////////////////////////////////////////////////////
+static	Vector3D stringToVector3D (string cad);
+static vector<Vector3D> stringToVectorVector3D (string cad);
+static string vector3DToString (Vector3D p);
+/////////////////////////////////////////////////////////////////
 
 	//Punto3D is a typedef of Vector3D
 	inline double distanceTo(const Vector3D& p) const { return ((*this) - p).module(); }

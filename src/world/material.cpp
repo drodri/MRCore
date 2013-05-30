@@ -51,4 +51,58 @@ void Material::readFromStream(Stream& stream)
 {
 	stream>>color.r>>color.g>>color.b;
 }
+
+void Material::writeToXML(XMLElement* parent)
+{
+	//XMLAux aux;
+	bool defaultR=true, defaultG=true, defaultB=true;
+
+	XMLElement* colour=new XMLElement(parent,"colour");
+
+	if (color.r!=0.5)
+	{
+		XMLVariable* r= new XMLVariable("r",XMLAux::string_Convert<double>(color.r).c_str());
+		colour->AddVariable(r);
+		defaultR=false;
+	}
+	if (color.g!=0.5)
+	{
+		XMLVariable* g= new XMLVariable("g",XMLAux::string_Convert<double>(color.g).c_str());
+		colour->AddVariable(g);
+		defaultG=false;
+	}
+	if (color.b!=0.5)
+	{
+		XMLVariable* b= new XMLVariable("b",XMLAux::string_Convert<double>(color.b).c_str());
+		colour->AddVariable(b);
+		defaultB=false;
+	}
+
+	if (defaultR && defaultG && defaultB)
+		return;
+	else
+		parent->AddElement(colour);
+
+}
+
+void Material::readFromXML(XMLElement* parent)
+{
+	XMLElement* colour;
+	double r=color.r,g=color.g,b=color.b;
+
+	if(parent->FindElementZ("colour"))
+	{
+		colour=parent->FindElementZ("colour");
+
+		if(colour->FindVariableZ("r"))
+			r=XMLAux::GetValueDouble(colour->FindVariableZ("r"));
+		if(colour->FindVariableZ("g"))
+			g=XMLAux::GetValueDouble(colour->FindVariableZ("g"));
+		if(colour->FindVariableZ("b"))
+			b=XMLAux::GetValueDouble(colour->FindVariableZ("b"));
+	}
+
+	setColor(r,g,b);
+
+}
 }//mr

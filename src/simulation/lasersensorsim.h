@@ -40,6 +40,8 @@
 //#include "../math/segment3d.h"
 #include "../world/world.h"
 #include "../system/mutex.h"
+#include "../base/xmlaux.h"
+
 
 
 using namespace std;
@@ -93,6 +95,8 @@ public:
 	//serialization
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
+	virtual void writeToXML(XMLElement* parent);
+	virtual void readFromXML(XMLElement* parent);
 	//set laser properties
 	void setLaserProperties(double _startangle, double _step, int _numsteps, 
 								double _maxrange, double _sigma);

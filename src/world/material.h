@@ -36,6 +36,8 @@
 
 
 #include "../base/object.h"
+#include "../base/xmlaux.h"
+#include "../base/xml.h"
 namespace mr{
 
 //currently a very simplified version. In future it will be posible to
@@ -59,6 +61,8 @@ public:
 	}
 	void writeToStream(Stream& stream);
 	void readFromStream(Stream& stream);
+	void writeToXML(XMLElement* parent);
+	void readFromXML(XMLElement* parent);
 	void loadMaterial();
 };
 

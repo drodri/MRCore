@@ -51,7 +51,10 @@ void LaserSensor3DSim::readFromStream(Stream& stream)
 	SolidEntity::readFromStream(stream);
 
 }
-
+void LaserSensor3DSim::writeToXML(XMLElement* parent)
+ {SolidEntity::writeToXML(parent);}
+void LaserSensor3DSim::readFromXML(XMLElement* parent)
+ {SolidEntity::readFromXML(parent);}
 
 
 //constructors

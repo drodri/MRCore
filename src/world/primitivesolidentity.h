@@ -82,6 +82,8 @@ public:
 	//serialization
 	virtual void writeToStream(Stream& stream){SolidEntity::writeToStream(stream);};
 	virtual void readFromStream(Stream& stream){SolidEntity::readFromStream(stream);};
+	virtual void writeToXML(XMLElement* parent){SolidEntity::writeToXML(parent);}
+	virtual void readFromXML(XMLElement* parent){SolidEntity::readFromXML(parent);}
 
 	void locationUpdated();
 

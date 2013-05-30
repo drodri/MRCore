@@ -35,6 +35,8 @@
 #include "vector3d.h"
 #include "orientationmatrix.h"
 #include "../base/globject.h"
+#include "../base/xmlaux.h"
+#include "../base/xml.h"
 using namespace std;
 
 namespace mr
@@ -111,9 +113,11 @@ public:
 	Transformation3D inverted() const;
 	void transformGL();
 	void drawGL();
-
+//serialization
 	void writeToStream(Stream& stream);
 	void readFromStream(Stream& stream);
+	void writeToXML(XMLElement* parent);
+	void readFromXML(XMLElement* parent);
 	//Metric based module taking into account angles weighted by L2
 	double module()
 	{

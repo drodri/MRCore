@@ -76,6 +76,7 @@ if(p.z<minVertex.z)minVertex.z=p.z;
 
 }
 
+//serialization
 void BoundingBox::writeToStream(Stream& stream)
 {
 	stream<<maxVertex.x<<maxVertex.y<<maxVertex.z;
@@ -86,7 +87,38 @@ void BoundingBox::readFromStream(Stream& stream)
 	stream>>maxVertex.x>>maxVertex.y>>maxVertex.z;
 	stream>>minVertex.x>>minVertex.y>>minVertex.z;
 }
+void BoundingBox::writeToXML(XMLElement* parent)
+{
+/*	XMLElement* bound=new XMLElement(parent,"boundingbox");
+		XMLElement* maxver=new XMLElement(parent,"maxVertex");
+		XMLElement* minver=new XMLElement(parent,"minVertex");
 
+		XMLVariable* xmax= new XMLVariable("x",(char*)cadena(maxVertex.x).c_str());
+		XMLVariable* ymax=new XMLVariable("y",(char*)cadena(maxVertex.y).c_str());
+		XMLVariable* zmax=new XMLVariable("z",(char*)cadena(maxVertex.z).c_str());
+		XMLVariable* xmin= new XMLVariable("x",(char*)cadena(minVertex.x).c_str());
+		XMLVariable* ymin=new XMLVariable("y",(char*)cadena(minVertex.y).c_str());
+		XMLVariable* zmin=new XMLVariable("z",(char*)cadena(minVertex.z).c_str());
+
+		parent->AddElement(bound);
+		bound->AddElement(maxver);
+		bound->AddElement(minver);
+
+		maxver->AddVariable(xmax);
+		maxver->AddVariable(ymax);
+		maxver->AddVariable(zmax);
+
+		minver->AddVariable(xmin);
+		minver->AddVariable(ymin);
+		minver->AddVariable(zmin);*/
+
+}
+
+void BoundingBox::readFromXML(XMLElement* parent)
+{
+
+}
+////
 BoundingBox operator*(Transformation3D T, BoundingBox& b)
 {
 	BoundingBox ret;

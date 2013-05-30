@@ -94,8 +94,12 @@ public:
 			triangles=f.triangles;box=f.box;return *this;listGL=0; generateGLlist=true;}
 //copy constructor
 	TriangleMesh(const TriangleMesh &f){(*this)=f;}
+//serialization
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
+	virtual void writeToXML(XMLElement* parent);
+	virtual void readFromXML(XMLElement* parent);
+
 	virtual void drawGL();
 	bool addTriangle(Vector3D a,Vector3D b, Vector3D c);//normal vector is computed throug the cross product cw
 	//special operator that obtains the TriangleMesh transformed by the T reference system

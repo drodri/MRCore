@@ -47,6 +47,16 @@ void CameraSim::readFromStream(Stream& stream)
 	SolidEntity::readFromStream(stream);
 }
 
+void CameraSim::writeToXML(XMLElement* parent)
+{
+	SolidEntity::writeToXML(parent);
+}
+
+void CameraSim::readFromXML(XMLElement* parent)
+{
+	SolidEntity::readFromXML(parent);
+}
+
 ostream& operator<<(ostream& os, const CameraSim& p)
 {
 	//os<<p.x<<" "<<p.y<<" "<<p.z;

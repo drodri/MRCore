@@ -30,6 +30,16 @@ void NemoLaserSensor3DSim::readFromStream(Stream& stream)
 {
 	SolidEntity::readFromStream(stream);
 }
+void NemoLaserSensor3DSim::writeToXML(XMLElement* parent)
+{
+	SolidEntity::writeToXML(parent);
+}
+
+void NemoLaserSensor3DSim::readFromXML(XMLElement* parent)
+{
+	SolidEntity::readFromXML(parent);
+}
+
 void NemoLaserSensor3DSim::drawGL()
 {
 	//it si possible to make the drawing independent of the geometric model

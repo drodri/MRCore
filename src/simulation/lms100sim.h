@@ -46,6 +46,8 @@ public:
 	//Serializers
 	void writeToStream(Stream& stream);
 	void readFromStream(Stream& stream);
+	void writeToXML(XMLElement* parent);
+	void readFromXML(XMLElement* parent);
 
 	virtual void drawGL();
 };

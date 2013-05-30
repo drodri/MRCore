@@ -61,6 +61,60 @@ void SpherePart::readFromStream(Stream& stream)
 
 }
 
+void SpherePart::writeToXML(XMLElement* parent)
+{//radius=1.0, int _meridian=12, int _parallel=9
+	//XMLAux aux;
+
+	if (radius!=1.0)
+	{
+		XMLVariable* radio= new XMLVariable("radius",XMLAux::string_Convert<double>(radius).c_str());
+		parent->AddVariable(radio);
+	}
+	if (meridian!=12)
+	{
+		XMLVariable* paralelo=new XMLVariable("parallel",XMLAux::string_Convert<int>(meridian).c_str());
+		parent->AddVariable(paralelo);
+	}
+
+	if (parallel!=9)
+	{
+		XMLVariable* meridiano=new XMLVariable("meridian",XMLAux::string_Convert<int>(parallel).c_str());
+		parent->AddVariable(meridiano);
+	}
+
+	PrimitiveSolidEntity::writeToXML(parent);
+
+}
+
+void SpherePart::readFromXML(XMLElement* parent)
+{
+
+	double rad=radius;
+	int par=parallel,mer=meridian;
+
+	//XMLElement* sphere;
+	//if (parent->FindElementZ("SpherePart"))
+	//	sphere=parent->FindElementZ("SpherePart");
+	//else
+	//	sphere=parent;
+
+	if(parent->FindVariableZ("radius"))
+		rad=XMLAux::GetValueDouble(parent->FindVariableZ("radius"));
+
+	if(parent->FindVariableZ("parallel"))
+		par=parent->FindVariableZ("parallel")->GetValueInt();
+
+	if(parent->FindVariableZ("meridian"))
+		mer=parent->FindVariableZ("meridian")->GetValueInt();
+
+	PrimitiveSolidEntity::readFromXML(parent);
+
+	setNumVertex(mer,par);
+	setRadius(rad);
+
+}
+
+
 ostream& operator<<(ostream& os, const SpherePart& s)
 {
 	//os<<s.x<<" "<<s.y<<" "<<s.z;

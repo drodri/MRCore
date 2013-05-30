@@ -108,8 +108,13 @@ dealing with primitive classes.
 //specific operations due to its primitive condition
 	void createWiredModel();
 
+//serialization
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
+	virtual void writeToXML(XMLElement* parent);
+	virtual void readFromXML(XMLElement* parent);
+
+
 	void drawGL();
 
 //specific operations that have to be implemented due to its solid entity condition

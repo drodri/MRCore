@@ -85,6 +85,16 @@ void PowerCube70Sim::readFromStream(Stream& stream){
 		stream>>p>>t;
 		setPos(p,t);
 }
+void PowerCube70Sim::writeToXML(XMLElement* parent)
+{
+	SolidEntity::writeToXML(parent);
+}
+void PowerCube70Sim::readFromXML(XMLElement* parent)
+{
+	SolidEntity::readFromXML(parent);
+}
+
+
 void PowerCube70Sim::simulate(double delta_t)
 {
 	//aqui es necesario recoger el mundo al que pertenece el world

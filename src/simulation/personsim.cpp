@@ -51,6 +51,15 @@ void PersonSim::readFromStream(Stream& stream)
 {
 	
 }
+void PersonSim::writeToXML(XMLElement* parent)
+{
+
+}
+
+void PersonSim::readFromXML(XMLElement* parent)
+{
+
+}
 void PersonSim::drawGL()
 {
 	//it si possible to make the drawing independent of the geometric model

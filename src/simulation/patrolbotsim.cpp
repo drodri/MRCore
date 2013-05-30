@@ -93,6 +93,17 @@ objects[5]->setRelativePosition(Vector3D(-large/2,-width/2,wheel_radius+0.001));
 }
 void PatrolbotSim::writeToStream(Stream& stream)
 {WheeledBaseSim::writeToStream(stream);}
+
 void PatrolbotSim::readFromStream(Stream& stream)
 {WheeledBaseSim::readFromStream(stream);}
+
+void PatrolbotSim::writeToXML(XMLElement* parent)
+{
+	WheeledBaseSim::writeToXML(parent);
+}
+
+void PatrolbotSim::readFromXML(XMLElement* parent)
+{
+	WheeledBaseSim::readFromXML(parent);
+}
 }; //Namespace mr

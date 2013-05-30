@@ -53,6 +53,23 @@ void MeshPart::readFromStream(Stream& stream)
 	createWiredModel();
 
 }
+void MeshPart::writeToXML(XMLElement* parent)
+{
+	PrimitiveSolidEntity::writeToXML(parent);
+	mesh.writeToXML(parent);
+
+}
+
+void MeshPart::readFromXML(XMLElement* parent)
+{
+	PrimitiveSolidEntity::readFromXML(parent);
+	mesh.readFromXML(parent);
+	//actualizaciones
+	absoluteMesh=mesh;
+	setMeshNeedToBeUpdated();
+	createWiredModel();
+}
+
 void MeshPart::createWiredModel()
 {
 	int i,num;

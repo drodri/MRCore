@@ -96,6 +96,9 @@ public:
 		stream>>intersectable;
 		setBoxNeedToBeUpdated();
 	}
+	void writeToXML(XMLElement* parent);
+	void readFromXML(XMLElement* parent);
+
 	//operator =
 	const SolidEntity &operator=(const SolidEntity &s){
 		*((PositionableEntity *)this)=s;

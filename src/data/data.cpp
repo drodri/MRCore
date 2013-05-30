@@ -41,5 +41,29 @@ void Data::readFromStream(Stream& stream)
 	stream>>timestamp.seconds>>timestamp.microseconds;
 }
 
+void Data::writeToXML(XMLElement* parent)
+{
+	XMLAux aux;
+	XMLElement* dat=new XMLElement(parent,"data");
+	XMLVariable* sec= new XMLVariable ("seconds",aux.string_Convert<int>(timestamp.seconds).c_str());
+	XMLVariable* microsec= new XMLVariable ("microseconds",aux.string_Convert<int>(timestamp.microseconds).c_str());
+
+	dat->AddVariable(sec);
+	dat->AddVariable(microsec);
+	parent->AddElement(dat);
+
+
+
+}
+
+void Data::readFromXML(XMLElement* parent)
+{
+	//XMLAux aux;
+	//XMLElement* dat=new XMLElement(parent,"data");
+	//XMLVariable* sec= new XMLVariable ("seconds",aux.string_Convert<int>(timestamp.seconds).c_str());
+	//XMLVariable* microsec= new XMLVariable ("microseconds",aux.string_Convert<int>(timestamp.microseconds).c_str());
+
+}
+
 
 } //mr

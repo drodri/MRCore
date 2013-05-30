@@ -94,8 +94,12 @@ public:
 	//serialization
 	void addFace(Face face);
 	void operator+=(const Face &face){addFace(face);}
+//serialization
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
+	virtual void writeToXML(XMLElement* parent);
+	virtual void readFromXML(XMLElement* parent);
+
 	void drawGL();
 //specific operations that have to be implemented due to its solid entity condition
 	bool segmentIntersection(const Segment3D &s,vector<Vector3D> *ipoints);

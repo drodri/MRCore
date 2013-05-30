@@ -33,6 +33,7 @@
 
 #include "base/globject.h"
 #include "system/time.h"
+#include "../base/xmlaux.h"
 
 namespace mr
 {
@@ -45,6 +46,8 @@ class Data: public GLObject
 public:
 	void writeToStream(Stream& stream);
 	void readFromStream(Stream& stream);
+	void writeToXML(XMLElement* parent);
+	void readFromXML(XMLElement* parent);
 	//annotates this data item with the current time
 	void timeStamp()
 	{

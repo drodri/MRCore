@@ -31,7 +31,9 @@
 #include "trianglemesh.h"
 #include "mrmath.h"
 #include <math.h>
+#include <sstream>
 
+using namespace std;
 
 namespace mr{
 IMPLEMENT_MR_OBJECT(TriangleMesh)
@@ -102,6 +104,123 @@ void TriangleMesh::readFromStream(Stream& stream)
 	}
 	box.readFromStream(stream);
 }
+
+void TriangleMesh::writeToXML(XMLElement* parent)
+{
+
+	int i,num=(int)vertex.size();
+	XMLAux aux;
+	XMLElement* tria=new XMLElement(parent,"triangleMesh");
+
+
+
+	//XMLElement* numVert;
+	//XMLVariable* vec;
+	//for(i=0;i<num;i++)
+	//{
+	//	numVert=new XMLElement(vert,aux.string_Convert<int>(i).c_str());
+	//	vec= new XMLVariable("{x,y,z}",Vector3D::vector3DToString(vertex[i]).c_str());
+
+	//	vert->AddElement(numVert);
+	//	numVert->AddVariable(vec);
+	//}
+	XMLElement* vert=new XMLElement(tria,"vertex");
+	XMLContent* c;
+
+	for(i=0;i<num;i++)
+	{
+		c=new XMLContent(vert,-1,Vector3D :: vector3DToString(vertex[i]).c_str());
+		vert->AddContent(c,0);
+
+	}
+
+	num=(int)edges.size();
+	XMLElement* vert_edge=new XMLElement(tria,"TMEdge");
+	//XMLElement* numEdge;
+	//XMLVariable* vec_edge;
+	//for(i=0;i<num;i++)
+	//{
+	//	stringstream str;
+	//	string cad;
+	//	str<<"{"<<edges[i].a<<","<<edges[i].b<<"}";
+	//	cad=str.str();
+	//
+	//	numEdge=new XMLElement(vert_edge,aux.string_Convert<int>(i).c_str());
+	//	vec_edge= new XMLVariable("{a,b}",cad.c_str());
+
+	//	vert_edge->AddElement(numEdge);
+	//	numEdge->AddVariable(vec_edge);
+	//
+	//}
+	for(i=0;i<num;i++)
+	{
+		Vector3D _edges(edges[i].a,edges[i].b);
+		c=new XMLContent(vert_edge,-1,Vector3D :: vector3DToString(_edges).c_str());
+		vert_edge->AddContent(c,0);
+
+	}
+
+
+
+	num=(int)triangles.size();
+	XMLElement* vert_triangles=new XMLElement(tria,"TMTriangle");
+	//XMLElement* numTriangles;
+	//XMLVariable* vec_triangles;
+	//XMLVariable* vec_triangles2;
+	//
+	//for(i=0;i<num;i++)
+	//{
+	//	stringstream str2;
+	//	string cad;
+	//	str2<<"{"<<triangles[i].a<<","<<triangles[i].b<<","<<triangles[i].c<<","<<triangles[i].ea<<","<<triangles[i].eb<<","<<triangles[i].ec<<"}";
+	//	cad=str2.str();
+	//
+	//	numTriangles=new XMLElement(vert_edge,aux.string_Convert<int>(i).c_str());
+	//	vec_triangles=new XMLVariable("{a,b,c,ea,eb,ec}",cad.c_str());
+	//	vec_triangles2=new XMLVariable("{x,y,z}",Vector3D::vector3DToString(triangles[i].normal).c_str());
+
+
+	//	vert_triangles->AddElement(numTriangles);
+	//	numTriangles->AddVariable(vec_triangles);
+	//	numTriangles->AddVariable(vec_triangles2);
+
+	//}
+	XMLElement* norm=new XMLElement(vert_triangles,"vertex_normal");
+	XMLElement* fac=new XMLElement(vert_triangles,"vertex_face");
+	XMLElement* edg=new XMLElement(vert_triangles,"vertex_edges");
+	for(i=0;i<num;i++)
+	{
+		Vector3D _faces(triangles[i].a,triangles[i].b,triangles[i].c);
+		Vector3D _edges(triangles[i].ea,triangles[i].eb,triangles[i].ec);
+
+		c=new XMLContent(norm,-1,Vector3D :: vector3DToString(triangles[i].normal).c_str());
+		norm->AddContent(c,0);
+
+		c=new XMLContent(fac,-1,Vector3D :: vector3DToString(_faces).c_str());
+		fac->AddContent(c,0);
+
+		c=new XMLContent(edg,-1,Vector3D :: vector3DToString(_edges).c_str());
+		edg->AddContent(c,0);
+
+	}
+	vert_triangles->AddElement(norm);
+	vert_triangles->AddElement(fac);
+	vert_triangles->AddElement(edg);
+
+	parent->AddElement(tria);
+	tria->AddElement(vert);
+	tria->AddElement(vert_edge);
+	tria->AddElement(vert_triangles);
+
+	box.writeToXML(tria);
+
+}
+void TriangleMesh::readFromXML(XMLElement* parent)
+{
+
+
+}
+
 int TriangleMesh::addVertex(const Vector3D &v) 
 {
 int i;

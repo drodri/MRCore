@@ -36,6 +36,7 @@
 #include "transformation3d.h"
 #include "segment3d.h"
 #include "face.h"
+#include "../base/xmlfile.h"
 namespace mr
 {
 /*!
@@ -62,8 +63,12 @@ public:
 	BoundingBox& operator = (const BoundingBox& p){minVertex=p.minVertex;maxVertex=p.maxVertex;validData=p.validData;return *this;}
 //copy constructor
 	BoundingBox(const BoundingBox &p){(*this)=p;}
+//serialization
 	virtual void writeToStream(Stream& stream);
 	virtual void readFromStream(Stream& stream);
+	virtual void writeToXML(XMLElement* parent);
+	virtual void readFromXML(XMLElement* parent);
+
 	virtual void drawGL();
 //methods
 	void reset(){validData=false;}

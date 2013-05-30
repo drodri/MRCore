@@ -26,6 +26,18 @@ void QuadrotorSim::readFromStream(Stream& stream)
 {
 	SolidEntity::readFromStream(stream);
 }
+
+void QuadrotorSim::writeToXML(XMLElement* parent)
+{
+
+	SolidEntity::writeToXML(parent);
+}
+
+void QuadrotorSim::readFromXML(XMLElement* parent)
+{
+	SolidEntity::readFromXML(parent);
+}
+
 void QuadrotorSim::simulate(double t)
 {
 	Transformation3D position=getAbsoluteT3D();

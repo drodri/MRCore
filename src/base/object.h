@@ -34,13 +34,16 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "stream.h"
+#include "streamstring.h"
+//#include "xml.h"
+
 
 using namespace std;
 using namespace mr;
 
 namespace mr
 {
+	class XMLElement;
 /*!
     \class Object
     \brief Object, the base class that supports RTTI and serialization.
@@ -54,6 +57,8 @@ public:
 
 	virtual void writeToStream(Stream& stream)=0;
 	virtual void readFromStream(Stream& stream)=0;
+	virtual void writeToXML(XMLElement* parent);
+	virtual void readFromXML(XMLElement* parent);
 
 protected:
 	///The map is a singleton, static accessed by this method
