@@ -6615,42 +6615,6 @@ float XMLVariable :: GetValueFloat()
 	return (float)atof(d);
 	}
 
-///******************* PROYECTO FRAN *****************////
-void XMLVariable :: SetValueDouble(double V)
-	{
-		char t[50] = {0};
-		sprintf(t,"%lf",V);
-		SetValue(t);
-	}
-
-
-//double XMLVariable :: GetValueDouble()
-//	{
-//		size_t p = GetValue(0);
-//		Z<char> d(p + 10);
-//		GetValue(d);
-//		return atof(d);
-//	}
-
-//char* XMLVariable :: GetValueCharCad ()
-//{
-//	size_t p = GetValue(0);
-//	Z<char> d(p + 10);
-//	GetValue(d);
-//	char cad[sizeof(d)];
-//	sscanf(d,"%s",cad);
-////	string str=cad;
-//	return cad;
-//}
-
-//int XMLVariable ::GetValueCadena (char* cad)
-//	{
-//		char t[50] = {0};
-//		GetValue(t);
-//		strcpy(cad,t);
-//		return strlen(cad);
-//	}
-///****************************************************////////////////////
 
 void XMLVariable :: SetFormattedValue(const char* fmt,...)
 	{

@@ -605,12 +605,6 @@ class XMLVariable
 		void SetValueFloat(float);
 		void SetFormattedValue(const char* fmt,...);
 
-		///****************** PROYECTO FRAN *****************/////////////
-		//double GetValueDouble();
-		void SetValueDouble(double V);
-		//int GetValueCadena (char* cad);
-
-		///************************************************//////////////////
 		template <typename T> T GetFormattedValue(const char* fmt)
 			{
 			size_t p = GetValue(0);
@@ -621,8 +615,6 @@ class XMLVariable
 			return x;
 			}
 
-
-		//char* GetValueCharCad ();
 
 		template <typename T> void SetValueX(T t,const char* fmt);
 		template <typename T> T GetValueX(const char* fmt);
