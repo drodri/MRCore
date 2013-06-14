@@ -57,13 +57,16 @@ void Transformation3D::readFromStream(Stream& stream)
 }
 void Transformation3D::writeToXML(XMLElement* parent)
 {
-	Matrix3x3 defaultM(1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0);
+	//Matrix3x3 defaultM(1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0);
 	Vector3D defaultPos(0.0,0.0,0.0);
 	bool dfPos=false,dfOrient=false;
+	Vector3D defaultOrient(0.0,0.0,0.0);
+	Vector3D orientObj;
+	orientation.getRPY(orientObj.x,orientObj.y,orientObj.z);
 
 	if (position==defaultPos)//default value
 		dfPos=true;
-	if (defaultM==orientation)//orientation[0]==defaultM[0] && orientation[1]==defaultM[1] && orientation[2]==defaultM[2])
+	if (defaultOrient==orientObj)
 		dfOrient=true;
 
 	if (!dfOrient)
@@ -72,11 +75,12 @@ void Transformation3D::writeToXML(XMLElement* parent)
 		XMLContent* mat;
 
 
-		for(int i=0;i<3;i++)
-		{
-			mat=new XMLContent(orient,-1,Vector3D :: vector3DToString(orientation[i]).c_str());
+		//for(int i=0;i<3;i++)
+		//{
+		//write Euler form in XML
+			mat=new XMLContent(orient,-1,Vector3D :: vector3DToString(orientObj).c_str());
 			orient->AddContent(mat,0);
-		}
+		//}
 
 		parent->AddElement(orient);
 	}
@@ -94,7 +98,7 @@ void Transformation3D::writeToXML(XMLElement* parent)
 
 void Transformation3D::readFromXML(XMLElement* parent)
 {
-	string type,cad;
+	string cad;
 	Matrix3x3 &m=orientation;
 	XMLElement* orient;
 
@@ -105,58 +109,28 @@ void Transformation3D::readFromXML(XMLElement* parent)
 		int num=orient->GetContentsNum();
 		if(num)
 		{
+
 			XMLContent** c=orient->GetContents();
 
-			if (orient->FindVariableZ("type"))
+			for (int i=0;i<num;i++)
 			{
+				cad=string();
+				cad.resize(c[i]->GetSize());
+				c[i]->GetValue((char*)cad.c_str());
 
-
-				type=XMLAux::GetValueCadena(orient->FindVariableZ("type"));
-
-				if (type=="euler")
+				if (XMLAux::matrixTypeEuler(cad)) //check if the orientation is Euler form
 				{
-
 					Vector3D p;
-					for (int i=0;i<num;i++)
-					{
-						cad=string();
-						cad.resize(c[i]->GetSize());
-						c[i]->GetValue((char*)cad.c_str());
-						p=Vector3D::stringToVector3D(cad);
-						orientation=OrientationMatrix(p.x,p.y,p.z);
-					}
+					p=Vector3D::stringToVector3D(cad);
+					orientation=OrientationMatrix(p.x,p.y,p.z);
 				}
-				else //default is MATRIX
+				else // it's matrix form
 				{
-					for (int i=0;i<num;i++)
-					{
-						cad=string();
-						cad.resize(c[i]->GetSize());
-						c[i]->GetValue((char*)cad.c_str());
-						vector<Vector3D> aux_vec=Vector3D::stringToVectorVector3D(cad);
-						m[0][0]=aux_vec[0].x;m[0][1]=aux_vec[0].y;m[0][2]=aux_vec[0].z;
-						m[1][0]=aux_vec[1].x;m[1][1]=aux_vec[1].y;m[1][2]=aux_vec[1].z;
-						m[2][0]=aux_vec[2].x;m[2][1]=aux_vec[2].y;m[2][2]=aux_vec[2].z;
-
-					}
-
-				}
-			}
-			else
-			{
-				for (int i=0;i<num;i++)
-				{
-					cad=string();
-					cad.resize(c[i]->GetSize());
-					c[i]->GetValue((char*)cad.c_str());
 					vector<Vector3D> aux_vec=Vector3D::stringToVectorVector3D(cad);
 					m[0][0]=aux_vec[0].x;m[0][1]=aux_vec[0].y;m[0][2]=aux_vec[0].z;
 					m[1][0]=aux_vec[1].x;m[1][1]=aux_vec[1].y;m[1][2]=aux_vec[1].z;
 					m[2][0]=aux_vec[2].x;m[2][1]=aux_vec[2].y;m[2][2]=aux_vec[2].z;
-
 				}
-
-
 			}
 
 

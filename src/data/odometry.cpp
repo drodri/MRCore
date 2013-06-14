@@ -62,14 +62,20 @@ void Odometry::readFromStream(Stream& stream)
 
 void Odometry::writeToXML(XMLElement* parent)
 {
-	Data::writeToXML(parent);
-	pose.writeToXML(parent);
+	XMLElement* odo=new XMLElement(parent,"odometry");
+	Data::writeToXML(odo);
+	pose.writeToXML(odo);
+	parent->AddElement(odo);
 }
 
 void Odometry::readFromXML(XMLElement* parent)
 {
-	Data::readFromXML(parent);
-	pose.readFromXML(parent);
+	if (parent->FindElementZ("odometry"))
+	{
+		XMLElement* odo=parent->FindElementZ("odometry");
+		Data::readFromXML(odo);
+		pose.readFromXML(odo);
+	}
 }
 
 void Odometry::drawGL()

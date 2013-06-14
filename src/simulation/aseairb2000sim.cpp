@@ -574,12 +574,12 @@ AseaIRB2000Sim::AseaIRB2000Sim()
 	(*this)+=links[0];
 
 	//Speed joints in rad/seg.
-	joints[0]->setSimulationParameters(PI/12);//	15º/seg
-	joints[1]->setSimulationParameters(23*PI/36);//	115º/seg
-	joints[2]->setSimulationParameters(23*PI/36);//	115º/seg
-	joints[3]->setSimulationParameters(14*PI/9);//	280º/seg
-	joints[4]->setSimulationParameters(5*PI/3);//	300º/seg
-	joints[5]->setSimulationParameters(5*PI/3);//	300º/seg
+	joints[0]->getActuator()->setSimulationParameters(PI/12);//	15º/seg
+	joints[1]->getActuator()->setSimulationParameters(23*PI/36);//	115º/seg
+	joints[2]->getActuator()->setSimulationParameters(23*PI/36);//	115º/seg
+	joints[3]->getActuator()->setSimulationParameters(14*PI/9);//	280º/seg
+	joints[4]->getActuator()->setSimulationParameters(5*PI/3);//	300º/seg
+	joints[5]->getActuator()->setSimulationParameters(5*PI/3);//	300º/seg
 
 }
 
@@ -1125,7 +1125,7 @@ void AseaIRB2000Sim::simulate(double delta_t)
 		if( (time+delta_t) >= targetTime)//*
 		{
 			for(int i=0;i<(int)joints.size();i++)
-				joints[i]->setTarget(q_target[i]);
+				joints[i]->getActuator()->setTarget(q_target[i]);
 			q_target.clear();
 			time=0.0;
 			targetTime=0.0;
@@ -1135,8 +1135,8 @@ void AseaIRB2000Sim::simulate(double delta_t)
 		{
 			for(int i=0;i<(int)joints.size();i++)
 			{
-				joints[i]->setTarget(a0[i] + a1[i]*time + a2[i]*time*time + a3[i]*time*time*time);
-				joints[i]->setSpeed(a1[i] + 2*a2[i]*time + 3*a3[i]*time*time);
+				joints[i]->getActuator()->setTarget(a0[i] + a1[i]*time + a2[i]*time*time + a3[i]*time*time*time);
+				joints[i]->getActuator()->setSpeed(a1[i] + 2*a2[i]*time + 3*a3[i]*time*time);
 			}
 			time+=delta_t;
 		}
@@ -1187,8 +1187,8 @@ void AseaIRB2000Sim::goTo(vector<double> q)
 
 		for(int i=0;i<(int)joints.size();i++)
 		{
-			if(joints[i]->getMaxSpeed() <= lowestSpeed)
-				lowestSpeed = joints[i]->getMaxSpeed();
+			if(joints[i]->getActuator()->getMaxSpeed() <= lowestSpeed)
+				lowestSpeed = joints[i]->getActuator()->getMaxSpeed();
 			if(fabs(path[i]) >= longestPath)
 				longestPath = fabs(path[i]);//*
 		}

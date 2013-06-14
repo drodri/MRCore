@@ -394,6 +394,10 @@ bool  AdeptOneSim::getConfigurationOf(const vector<double> &_q, unsigned char &c
 
 
 
+void  AdeptOneSim::simulate(double delta_t)
+{
+
+}
 
 
 

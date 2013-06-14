@@ -145,9 +145,30 @@ void EntitySet::writeToXML(XMLElement* parent)
 			   {
 					int a=getIndexOf(objects[i]->getLinkedTo());
 
-					string _name=XMLAux::GetValueCadena(pObj[a]->FindVariableZ("name"));
+					string _name=XMLAux::GetValueCadena(pObj[a]->FindVariableZ("name",true));
+					XMLVariable* linkedTo;
+					bool repeatedOrEmptyName=false;
 					//linked one object with another one (i,a)
-					XMLVariable* linkedTo= new XMLVariable ("linkTo",XMLAux::setLinkTo(_name,a).c_str());
+					if (_name.empty())
+						repeatedOrEmptyName=true;
+
+					else
+					{
+						for (int j=0;j<num;j++)
+						{
+							if (_name==XMLAux::GetValueCadena(pObj[j]->FindVariableZ("name")) && a!=j)
+								repeatedOrEmptyName=true;
+
+						}
+					}
+
+					if (repeatedOrEmptyName)
+						linkedTo= new XMLVariable ("linkTo",XMLAux::setLinkTo("noName",a).c_str());
+
+					else
+						linkedTo= new XMLVariable ("linkTo",XMLAux::setLinkTo(_name,a).c_str());
+
+
 					pObj[i]->AddVariable(linkedTo);
 
 			   }
@@ -171,12 +192,22 @@ void EntitySet::writeToXML(XMLElement* parent)
 							string _name=XMLAux::GetValueCadena(pObj[a]->FindVariableZ("name",true));
 							string _nameTcp=string();
 							XMLVariable* linkedToTcp;
+							bool repeatedName=false;
 							if(_name.empty())
 							{
 								stringstream str;
 								str<<"Composed Entity"<<a;
 								_name=str.str();
 								pObj[a]->FindVariableZ("name")->SetValue(_name.c_str());
+							}
+							else
+							{
+								for (int j=0;j<num;j++)
+								{
+									if (_name==XMLAux::GetValueCadena(pObj[j]->FindVariableZ("name")) && a!=j)
+										repeatedName=true;
+
+								}
 							}
 							if (XMLAux::GetNameElement(pObj[a])=="ComposedEntity")
 							{
@@ -188,10 +219,19 @@ void EntitySet::writeToXML(XMLElement* parent)
 									_nameTcp=str.str();
 									pObj[a]->FindElementZ("Tcp")->FindVariableZ("name")->SetValue(_nameTcp.c_str());
 								}
-								linkedToTcp= new XMLVariable ("linkToTcp",XMLAux::setLinkToTcp(_name,_nameTcp,b,a).c_str());
+								if (repeatedName)
+									linkedToTcp= new XMLVariable ("linkToTcp",XMLAux::setLinkToTcp("noName",_nameTcp,b,a).c_str());
+								else
+									linkedToTcp= new XMLVariable ("linkToTcp",XMLAux::setLinkToTcp(_name,_nameTcp,b,a).c_str());
 							}
 							else
-								linkedToTcp= new XMLVariable ("linkToTcp",XMLAux::setLinkToTcpDefault(_name,b,a).c_str());
+							{
+								if(repeatedName)
+									linkedToTcp= new XMLVariable ("linkToTcp",XMLAux::setLinkToTcpDefault("noName",b,a).c_str());
+								else
+									linkedToTcp= new XMLVariable ("linkToTcp",XMLAux::setLinkToTcpDefault(_name,b,a).c_str());
+
+							}
 
 							pObj[i]->AddVariable(linkedToTcp);
 
@@ -226,8 +266,11 @@ void EntitySet::readFromXML(XMLElement* parent)
 					int id_linked=link->GetValueInt();
 					for (int j=0;j<num;j++)
 					{
-						if (id_linked==pObj[j]->FindVariableZ("id")->GetValueInt())
-							objects[i]->LinkTo(objects[j]);
+						if (pObj[j]->FindVariableZ("id"))
+						{
+							if (id_linked==pObj[j]->FindVariableZ("id")->GetValueInt())
+								objects[i]->LinkTo(objects[j]);
+						}
 					}
 				}
 				else if(type=="conectionNames")
@@ -260,30 +303,41 @@ void EntitySet::readFromXML(XMLElement* parent)
 						{
 							for (int j=0;j<num;j++)
 							{
-								if (id_OwnerTcp==pObj[j]->FindVariableZ("id")->GetValueInt())
+								if (pObj[j]->FindVariableZ("id"))
 								{
-									ComposedEntity *aux=dynamic_cast<ComposedEntity *>(objects[j]);
-
-									if(aux)
+									if (id_OwnerTcp==pObj[j]->FindVariableZ("id")->GetValueInt())
 									{
-										int numChildCompos=pObj[j]->GetChildrenNum();
-										if (numChildCompos)
+										ComposedEntity *aux=dynamic_cast<ComposedEntity *>(objects[j]);
+
+										if(aux)
 										{
-											XMLElement** childsComposed=pObj[j]->GetChildren();
-											int indexTcp=0;
-											for (int z=0;z<numChildCompos;z++)
+											if (XMLAux::GetNameElement(pObj[j])=="ComposedEntity")
 											{
+												int numChildCompos=pObj[j]->GetChildrenNum();
+												if (numChildCompos)
+												{
+													XMLElement** childsComposed=pObj[j]->GetChildren();
+													int indexTcp=0;
+													for (int z=0;z<numChildCompos;z++)
+													{
+														if (XMLAux::GetNameElement(childsComposed[z])=="Tcp")
+														{
 
-												if (id_linkTcp==childsComposed[z]->FindVariableZ("id")->GetValueInt())
-													objects[i]->LinkTo(aux->getTcp(indexTcp));
+															if (id_linkTcp==childsComposed[z]->FindVariableZ("id",true)->GetValueInt())
+																objects[i]->LinkTo(aux->getTcp(indexTcp));
+															else if (indexTcp==id_linkTcp)
+																objects[i]->LinkTo(aux->getTcp(indexTcp));
 
-												if (XMLAux::GetNameElement(childsComposed[z])=="Tcp")
-													indexTcp++;
+															indexTcp++;
+
+														}
+													}
+												}
 											}
-										}
-										else
-											objects[i]->LinkTo(aux->getTcp(id_linkTcp));//it's supposed that user knows id_linkTcp=Tcp's index
+											else
+												objects[i]->LinkTo(aux->getTcp(id_linkTcp));//it's supposed that user knows id_linkTcp=Tcp's index
 
+										}
 									}
 								}
 							}
@@ -306,27 +360,30 @@ void EntitySet::readFromXML(XMLElement* parent)
 								if (XMLAux::GetNameElement(pObj[j])=="ComposedEntity")
 								{
 									int numChildCompos=pObj[j]->GetChildrenNum();
-									XMLElement** childsComposed=pObj[j]->GetChildren();
-									int indexTcp=0;
-
-									for (int z=0;z<numChildCompos;z++)
+									if(numChildCompos)
 									{
+										XMLElement** childsComposed=pObj[j]->GetChildren();
+										int indexTcp=0;
 
-										if (XMLAux::GetNameElement(childsComposed[z])=="Tcp")
+										for (int z=0;z<numChildCompos;z++)
 										{
 
-											if (nameOnlyTcp==XMLAux::GetValueCadena(childsComposed[z]->FindVariableZ("name")) &&
-													idTcp==childsComposed[z]->FindVariableZ("id")->GetValueInt())
-												objects[i]->LinkTo(aux->getTcp(indexTcp));
-											else if (nameOnlyTcp==XMLAux::GetValueCadena(childsComposed[z]->FindVariableZ("name")) &&
-													idTcp==indexTcp)
-												objects[i]->LinkTo(aux->getTcp(indexTcp));
-											else if(idTcp==childsComposed[z]->FindVariableZ("id")->GetValueInt())
-												objects[i]->LinkTo(aux->getTcp(indexTcp));
-											else if (idTcp==indexTcp)
-												objects[i]->LinkTo(aux->getTcp(indexTcp));
+											if (XMLAux::GetNameElement(childsComposed[z])=="Tcp")
+											{
 
-											indexTcp++;
+												if (nameOnlyTcp==XMLAux::GetValueCadena(childsComposed[z]->FindVariableZ("name")) &&
+														idTcp==childsComposed[z]->FindVariableZ("id")->GetValueInt())
+													objects[i]->LinkTo(aux->getTcp(indexTcp));
+												else if (nameOnlyTcp==XMLAux::GetValueCadena(childsComposed[z]->FindVariableZ("name")) &&
+														idTcp==indexTcp)
+													objects[i]->LinkTo(aux->getTcp(indexTcp));
+												else if(idTcp==childsComposed[z]->FindVariableZ("id")->GetValueInt())
+													objects[i]->LinkTo(aux->getTcp(indexTcp));
+												else if (idTcp==indexTcp)
+													objects[i]->LinkTo(aux->getTcp(indexTcp));
+
+												indexTcp++;
+											}
 										}
 									}
 								}

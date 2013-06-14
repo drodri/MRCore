@@ -42,7 +42,7 @@ void SimpleJoint::writeToStream(Stream& stream)
 	Joint::writeToStream(stream);
 	stream<<((char)axis);
 	stream<<factor<<offset<<prismatic<<value<<vmax<<vmin;
-	stream<<speed<<maxSpeed;
+//	stream<<speed<<maxSpeed;
 
 }
 void SimpleJoint::readFromStream(Stream& stream)
@@ -51,7 +51,7 @@ void SimpleJoint::readFromStream(Stream& stream)
 	Joint::readFromStream(stream);
 	stream>>aux; axis=(Axis)aux;
 	stream>>factor>>offset>>prismatic>>value>>vmax>>vmin;
-	stream>>speed>>maxSpeed;
+//	stream>>speed>>maxSpeed;
 }
 
 void SimpleJoint::writeToXML(XMLElement* parent)
@@ -65,8 +65,8 @@ void SimpleJoint::writeToXML(XMLElement* parent)
 	XMLVariable* val= new XMLVariable ("value",XMLAux::string_Convert<double>(value).c_str());
 	XMLVariable* _vmax= new XMLVariable ("vmax",XMLAux::string_Convert<double>(vmax).c_str());
 	XMLVariable* _vmin= new XMLVariable ("vmin",XMLAux::string_Convert<double>(vmin).c_str());
-	XMLVariable* veloc= new XMLVariable ("speed",XMLAux::string_Convert<double>(speed).c_str());
-	XMLVariable* maxveloc= new XMLVariable ("maxSpeed",XMLAux::string_Convert<double>(maxSpeed).c_str());
+//	XMLVariable* veloc= new XMLVariable ("speed",XMLAux::string_Convert<double>(speed).c_str());
+//	XMLVariable* maxveloc= new XMLVariable ("maxSpeed",XMLAux::string_Convert<double>(maxSpeed).c_str());
 
 	parent->AddVariable(ax);
 	parent->AddVariable(fac);
@@ -75,8 +75,8 @@ void SimpleJoint::writeToXML(XMLElement* parent)
 	parent->AddVariable(val);
 	parent->AddVariable(_vmax);
 	parent->AddVariable(_vmin);
-	parent->AddVariable(veloc);
-	parent->AddVariable(maxveloc);
+//	parent->AddVariable(veloc);
+//	parent->AddVariable(maxveloc);
 	//parent->AddElement(sJoint);
 	Joint::writeToXML(parent);
 }
@@ -125,15 +125,15 @@ void SimpleJoint::readFromXML(XMLElement* parent)
 		vmin=XMLAux::GetValueDouble(parent->FindVariableZ("vmin"));
 	}
 
-	if (parent->FindVariableZ("speed"))
-	{
-		speed=XMLAux::GetValueDouble(parent->FindVariableZ("speed"));
-	}
+	//if (parent->FindVariableZ("speed"))
+	//{
+	//	speed=XMLAux::GetValueDouble(parent->FindVariableZ("speed"));
+	//}
 
-	if (parent->FindVariableZ("maxSpeed"))
-	{
-		maxSpeed=XMLAux::GetValueDouble(parent->FindVariableZ("maxSpeed"));
-	}
+	//if (parent->FindVariableZ("maxSpeed"))
+	//{
+	//	maxSpeed=XMLAux::GetValueDouble(parent->FindVariableZ("maxSpeed"));
+	//}
 
 	Joint::readFromXML(parent);
 
@@ -171,29 +171,14 @@ void SimpleJoint::setProperties(double _max, double _min, bool CW, double _offse
    else factor=-1.0F;
    axis=ax;
    prismatic=_prismatic;
-   maxSpeed=1; // m/s rad/s
-   speed=1;    //m/s rad/sec
-   target=value;
-   targetActive=false;
+
+   actuator=new Actuator (this,1,1,value);
 }
 
 
 SimpleJoint::~SimpleJoint(void)
 {
 
-}
-void SimpleJoint::simulate(double delta_t)
-{
-if(targetActive==false)return;
-double d=target-value;
-double inc=delta_t*speed;
-if(d<0)inc=((-inc<d)?d:(-inc));
-else inc=(inc>d?d:inc);
-if(fabs(inc)<EPS){
-	targetActive=false;
-	setValue(target);
-}
-else setValue(value+inc);
 }
 
 }//mr

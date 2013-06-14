@@ -261,10 +261,10 @@ string  XMLAux::getTypeConectionLink (XMLVariable* v,bool linktotcp)
 				separate++;
 		}
 
-		if (ident==2 && separate==1)
+		if (ident==2 && separate==1 && linktotcp)
 			return "conectionNames";
 
-		else if (ident==0 && separate==1)
+		else if (ident==0 && separate==1 && linktotcp)
 			return "conectionId";
 
 		else if (ident==2 && !separate && !linktotcp)
@@ -298,5 +298,27 @@ string XMLAux::getOnlyNameTcp(string name)
 	}
 	return onlyname;
 }
+
+
+bool XMLAux::matrixTypeEuler (string cad)
+{
+	int beg=0,end=0;
+	for(int i=0;i<cad.size();i++) //checking the cad
+	{
+		if (cad[i]=='{')
+			beg++;
+		if (cad[i]=='}')
+			end++;
+
+	}
+	if (beg==3 && end==3)//it's the only possibility
+		return false;
+	else
+		return true;//another ones are type Euler
+	//if it's written wrong, the function in vector3D return the vector (0,0,0)
+}
+
+
+
 
 } ;//mr

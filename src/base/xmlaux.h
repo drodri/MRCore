@@ -72,7 +72,7 @@ static string GetNameElement (XMLElement *elem);
 static string setLinkTo (string name_link,int id_link);
 static string GetNameLinkTo (XMLVariable* v);
 
-//static XMLElement* getXMLObject (XMLElement* parent, Object *obj,int index_obj);
+static bool matrixTypeEuler (string cad);
 
 
 

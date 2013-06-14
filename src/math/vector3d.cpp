@@ -125,7 +125,9 @@ Vector3D Vector3D::stringToVector3D (string cad)
 vector<Vector3D>  Vector3D::stringToVectorVector3D (string cad)//, string type_id)
 {
 	vector<Vector3D> p,aux;
-	p.push_back(Vector3D(0.00));
+	p.push_back(Vector3D(1.00,0.00,0.00));//default matrix orientation
+	p.push_back(Vector3D(0.00,1.00,0.00));
+	p.push_back(Vector3D(0.00,0.00,1.00));
 
 	if (cad.empty())
 		return p;
