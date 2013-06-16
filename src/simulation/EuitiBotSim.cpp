@@ -738,12 +738,12 @@ namespace mr
 
 			getConfigurationOf(q_init,conf);
 
-			joints[0]->setSimulationParameters(PI/12);//	15º/seg
-			joints[1]->setSimulationParameters(23*PI/36);//	115º/seg
-			joints[2]->setSimulationParameters(23*PI/36);//	115º/seg
-			joints[3]->setSimulationParameters(14*PI/9);//	280º/seg
-			joints[4]->setSimulationParameters(5*PI/3);//	300º/seg
-			joints[5]->setSimulationParameters(5*PI/3);//	300º/seg
+			//joints[0]->setSimulationParameters(PI/12);//	15º/seg
+			//joints[1]->setSimulationParameters(23*PI/36);//	115º/seg
+			//joints[2]->setSimulationParameters(23*PI/36);//	115º/seg
+			//joints[3]->setSimulationParameters(14*PI/9);//	280º/seg
+			//joints[4]->setSimulationParameters(5*PI/3);//	300º/seg
+			//joints[5]->setSimulationParameters(5*PI/3);//	300º/seg
 
 
 			(*this)+=links[0];
