@@ -149,9 +149,9 @@ bool ComposedEntity::checkCollisionWith(SolidEntity &solid)
 	}
 	return false;
 }
-void ComposedEntity::simulate(double t)
+void ComposedEntity::simulate(double delta_t)
 {
 for(int i=0;i<(int)(objects.size());i++)
-	objects[i]->simulate(t);
+	objects[i]->simulate(delta_t);
 }
 }//mr

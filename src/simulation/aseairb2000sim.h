@@ -71,13 +71,11 @@ private:
 	bool configuration(double _f, double _e, double _w,unsigned char &_conf);
 	void ASEAIRB2000Mechanism();
 
-//simulation methods
+//simulation methods specific
 public:
-	virtual void simulate(double delta_t);
-	void goToAbs(Transformation3D t);
-		//Load T3D relative
-	void goTo(Transformation3D t);
-	void goTo(vector<double> _q);
+	void simulate(double delta_t);
+
+
 
 protected:
 //Specific inverse methode of Asea IRB 2000
@@ -94,15 +92,8 @@ Ranges coordiantes:
 ***/
 
 private:
-	unsigned char conf;
 	SimpleJoint *q_bar[3];
-	vector<double> q_init;
-	vector<double> q_target;
 
-	//cinematic simulation atributes
-	vector<double> a0,a1,a2,a3;
-	double time;
-	double targetTime;
 };
 
 };//end namespace mr

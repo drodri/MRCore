@@ -102,7 +102,7 @@ public:
 	//the descomposition in parts
 	virtual bool checkCollisionWith(SolidEntity &solid);
 	//redefinition of simulate (positionable Entity)
-	virtual void simulate(double t);
+	virtual void simulate(double delta_t);
 protected:
 	bool linkToBase(PositionableEntity *p);
 };

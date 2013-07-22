@@ -35,12 +35,10 @@
 
 
 #include "joint.h"
-#include "actuator.h"
 #include "math/mrmath.h"
 
 
 using namespace std;
-class Actuator;
 namespace mr
 {
 /**
@@ -66,9 +64,7 @@ protected:
    Axis axis;
    bool prismatic; //true if prismatic. By default is rotational
 
-   Actuator* actuator;
 
- 
 
 
 public:
@@ -105,7 +101,7 @@ public:
 	bool isPrismatic(){return prismatic;}
 	void getMaxMin(double &_max, double &_min){_max=vmax; _min=vmin;}
 
-	Actuator* getActuator(){return actuator;}
+
 
 };
 

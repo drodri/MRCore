@@ -67,7 +67,7 @@ public:
 	bool configuration(unsigned char _conf, double& _s, double& _e, double& _w);
 	bool configuration(double _s, double _e, double _w,unsigned char &_conf);
 
-//simulate
+//simulate specific
 	void simulate(double delta_t);
 
 //Aux. methods
@@ -79,7 +79,7 @@ protected:
 //Specific inverse methode of Puma 560
 	bool PUMA560inverseKinematics(Transformation3D t06, vector<double> &_q, unsigned char _conf=0x00);
 
-	void goTo(vector<double> _q);
+	//void goTo(vector<double> _q);
 
 /***
 Ranges coordiantes:
@@ -93,15 +93,6 @@ Ranges coordiantes:
 
 private:
 	CylindricalPart *light;
-	unsigned char conf;
-	vector<double> q_init;
-	vector<double> q_target;
-
-	//cinematic simulation atributes
-	vector<double> a0,a1,a2,a3;
-	double time;
-	double targetTime;
-
 	int f;//setFlash()
 };
 

@@ -71,12 +71,11 @@ static string GetValueCadena (XMLVariable* v);
 static string GetNameElement (XMLElement *elem);
 static string setLinkTo (string name_link,int id_link);
 static string GetNameLinkTo (XMLVariable* v);
-
 static bool matrixTypeEuler (string cad);
 
 
 
-//help functions to Tcp links
+//help functions to Tcp links and objects links
 static void GetValueOwnerAndTcp(XMLVariable* v, int* ownerAndTcp);
 static vector<string> GetNameOwnerAndTcp(XMLVariable* v);
 static string getTypeConectionLink (XMLVariable* v, bool linktotcp=true);

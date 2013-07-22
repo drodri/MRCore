@@ -72,6 +72,32 @@ string XMLAux::GetNameElement (XMLElement *elem)
 	return cad;
 }
 
+
+bool XMLAux::matrixTypeEuler (string cad)
+{
+	int beg=0,end=0;
+	for(int i=0;i<cad.size();i++) //checking the cad
+	{
+		if (cad[i]=='{')
+			beg++;
+		if (cad[i]=='}')
+			end++;
+
+	}
+	if (beg==3 && end==3)//it's the only possibility
+		return false;
+	else
+		return true;//another ones are type Euler
+	//if it's written wrong, the function in vector3D return the vector (0,0,0)
+}
+
+
+
+/***********************************************************************************
+					METHODS OF OBJECTS AND TCP LINKS
+************************************************************************************/
+
+
 string XMLAux::setLinkToTcpDefault (string name_owner,int index_tcp,int id_owner)
 {
 	stringstream str;
@@ -300,23 +326,7 @@ string XMLAux::getOnlyNameTcp(string name)
 }
 
 
-bool XMLAux::matrixTypeEuler (string cad)
-{
-	int beg=0,end=0;
-	for(int i=0;i<cad.size();i++) //checking the cad
-	{
-		if (cad[i]=='{')
-			beg++;
-		if (cad[i]=='}')
-			end++;
 
-	}
-	if (beg==3 && end==3)//it's the only possibility
-		return false;
-	else
-		return true;//another ones are type Euler
-	//if it's written wrong, the function in vector3D return the vector (0,0,0)
-}
 
 
 

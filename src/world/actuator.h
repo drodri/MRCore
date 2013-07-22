@@ -36,7 +36,7 @@
 
 #include "simplejoint.h"
 #include "math/mrmath.h"
-
+#include <vector>
 
 using namespace std;
 
@@ -54,41 +54,76 @@ class Actuator: public PositionableEntity
 	//friend class World;
 
 protected:
-	 //double jointVmax;
-	 //double jointVmin;
-	//kinematic simulation atributes
-	double maxSpeed; // m/s rad/s
-	double speed;    //m/s rad/sec
-	double target;
-	bool targetActive; //true if target have to be reached
-
 	SimpleJoint* s_Joint;
+
+	//kinematic simulation atributes
+	double speed, maxSpeed; // m/s rad/s
+	double acceleration,maxAcceleration; //rad/sec^2
+
+	double target, targetIntermediate;
+	bool targetActive; //true if target have to be reached
+	string typeTrajectoryTVP;
+	//spline algorithm
+	double a0,a1,a2,a3; //polinomial coeficients
+
+	bool activateTVP,activateCPT;
+
+	int index;
+	vector<double> velocInter;
+
+
 public:
 //constructors
 
-	//Basic Constructor
-	Actuator(SimpleJoint* _sjoint=0,double _maxSpeed=1,double _speed=1,double _target=0,bool _targetOn=false);
+//Basic Constructor
+	Actuator(double _speed=1,double _maxSpeed=1,double _acceleration=0.1, double _maxAcceleration=0.5);
 	//Destructor
 	virtual ~Actuator(void);
 
 
-	//simulation methods
-   void setSimulationParameters(double _maxSpeed, double _speed=0);
+//simulation methods
+	void setSimulationParameters(double _maxSpeed, double _maxAcceleration=PI/6);//max acelerate default=30º/sec^2
 
-   double setSpeed(double sp){
-	   if(sp<0)return speed;
-	   speed=sp>maxSpeed?maxSpeed:sp;
-	   return speed;
-   }
+	double setSpeed(double sp);
+	double setAcceleration(double ac);
 
-   double getSpeed(){return speed;}
-   double getMaxSpeed(){return maxSpeed;}
+	double getSpeed(){return speed;}
+	double getMaxSpeed(){return maxSpeed;}
+	double getAcceleration(){return acceleration;}
+	double getMaxAcceleration(){return maxAcceleration;}
 
-   bool setTarget(double val);
-   double getTarget(){return target;}
-   bool isMoving(){return targetActive;}
+	bool isMoving(){return targetActive;}
+	void linkTo (PositionableEntity *p);
 
-   virtual void simulate(double delta_t);
+	virtual void simulate(double delta_t);
+
+	void activateCubicPolynomialTrajectory(){activateTVP=false;activateCPT=true;}
+	void activateTrapezoidalVelocityTrajectory(){activateTVP=true;activateCPT=false;}
+
+	bool setTarget(double val);
+	double getTarget(){return target;}
+
+//Cubic Polinomial Trajectory (CPT)
+
+	void simulateCPT(double delta_t);
+	bool setTargetCPT(double _time);
+	void setCubicPolinomialCoeficients(double path,double targetTime);
+
+
+//Trapezoidal Velocity Profile tarjectory (TVP)
+
+	void simulateTVP(double delta_t);
+	bool setTargetTVP(double qInit,double q_target,int signMovement,double timeInit,double timeFinal,double ta, double _time);
+	bool setTypeTrajectoryTVP(string _type);
+	string getTypeTrajectoryTVP(){return typeTrajectoryTVP;}
+
+// Spline trajetory (interpolation points)
+	void setVelocIntermediates (vector<double> veloc);
+	void simulateSPLINE(double delta_t);
+	bool setTargetSPLINE(double _time);
+	void setCubicPolinomialCoeficientsSPLINE(double strech,double Tk);
+
+
 
 };
 

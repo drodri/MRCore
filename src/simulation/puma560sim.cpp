@@ -91,6 +91,11 @@ Puma560Sim::Puma560Sim()
 //Joint[0]
 	SimpleJoint *auxJoint=new SimpleJoint(8*PI/9 , -8*PI/9,true,0,Z_AXIS,false);
 	auxJoint->LinkTo(links[0]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	auxJoint->setValue(q_init[0]);
 	joints.push_back(auxJoint);
 //	joints[0]->setDrawReferenceSystem(true);
@@ -148,6 +153,11 @@ Puma560Sim::Puma560Sim()
 	auxJoint->setRelativePosition(Vector3D(0.15,0,0.66));//Desplazamiento d2
 	auxJoint->setRelativeOrientation(PI/2,-PI/2,PI/2);
 	auxJoint->LinkTo(joints[0]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	auxJoint->setValue(q_init[1]);
 	joints.push_back(auxJoint);
 //	joints[1]->setDrawReferenceSystem(true);
@@ -194,6 +204,11 @@ podria dejar asi, pero no tiene mucho sentido la composicion de un unico objeto.
 	auxJoint=new SimpleJoint(3*PI/4,-3*PI/4,true,0,Z_AXIS,false);
 	auxJoint->setRelativePosition(Vector3D(0.432,0,0));//Desplazamiento a2
 	auxJoint->LinkTo(joints[1]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	auxJoint->setValue(q_init[2]);
 	joints.push_back(auxJoint);
 //	joints[2]->setDrawReferenceSystem(true);
@@ -241,6 +256,11 @@ podria dejar asi, pero no tiene mucho sentido la composicion de un unico objeto.
 	auxJoint->setRelativePosition(Vector3D(0.36,-0.02,0));
 	auxJoint->setRelativeOrientation(PI,-PI/2,0);
 	auxJoint->LinkTo(joints[2]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	auxJoint->setValue(q_init[3]);
 	joints.push_back(auxJoint);
 //	joints[3]->setDrawReferenceSystem(true);
@@ -288,6 +308,11 @@ podria dejar asi, pero no tiene mucho sentido la composicion de un unico objeto.
 //0.36 hasta los 0.432
 	auxJoint->setRelativeOrientation(PI,-PI/2,0);
 	auxJoint->LinkTo(joints[3]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	auxJoint->setValue(q_init[4]);
 	joints.push_back(auxJoint);
 //	joints[4]->setDrawReferenceSystem(true);
@@ -315,6 +340,11 @@ podria dejar asi, pero no tiene mucho sentido la composicion de un unico objeto.
 	auxJoint->setRelativePosition(Vector3D(0.055,0,0));
 	auxJoint->setRelativeOrientation(PI/2,0,PI/2);
 	auxJoint->LinkTo(joints[4]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	auxJoint->setValue(q_init[5]);
 	joints.push_back(auxJoint);
 //	joints[5]->setDrawReferenceSystem(true);
@@ -338,12 +368,14 @@ podria dejar asi, pero no tiene mucho sentido la composicion de un unico objeto.
 
 	getConfigurationOf(q_init,conf);
 
-	joints[0]->getActuator()->setSimulationParameters(PI/12);//	15º/seg
-	joints[1]->getActuator()->setSimulationParameters(23*PI/36);//	115º/seg
-	joints[2]->getActuator()->setSimulationParameters(23*PI/36);//	115º/seg
-	joints[3]->getActuator()->setSimulationParameters(14*PI/9);//	280º/seg
-	joints[4]->getActuator()->setSimulationParameters(5*PI/3);//	300º/seg
-	joints[5]->getActuator()->setSimulationParameters(5*PI/3);//	300º/seg
+
+
+	actuators[0]->setSimulationParameters(23*PI/12);//	115º/seg Moidficated->before was 15º/seg
+	actuators[1]->setSimulationParameters(23*PI/36);//	115º/seg
+	actuators[2]->setSimulationParameters(23*PI/36);//	115º/seg
+	actuators[3]->setSimulationParameters(14*PI/9);//	280º/seg
+	actuators[4]->setSimulationParameters(5*PI/3);//	300º/seg
+	actuators[5]->setSimulationParameters(5*PI/3);//	300º/seg
 
 
 	(*this)+=links[0];
@@ -576,78 +608,12 @@ void Puma560Sim::setFlash()
 	}
 }
 
+
 void Puma560Sim::simulate(double delta_t)
 {
 	setFlash();
-
-	if((int)q_target.size() == (int)joints.size())
-	{
-		double error=0;
-		for(int i=0;i<(int)joints.size();i++)
-			error+=fabs(q_target[i]-joints[i]->getValue());//*
-
-		if( (time+delta_t) >= targetTime)//*
-		{
-			for(int i=0;i<(int)joints.size();i++)
-				joints[i]->getActuator()->setTarget(q_target[i]);
-			q_target.clear();
-			time=0.0;
-			targetTime=0.0;
-			a0.clear();a1.clear();a2.clear();a3.clear();
-		}
-		else
-		{
-			for(int i=0;i<(int)joints.size();i++)
-			{
-				joints[i]->getActuator()->setTarget(a0[i] + a1[i]*time + a2[i]*time*time + a3[i]*time*time*time);
-				joints[i]->getActuator()->setSpeed(a1[i] + 2*a2[i]*time + 3*a3[i]*time*time);
-			}
-			time+=delta_t;
-		}
-	}
-
 	RobotSim::simulate(delta_t);
+
 }
-void Puma560Sim::goTo(vector<double> q)
-{
-	q_target=q;//Target loaded
 
-	double error=0;
-	for(int i=0;i<(int)joints.size();i++)
-		error+=fabs(q_target[i] - joints[i]->getValue());//*
-
-	if(fabs(error) < EPS)
-	{
-		q_target.clear();
-		return;
-	}
-	else
-	{
-		double lowestSpeed=100.0;
-		double longestPath=0.0;
-		vector<double> path;
-
-		for(int i=0;i<(int)joints.size();i++)
-			path.push_back(q_target[i] - joints[i]->getValue());//Path each coordinate: target minus current coordinates
-
-		for(int i=0;i<(int)joints.size();i++)
-		{
-			if(joints[i]->getActuator()->getMaxSpeed() <= lowestSpeed)
-				lowestSpeed = joints[i]->getActuator()->getMaxSpeed();
-			if(fabs(path[i]) >= longestPath)
-				longestPath = fabs(path[i]);//*
-		}
-		targetTime = longestPath / lowestSpeed;
-		time=0.0;
-		for(int i=0;i<(int)joints.size();i++)
-		{
-			a0.push_back(joints[i]->getValue());//Current coordiantes
-			a1.push_back(0);
-			a2.push_back( 3*(path[i])/(square(targetTime)));
-			a3.push_back(-2*(path[i])/(square(targetTime)*targetTime));
-		}
-	}
-
-	return;
-}
 };//Namespace mr

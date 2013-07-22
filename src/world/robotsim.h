@@ -37,7 +37,7 @@
 #include "simplejoint.h"
 #include "cylindricalpart.h"
 #include "tcp.h"
-
+#include "actuator.h"
 namespace mr
 {
 /*!
@@ -82,7 +82,7 @@ public:
 //Forward and inverse kinematics Relative. The inverse kinematics must be defined for each new class of robot 
 	virtual bool forwardKinematics(const vector<double> &_q, Transformation3D& t);
 //Inverse kinematics. abstract.
-	virtual bool inverseKinematics(Transformation3D t, vector<double> &_q, unsigned char conf=0x00)=0;
+	virtual bool inverseKinematics(Transformation3D t06, vector<double> &_q, unsigned char conf=NULL)=0;
 
 //Forward and inverse kinematics Absolute: generic methods. 
 	virtual bool forwardKinematicsAbs(vector<double> _q, Transformation3D& t);
@@ -96,7 +96,7 @@ public:
 	//Movements methods: generic but not safe
 	bool moveTo(double *_q);
 //Simulation of time 
-	virtual void simulate(double delta_t);//time interval in seconds
+	//virtual void simulate(double delta_t);//time interval in seconds
 //data interface
 	int getNumJoints(){return (int)joints.size();}
 	bool getJointLimits(int i, double &max, double &min){
@@ -114,6 +114,44 @@ public:
 //Specific Collision checking
 	bool checkRobotColision();
 
+//cinematic simulation methods
+	bool checkActuatorsIsMoving();
+	void checkActivationTrajectory();
+	virtual void goTo(vector<double> _q);
+	virtual void simulate(double delta_t);//time interval in seconds
+	virtual void goToAbs(Transformation3D t);
+	//Load T3D relative
+	virtual void goTo(Transformation3D t);
+
+//Cubic Polinomial Trajectory (CPT) (ponit to point)
+	void calculateTargetCPT(double _time);
+	void calculateTargetTimeCPT();
+	void activateCubicPolynomialTrajectory(){activateTVP=false;activateCPT=true;
+		for(int i=0;i<(int)actuators.size();i++)
+			actuators[i]->activateCubicPolynomialTrajectory();}
+
+//Trapezoidal Velocity Profile tarjectory (TVP) (point to point)
+	void calculateTargetTVP(double _time);
+	void calculateTargetTimeTVP();
+	void adjustMotionJointsTVP (vector<double> _path,double _targetTime,double _ta,int index);
+	void activateTrapezoidalVelocityTrajectory(){activateTVP=true;activateCPT=false;
+		for(int i=0;i<(int)actuators.size();i++)
+			actuators[i]->activateTrapezoidalVelocityTrajectory();}
+
+// Spline trajetory (interpolation points)
+
+	//Thomas Algorithm for Tridiagonal Matrix
+	/*
+		b1 c1		0
+		a2 b2 c2
+	M =
+					cn-1
+		0		an	bn
+	*/
+	vector<double> TDMA (vector<double> a, vector<double> b, vector<double> c,vector<double> d, int nIterations);
+	void calculateTargetTimeSPLINE();
+	void calculateTargetSPLINE(double _time);
+
 
 protected:
 	
@@ -121,6 +159,22 @@ protected:
 	vector<SolidEntity *> links;
 	vector<SimpleJoint *> joints;
 	Tcp *tcp;
+
+
+//cinematic simulation atributes
+	vector<Actuator*> actuators;
+	Actuator* actuator;
+	double time,targetTime;
+	bool activateTVP,activateCPT;
+
+	unsigned char conf;
+	vector<double> q_init;
+	vector<double> q_target;
+
+//atributtes specific TVP movement
+	bool posInit;
+	double ta;
+	vector<double> qInit;
 
 };
 

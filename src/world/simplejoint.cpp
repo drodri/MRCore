@@ -171,8 +171,6 @@ void SimpleJoint::setProperties(double _max, double _min, bool CW, double _offse
    else factor=-1.0F;
    axis=ax;
    prismatic=_prismatic;
-
-   actuator=new Actuator (this,1,1,value);
 }
 
 

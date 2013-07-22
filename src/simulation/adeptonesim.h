@@ -67,7 +67,7 @@ public:
 	virtual bool inverseKinematics(Transformation3D t, vector<double> &_q, unsigned char conf=0);//Not move robot
 
 //simulation method
-	void  simulate(double delta_t);
+	//void  simulate(double delta_t);
 
 protected:
 //Specific inverse methode of SCARA_ADEPT_ONE

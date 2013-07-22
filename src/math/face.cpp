@@ -128,36 +128,50 @@ void Face::readFromStream(Stream& stream)
 }
 void Face::writeToXML(XMLElement* parent)//,int numface)
 {
-		int num=(int)(vertex.size());
-		//XMLAux aux;
+	int num=(int)(vertex.size());
 
-		XMLElement* fac=new XMLElement(parent,"face");
-		XMLElement* vert=new XMLElement(parent,"vertex");
-		XMLContent* c;
+	XMLElement* fac=new XMLElement(parent,"face");
+	XMLElement* vert=new XMLElement(fac,"vertex");
+	XMLContent* c;
 
-		for(int i=0;i<num;i++)
-		{
-			c=new XMLContent(vert,-1,Vector3D :: vector3DToString(vertex[i]).c_str());
-			vert->AddContent(c,0);
+	for(int i=0;i<num;i++)
+	{
+		c=new XMLContent(vert,-1,Vector3D :: vector3DToString(vertex[i]).c_str());
+		vert->AddContent(c,0);
 
-		}
-
-		parent->AddElement(fac);
-		fac->AddElement(vert);
-		base.writeToXML(fac);
+	}
 
 
-		//XMLElement* atrib=new XMLElement(fac,"Attributes");
-		//XMLVariable* re= new XMLVariable("r",aux.string_Convert<float>(r).c_str());
-		//XMLVariable* gr= new XMLVariable("g",aux.string_Convert<float>(g).c_str());
-		//XMLVariable* bl= new XMLVariable("b",aux.string_Convert<float>(b).c_str());
-		//XMLVariable* al= new XMLVariable("alfa",aux.string_Convert<float>(alfa).c_str());
-		//fac->AddElement(atrib);
-		//atrib->AddVariable(re);
-		//atrib->AddVariable(gr);
-		//atrib->AddVariable(bl);
-		//atrib->AddVariable(al);
+	bool defaultR=true, defaultG=true, defaultB=true;
 
+	XMLElement* colour=new XMLElement(fac,"colour");
+
+	if (r!=1.0)
+	{
+		XMLVariable* re= new XMLVariable("r",XMLAux::string_Convert<float>(r).c_str());
+		colour->AddVariable(re);
+		defaultR=false;
+	}
+	if (g!=1.0)
+	{
+		XMLVariable* gr= new XMLVariable("g",XMLAux::string_Convert<float>(g).c_str());
+		colour->AddVariable(gr);
+		defaultG=false;
+	}
+	if (b!=1.0)
+	{
+		XMLVariable* bl= new XMLVariable("b",XMLAux::string_Convert<float>(b).c_str());
+		colour->AddVariable(bl);
+		defaultB=false;
+	}
+
+	if (!defaultR || !defaultG || !defaultB)
+		fac->AddElement(colour);
+
+
+	parent->AddElement(fac);
+	fac->AddElement(vert);
+	base.writeToXML(fac);
 
 }
 
@@ -203,18 +217,18 @@ void Face::readFromXML(XMLElement* parent)
 
 		}
 
-			//if(fac->FindElementZ("Attributes"))
-			//{
-			//	XMLElement* atrib=fac->FindElementZ("Attributes");
-			//	if(atrib->FindVariableZ("r"))
-			//		r=atrib->FindVariableZ("r")->GetValueFloat();
-			//	if(atrib->FindVariableZ("g"))
-			//		g=atrib->FindVariableZ("g")->GetValueFloat();
-			//	if(atrib->FindVariableZ("b"))
-			//		b=atrib->FindVariableZ("b")->GetValueFloat();
-			//	if(atrib->FindVariableZ("alfa"))
-			//		alfa=atrib->FindVariableZ("alfa")->GetValueFloat();
-			//}
+
+		if(fac->FindElementZ("colour"))
+		{
+			XMLElement* colour=fac->FindElementZ("colour");
+
+			if(colour->FindVariableZ("r"))
+				r=colour->FindVariableZ("r")->GetValueFloat();
+			if(colour->FindVariableZ("g"))
+				g=colour->FindVariableZ("g")->GetValueFloat();
+			if(colour->FindVariableZ("b"))
+				b=colour->FindVariableZ("b")->GetValueFloat();
+		}
 
 		base.readFromXML(fac);
 }

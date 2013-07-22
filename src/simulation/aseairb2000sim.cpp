@@ -111,6 +111,11 @@ AseaIRB2000Sim::AseaIRB2000Sim()
 //Joint[0]
 	SimpleJoint *auxJoint=new SimpleJoint(PI,-PI,true,0,Z_AXIS,false);
 	auxJoint->LinkTo(links[0]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	auxJoint->setValue(q_init[0]);
 	joints.push_back(auxJoint);
 //	joints[0]->setDrawReferenceSystem(true);
@@ -214,6 +219,11 @@ AseaIRB2000Sim::AseaIRB2000Sim()
 	auxJoint->setRelativePosition(Vector3D(0,0,0.78));
 	auxJoint->setRelativeOrientation(X_AXIS,-PI/2);
 	auxJoint->LinkTo(joints[0]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	auxJoint->setValue(q_init[1]);
 	joints.push_back(auxJoint);
 //	joints[1]->setDrawReferenceSystem(true);
@@ -306,6 +316,11 @@ AseaIRB2000Sim::AseaIRB2000Sim()
 	auxJoint->setRelativePosition(Vector3D(0,-0.71,0));
 	auxJoint->setRelativeOrientation(Z_AXIS,PI/2);
 	auxJoint->LinkTo(joints[1]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	auxJoint->setValue(q_init[2]);
 	joints.push_back(auxJoint);
 //	joints[2]->setDrawReferenceSystem(true);
@@ -376,6 +391,11 @@ AseaIRB2000Sim::AseaIRB2000Sim()
 	auxJoint->setRelativePosition(Vector3D(-0.125,0,0));
 	auxJoint->setRelativeOrientation(X_AXIS,PI/2);
 	auxJoint->LinkTo(joints[2]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	auxJoint->setValue(q_init[3]);
 	joints.push_back(auxJoint);
 //	joints[3]->setDrawReferenceSystem(true);
@@ -498,6 +518,11 @@ AseaIRB2000Sim::AseaIRB2000Sim()
 	auxJoint->setRelativePosition(Vector3D(0,0,0.85));
 	auxJoint->setRelativeOrientation(X_AXIS,-PI/2);
 	auxJoint->LinkTo(joints[3]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	auxJoint->setValue(q_init[4]);
 	joints.push_back(auxJoint);
 //	joints[4]->setDrawReferenceSystem(true);
@@ -549,6 +574,11 @@ AseaIRB2000Sim::AseaIRB2000Sim()
 	auxJoint=new SimpleJoint(10*PI/9 , -10*PI/9,true,0,Z_AXIS,0);
 	auxJoint->setRelativeOrientation(X_AXIS,PI/2);
 	auxJoint->LinkTo(joints[4]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	auxJoint->setValue(q_init[5]);
 	joints.push_back(auxJoint);
 //	joints[5]->setDrawReferenceSystem(true);
@@ -574,12 +604,20 @@ AseaIRB2000Sim::AseaIRB2000Sim()
 	(*this)+=links[0];
 
 	//Speed joints in rad/seg.
-	joints[0]->getActuator()->setSimulationParameters(PI/12);//	15º/seg
-	joints[1]->getActuator()->setSimulationParameters(23*PI/36);//	115º/seg
-	joints[2]->getActuator()->setSimulationParameters(23*PI/36);//	115º/seg
-	joints[3]->getActuator()->setSimulationParameters(14*PI/9);//	280º/seg
-	joints[4]->getActuator()->setSimulationParameters(5*PI/3);//	300º/seg
-	joints[5]->getActuator()->setSimulationParameters(5*PI/3);//	300º/seg
+	actuators[0]->setSimulationParameters(23*PI/12);//	115º/seg Moidficated->before was 15º/seg
+	actuators[1]->setSimulationParameters(23*PI/36);//	115º/seg
+	actuators[2]->setSimulationParameters(23*PI/36);//	115º/seg
+	actuators[3]->setSimulationParameters(14*PI/9);//	280º/seg
+	actuators[4]->setSimulationParameters(5*PI/3);//	300º/seg
+	actuators[5]->setSimulationParameters(5*PI/3);//	300º/seg
+
+//Ficha técnica AseaIrb2000 Max speed
+	//Axis 1 150°/s
+	//Axis 2 150°/s
+	//Axis 3 150°/s
+	//Axis 4 360°/s
+	//Axis 5 360°/s
+	//Axis 6 450°/s
 
 }
 
@@ -1112,98 +1150,13 @@ bool AseaIRB2000Sim::configuration(double _f, double _e, double _w, unsigned cha
 	return true;
 }
 
+
+
+
 void AseaIRB2000Sim::simulate(double delta_t)
 {
 	ASEAIRB2000Mechanism();
-
-	if((int)q_target.size() == (int)joints.size())
-	{
-		double error=0;
-		for(int i=0;i<(int)joints.size();i++)
-			error+=fabs(q_target[i]-joints[i]->getValue());//*
-
-		if( (time+delta_t) >= targetTime)//*
-		{
-			for(int i=0;i<(int)joints.size();i++)
-				joints[i]->getActuator()->setTarget(q_target[i]);
-			q_target.clear();
-			time=0.0;
-			targetTime=0.0;
-			a0.clear();a1.clear();a2.clear();a3.clear();
-		}
-		else
-		{
-			for(int i=0;i<(int)joints.size();i++)
-			{
-				joints[i]->getActuator()->setTarget(a0[i] + a1[i]*time + a2[i]*time*time + a3[i]*time*time*time);
-				joints[i]->getActuator()->setSpeed(a1[i] + 2*a2[i]*time + 3*a3[i]*time*time);
-			}
-			time+=delta_t;
-		}
-	}
-
 	RobotSim::simulate(delta_t);
-
-	return;
-}
-
-void AseaIRB2000Sim::goToAbs(Transformation3D t)
-{
-	vector<double> q;
-	if(!inverseKinematicsAbs(t,q))return;
-	goTo(q);
-	return;
-}
-
-void AseaIRB2000Sim::goTo(Transformation3D t)
-{
-	vector<double> q;
-	if(!inverseKinematics(t,q))return;
-	goTo(q);
-	return;
-}
-
-void AseaIRB2000Sim::goTo(vector<double> q)
-{
-	q_target=q;//Target loaded
-
-	double error=0;
-	for(int i=0;i<(int)joints.size();i++)
-		error+=fabs(q_target[i] - joints[i]->getValue());//*
-
-	if(fabs(error) < EPS)
-	{
-		q_target.clear();
-		return;
-	}
-	else
-	{
-		double lowestSpeed=100.0;
-		double longestPath=0.0;
-		vector<double> path;
-
-		for(int i=0;i<(int)joints.size();i++)
-			path.push_back(q_target[i] - joints[i]->getValue());//Path each coordinate: target minus current coordinates
-
-		for(int i=0;i<(int)joints.size();i++)
-		{
-			if(joints[i]->getActuator()->getMaxSpeed() <= lowestSpeed)
-				lowestSpeed = joints[i]->getActuator()->getMaxSpeed();
-			if(fabs(path[i]) >= longestPath)
-				longestPath = fabs(path[i]);//*
-		}
-		targetTime = longestPath / lowestSpeed;
-		time=0.0;
-		for(int i=0;i<(int)joints.size();i++)
-		{
-			a0.push_back(joints[i]->getValue());//Current coordiantes
-			a1.push_back(0);
-			a2.push_back( 3*(path[i])/(square(targetTime)));
-			a3.push_back(-2*(path[i])/(square(targetTime)*targetTime));
-		}
-	}
-
-	return;
 }
 
 };//Namespace mr

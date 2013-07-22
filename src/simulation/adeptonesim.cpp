@@ -125,6 +125,11 @@ Codo izquierdo -> elbow = -1;
 	SimpleJoint *auxJoint=new SimpleJoint(5*PI/6,-5*PI/6,true,0,Z_AXIS,false);
 	auxJoint->setRelativePosition(Vector3D(0,0,0.99));
 	auxJoint->LinkTo(links[0]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	joints.push_back(auxJoint);
 //Arm 1
 	link=new ComposedEntity;
@@ -190,6 +195,11 @@ Codo izquierdo -> elbow = -1;
 	auxJoint=new SimpleJoint(49*PI/60,-49*PI/60,true,0,Z_AXIS,false);
 	auxJoint->setRelativePosition(Vector3D(0.425,0,0));
 	auxJoint->LinkTo(joints[0]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	joints.push_back(auxJoint);
 //Arm 2
 	link=new ComposedEntity;
@@ -242,6 +252,11 @@ Codo izquierdo -> elbow = -1;
 	auxJoint=new SimpleJoint(0,-0.5,true,0,Z_AXIS,true);//Prismatica
 	auxJoint->setRelativePosition(Vector3D(0.375,0,0));
 	auxJoint->LinkTo(joints[1]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	joints.push_back(auxJoint);
 	
 //Arm 3
@@ -256,6 +271,11 @@ Codo izquierdo -> elbow = -1;
 //joint 3
 	auxJoint=new SimpleJoint(277*PI/180,-277*PI/180,true,0,Z_AXIS,false);
 	auxJoint->LinkTo(joints[2]);
+
+	actuator=new Actuator();
+	actuator->linkTo(auxJoint);
+	actuators.push_back(actuator);
+
 	joints.push_back(auxJoint);
 //Arm 4
 	auxCyl=new CylindricalPart(0.02,0.05);
@@ -277,6 +297,18 @@ Codo izquierdo -> elbow = -1;
 	setJointValue(0,-0.44);
 	setJointValue(0,0.75398);
 
+
+
+	actuators[0]->setSimulationParameters(23*PI/12);//	115º/seg Moidficated->before was 15º/seg
+	actuators[1]->setSimulationParameters(5*PI/3);//	300º/seg
+	actuators[2]->setSimulationParameters(0.5);//	500 mm/seg
+	actuators[3]->setSimulationParameters(50*PI/9);//	1000º/seg
+
+//Ficha técnica Máx speed
+	//Joint 1 540°/sec
+	//Joint 2 540°/sec
+	//Joint 3 500 mm/sec (19.7 in./sec)
+	//Joint 4 3600°/sec
 }
 
 bool  AdeptOneSim::ADEPTONEinverseKinematics(double yaw,Vector3D p,vector<double> &_q,unsigned char conf)
@@ -394,10 +426,10 @@ bool  AdeptOneSim::getConfigurationOf(const vector<double> &_q, unsigned char &c
 
 
 
-void  AdeptOneSim::simulate(double delta_t)
-{
-
-}
+//void  AdeptOneSim::simulate(double delta_t)
+//{
+//
+//}
 
 
 

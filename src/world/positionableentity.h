@@ -113,7 +113,7 @@ public:
 	//virtual function for time simulation. time inteval in seconds
 	 virtual void simulate(double delta_t){}//do nothing
 	//Associate an entity with other
-	void LinkTo(PositionableEntity *pe);
+	virtual void LinkTo(PositionableEntity *pe);
 	//returns the location that would be used for objects referred to this positionable object
 	//this method have to be overwritten by joints and tcp´s
 	virtual ReferenceSystem *getReferenciableLocation();

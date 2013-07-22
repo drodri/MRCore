@@ -107,24 +107,12 @@ void TriangleMesh::readFromStream(Stream& stream)
 
 void TriangleMesh::writeToXML(XMLElement* parent)
 {
-
 	int i,num=(int)vertex.size();
-	XMLAux aux;
-	XMLElement* tria=new XMLElement(parent,"triangleMesh");
+
+	//XMLElement* tria=new XMLElement(parent,"triangleMesh");
 
 
-
-	//XMLElement* numVert;
-	//XMLVariable* vec;
-	//for(i=0;i<num;i++)
-	//{
-	//	numVert=new XMLElement(vert,aux.string_Convert<int>(i).c_str());
-	//	vec= new XMLVariable("{x,y,z}",Vector3D::vector3DToString(vertex[i]).c_str());
-
-	//	vert->AddElement(numVert);
-	//	numVert->AddVariable(vec);
-	//}
-	XMLElement* vert=new XMLElement(tria,"vertex");
+	XMLElement* vert=new XMLElement(parent,"vertex");
 	XMLContent* c;
 
 	for(i=0;i<num;i++)
@@ -135,23 +123,8 @@ void TriangleMesh::writeToXML(XMLElement* parent)
 	}
 
 	num=(int)edges.size();
-	XMLElement* vert_edge=new XMLElement(tria,"TMEdge");
-	//XMLElement* numEdge;
-	//XMLVariable* vec_edge;
-	//for(i=0;i<num;i++)
-	//{
-	//	stringstream str;
-	//	string cad;
-	//	str<<"{"<<edges[i].a<<","<<edges[i].b<<"}";
-	//	cad=str.str();
-	//
-	//	numEdge=new XMLElement(vert_edge,aux.string_Convert<int>(i).c_str());
-	//	vec_edge= new XMLVariable("{a,b}",cad.c_str());
+	XMLElement* vert_edge=new XMLElement(parent,"TMEdge");
 
-	//	vert_edge->AddElement(numEdge);
-	//	numEdge->AddVariable(vec_edge);
-	//
-	//}
 	for(i=0;i<num;i++)
 	{
 		Vector3D _edges(edges[i].a,edges[i].b);
@@ -160,31 +133,9 @@ void TriangleMesh::writeToXML(XMLElement* parent)
 
 	}
 
-
-
 	num=(int)triangles.size();
-	XMLElement* vert_triangles=new XMLElement(tria,"TMTriangle");
-	//XMLElement* numTriangles;
-	//XMLVariable* vec_triangles;
-	//XMLVariable* vec_triangles2;
-	//
-	//for(i=0;i<num;i++)
-	//{
-	//	stringstream str2;
-	//	string cad;
-	//	str2<<"{"<<triangles[i].a<<","<<triangles[i].b<<","<<triangles[i].c<<","<<triangles[i].ea<<","<<triangles[i].eb<<","<<triangles[i].ec<<"}";
-	//	cad=str2.str();
-	//
-	//	numTriangles=new XMLElement(vert_edge,aux.string_Convert<int>(i).c_str());
-	//	vec_triangles=new XMLVariable("{a,b,c,ea,eb,ec}",cad.c_str());
-	//	vec_triangles2=new XMLVariable("{x,y,z}",Vector3D::vector3DToString(triangles[i].normal).c_str());
+	XMLElement* vert_triangles=new XMLElement(parent,"TMTriangle");
 
-
-	//	vert_triangles->AddElement(numTriangles);
-	//	numTriangles->AddVariable(vec_triangles);
-	//	numTriangles->AddVariable(vec_triangles2);
-
-	//}
 	XMLElement* norm=new XMLElement(vert_triangles,"vertex_normal");
 	XMLElement* fac=new XMLElement(vert_triangles,"vertex_face");
 	XMLElement* edg=new XMLElement(vert_triangles,"vertex_edges");
@@ -207,21 +158,139 @@ void TriangleMesh::writeToXML(XMLElement* parent)
 	vert_triangles->AddElement(fac);
 	vert_triangles->AddElement(edg);
 
-	parent->AddElement(tria);
-	tria->AddElement(vert);
-	tria->AddElement(vert_edge);
-	tria->AddElement(vert_triangles);
+	//parent->AddElement(tria);
+	parent->AddElement(vert);
+	parent->AddElement(vert_edge);
+	parent->AddElement(vert_triangles);
 
-	box.writeToXML(tria);
+	//box.writeToXML(tria);
 
 }
 void TriangleMesh::readFromXML(XMLElement* parent)
 {
+	string cad;
+
+		if (parent->FindElementZ("vertex"))
+		{
+			XMLElement* vert=parent->FindElementZ("vertex");
 
 
+			int num=vert->GetContentsNum();
+			if(num)
+			{
+
+				XMLContent** c=vert->GetContents();
+
+					for (int i=0;i<num;i++)
+					{
+						cad=string();
+						cad.resize(c[i]->GetSize());
+						c[i]->GetValue((char*)cad.c_str());
+						vector<Vector3D> aux_vec=Vector3D::stringToVectorVector3D(cad);
+						vertex=aux_vec;
+					}
+			}
+		}
+
+		if (parent->FindElementZ("TMEdge"))
+		{
+			XMLElement* vert_edge=parent->FindElementZ("TMEdge");
+
+
+			int num=vert_edge->GetContentsNum();
+			if(num)
+			{
+
+				XMLContent** c=vert_edge->GetContents();
+
+					for (int i=0;i<num;i++)
+					{
+						TMEdge eaux;
+						cad=string();
+						cad.resize(c[i]->GetSize());
+						c[i]->GetValue((char*)cad.c_str());
+						vector<Vector3D> aux_vec=Vector3D::stringToVectorVector3D(cad);
+						for (int j=0;j<(int)aux_vec.size();j++)
+						{
+							eaux.a=(int)aux_vec[j].x;
+							eaux.b=(int)aux_vec[j].y;
+							edges.push_back(eaux);
+						}
+					}
+			}
+		}
+
+
+		if (parent->FindElementZ("TMTriangle"))
+		{
+			XMLElement* vert_triangles=parent->FindElementZ("TMTriangle");
+
+			if (vert_triangles->FindElementZ("vertex_normal") && vert_triangles->FindElementZ("vertex_face") &&  vert_triangles->FindElementZ("vertex_edges"))
+			{
+				XMLElement* norm=vert_triangles->FindElementZ("vertex_normal");
+				XMLElement* fac=vert_triangles->FindElementZ("vertex_face");
+				XMLElement* edg=vert_triangles->FindElementZ("vertex_edges");
+
+				TMTriangle taux;
+
+				int num=norm->GetContentsNum();
+				int num2=fac->GetContentsNum();
+				int num3=edg->GetContentsNum();
+
+				if(num && num2 && num3)
+				{
+
+					XMLContent** c=norm->GetContents();
+					XMLContent** c2=fac->GetContents();
+					XMLContent** c3=edg->GetContents();
+
+						for (int i=0;i<num;i++)
+						{
+
+							cad=string();
+							cad.resize(c[i]->GetSize());
+							c[i]->GetValue((char*)cad.c_str());
+							vector<Vector3D> aux_vec=Vector3D::stringToVectorVector3D(cad);
+
+							cad=string();
+							cad.resize(c2[i]->GetSize());
+							c2[i]->GetValue((char*)cad.c_str());
+							vector<Vector3D> aux_vec2=Vector3D::stringToVectorVector3D(cad);
+
+							cad=string();
+							cad.resize(c3[i]->GetSize());
+							c3[i]->GetValue((char*)cad.c_str());
+							vector<Vector3D> aux_vec3=Vector3D::stringToVectorVector3D(cad);
+
+							if (aux_vec.size()==aux_vec2.size() && aux_vec2.size()==aux_vec3.size())
+							{
+
+								for (int j=0;j<(int)aux_vec.size();j++)
+								{
+									taux.normal.x=aux_vec[j].x;
+									taux.normal.y=aux_vec[j].y;
+									taux.normal.z=aux_vec[j].z;
+
+									taux.a=(int)aux_vec2[j].x;
+									taux.b=(int)aux_vec2[j].y;
+									taux.c=(int)aux_vec2[j].z;
+
+									taux.ea=(int)aux_vec3[j].x;
+									taux.eb=(int)aux_vec3[j].y;
+									taux.ec=(int)aux_vec3[j].z;
+
+									triangles.push_back(taux);
+								}
+							}
+						}
+				}
+			}
+		}
 }
 
-int TriangleMesh::addVertex(const Vector3D &v) 
+
+
+int TriangleMesh::addVertex(const Vector3D &v)
 {
 int i;
 for(i=0;i<(int)(vertex.size());i++){

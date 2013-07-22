@@ -62,28 +62,27 @@ void FaceSetPart::readFromStream(Stream& stream)
 
 void FaceSetPart::writeToXML(XMLElement* parent)
 {
-//	XMLElement *faceset=new XMLElement (parent,"faceSetPart");
-//	parent->AddElement(faceset);
 	SolidEntity::writeToXML(parent);
 	int num=(int)faces.size();
 	for(int i=0;i<num;i++)
 		faces[i].writeToXML(parent);
-
-
 }
 void FaceSetPart::readFromXML(XMLElement* parent)
 {
-		int num=parent->GetChildrenNum();
-		if (num)
+	SolidEntity::readFromXML(parent);
+	int num=parent->GetChildrenNum();
+	if (num)
+	{
+		XMLElement** _faces=parent->GetChildren();
+		for(int i=0;i<num;i++)
 		{
-			XMLElement** _faces=parent->GetChildren();
-			for(int i=0;i<num;i++)
-			{
-				Face aux;
-				aux.readFromXML(_faces[i]);
-				addFace(aux);
-			}
+			Face aux;
+			aux.readFromXML(_faces[i]);
+			addFace(aux);
 		}
+	}
+
+
 }
 
 ostream& operator<<(ostream& os, const FaceSetPart& p)
